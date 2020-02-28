@@ -121,4 +121,8 @@ public class User {
 	public void setFavoriteRpgs(Set<Rpg> favoriteRpgs) {
 		this.favoriteRpgs = favoriteRpgs;
 	}
+	
+	public User() {
+		// nothing
+	}
 }

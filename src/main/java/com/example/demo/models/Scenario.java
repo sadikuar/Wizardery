@@ -109,5 +109,7 @@ public class Scenario {
 		this.timeApproximation = timeApproximation;
 	}
 	
-	
+	public Scenario() {
+		// nothing
+	}
 }

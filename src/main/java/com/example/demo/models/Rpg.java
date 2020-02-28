@@ -27,8 +27,8 @@ public class Rpg {
 	@Column
 	private String rules;
 	
-	@ManyToMany(mappedBy = "rpgs", fetch = FetchType.LAZY)
-    private Set<User> students = new HashSet<>();
+	@ManyToMany(mappedBy = "favoriteRpgs", fetch = FetchType.LAZY)
+    private Set<User> users = new HashSet<>();
 
 	public long getId() {
 		return id;
@@ -62,5 +62,15 @@ public class Rpg {
 		this.rules = rules;
 	}
 	
-	
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
+
+	public Rpg() {
+		// nothing
+	}
 }
