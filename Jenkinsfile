@@ -1,5 +1,11 @@
 pipeline {
     agent { docker { image 'maven:3.3.3' } }
+    
+    environment {
+        SPRING_DATASOURCE_USERNAME = credentials('SPRING_DATASOURCE_USERNAME')
+        SPRING_DATASOURCE_PASSWORD = credentials('SPRING_DATASOURCE_PASSWORD')
+    }
+    
     stages {
     	stage('Checkout') {
     		steps {
