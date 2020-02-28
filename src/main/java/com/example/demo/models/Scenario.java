@@ -115,6 +115,14 @@ public class Scenario {
 		this.timeApproximation = timeApproximation;
 	}
 	
+	public Rpg getRpg() {
+		return rpg;
+	}
+
+	public void setRpg(Rpg rpg) {
+		this.rpg = rpg;
+	}
+
 	public Scenario() {
 		// nothing
 	}

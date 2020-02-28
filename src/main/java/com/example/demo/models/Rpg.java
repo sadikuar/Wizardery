@@ -19,21 +19,21 @@ public class Rpg {
 	@Id
 	@GeneratedValue
 	private long id;
-	
+
 	@Column
 	private String name;
-	
+
 	@Column
 	private String description;
-	
+
 	@Column
 	private String rules;
-	
+
 	@ManyToMany(mappedBy = "favoriteRpgs", fetch = FetchType.LAZY)
-    private Set<User> users = new HashSet<>();
-	
+	private Set<User> users = new HashSet<>();
+
 	@OneToMany(mappedBy = "rpg", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Scenario> scenarios;
+	private Set<Scenario> scenarios;
 
 	public long getId() {
 		return id;
@@ -66,13 +66,21 @@ public class Rpg {
 	public void setRules(String rules) {
 		this.rules = rules;
 	}
-	
+
 	public Set<User> getUsers() {
 		return users;
 	}
 
 	public void setUsers(Set<User> users) {
 		this.users = users;
+	}
+
+	public Set<Scenario> getScenarios() {
+		return scenarios;
+	}
+
+	public void setScenarios(Set<Scenario> scenarios) {
+		this.scenarios = scenarios;
 	}
 
 	public Rpg() {
