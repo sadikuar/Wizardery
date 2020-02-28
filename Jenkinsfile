@@ -11,6 +11,7 @@ pipeline {
     	stage('Checkout') {
     		steps {
     			git 'https://github.com/sadikuar/Wizardery'
+    			sh 'printenv'
     		}
     	}
     	
