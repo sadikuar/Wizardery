@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/head.html" />
+<body>
+	<nav th:insert="fragments/navbar.html :: navbar" />
+	<div class="container">
+		<div class="col">
+			<h2>The Dragon's Den</h2>
+			<p class="text-muted">Created by Toto</p>
+			<a href="#" class="btn btn-secondary wiz-btn-secondary">Add to
+				favourite</a>
+			<div class="rpg-story mt-3">
+				<p class="lead">Lorem ipsum dolor sit amet, consectetur
+					adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+					dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+					exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					consequat. Duis aute irure dolor in reprehenderit in voluptate
+					velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+					occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+					mollit anim id est laborum.</p>
+			</div>
+			<h2>Rules</h2>
+			<div class="rpg-rules mt-3">
+				<p class="lead">Lorem ipsum dolor sit amet, consectetur
+					adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+					dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+					exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					consequat. Duis aute irure dolor in reprehenderit in voluptate
+					velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+					occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+					mollit anim id est laborum.</p>
+			</div>
+			<h2>Stories</h2>
+			<div
+				th:replace="fragments/rpg-card.html :: rpg-card(title='A great journey', creator='Toto', content='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', link='/rpg')" />
+		</div>
+		<div class="col"></div>
+	</div>
+</body>
+</html>
