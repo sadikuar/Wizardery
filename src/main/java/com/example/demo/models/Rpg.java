@@ -3,12 +3,14 @@ package com.example.demo.models;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -29,6 +31,9 @@ public class Rpg {
 	
 	@ManyToMany(mappedBy = "favoriteRpgs", fetch = FetchType.LAZY)
     private Set<User> users = new HashSet<>();
+	
+	@OneToMany(mappedBy = "rpg", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Scenario> scenarios;
 
 	public long getId() {
 		return id;
