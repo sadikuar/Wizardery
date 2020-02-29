@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/head.html" />
+<body>
+	<nav th:insert="fragments/navbar.html :: navbar" />
+	<div class="container mb-3">
+		<div class="card p-4">
+			<h2>Create scenario</h2>
+			<form action="#" method="post">
+				<div class="form-group">
+					<label for="name">Name</label> <input type="text"
+						class="form-control" id="name" name="name">
+				</div>
+				<div class="form-group">
+					<label for="description">Description</label>
+					<textarea class="form-control" id="description" rows="" cols=""
+						name="description"></textarea>
+				</div>
+				<div class="form-group">
+					<label>Number of players (min, advised and max)</label>
+					<div class="row">
+						<div class="col">
+							<input type="number" class="form-control" id="nbplayermin"
+								name="nbplayermin" placeholder="min..">
+						</div>
+						<div class="col">
+							<input type="number" class="form-control" id="nbplayeradvised"
+								name="nbplayeradvised" placeholder="advised..">
+						</div>
+						<div class="col">
+							<input type="number" class="form-control" id="nbplayermax"
+								name="nbplayermax" placeholder="max..">
+						</div>
+					</div>
+
+				</div>
+				<div class="form-group">
+					<label for="difficulty">Difficulty</label> <select
+						class="form-control" id="difficulty">
+						<option>Easy</option>
+						<option>Medium</option>
+						<option>Difficult</option>
+						<option>Impossible</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="timeapprox">Time to complete (in minutes)</label> <input
+						type="number" class="form-control" id="timeapprox"
+						name="timeapprox">
+				</div>
+				<div class="form-group">
+					<label for="quests">Quests</label>
+					<textarea class="form-control" id="quests" rows="" cols=""
+						name="quests"></textarea>
+				</div>
+				<div class="form-group">
+					<label for="appendices">Appendices</label>
+					<div class="custom-file">
+						<input type="file" class="custom-file-input" id="appendices"
+							required> <label class="custom-file-label" for="avatar"
+							name="appendices">Choose file...</label>
+						<div class="invalid-feedback">File doesn't match formats</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<input type="submit" class="btn btn-secondary wiz-btn-secondary"
+						value="Submit" name="submit">
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
