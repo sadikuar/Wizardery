@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/head.html" />
+<body>
+	<nav th:insert="fragments/navbar.html :: navbar" />
+	<div class="container">
+		<div class="card p-4">
+			<h2>Signin</h2>
+			<form action="#" method="post">
+				<div class="form-group">
+					<label for="email">Email address</label> <input type="email"
+						class="form-control" id="email" aria-describedby="emailHelp">
+				</div>
+				<div class="form-group">
+					<label for="password">Password</label> <input type="password"
+						class="form-control" id=""password"">
+				</div>
+				<div class="form-group">
+					<small id="emailHelp" class="form-text text-muted">Don't
+						have an account ? Sign up <a class="text-primary"
+						th:href="@{/signup}">here</a>
+					</small>
+				</div>
+				<div class="form-group">
+					<input type="submit" class="btn btn-secondary wiz-btn-secondary"
+						value="Submit">
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
