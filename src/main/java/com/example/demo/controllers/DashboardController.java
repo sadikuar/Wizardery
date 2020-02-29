@@ -20,4 +20,9 @@ public class DashboardController {
 	public String showSignup() {
 		return "signup";
 	}
+	
+	@GetMapping(value = "/creategame")
+	public String showRpgCreate() {
+		return "rpg-create";
+	}
 }
