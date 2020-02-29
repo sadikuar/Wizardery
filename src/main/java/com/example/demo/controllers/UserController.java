@@ -1,8 +1,13 @@
 package com.example.demo.controllers;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -70,5 +75,15 @@ public class UserController {
             model.addAttribute("message", "You have been logged out successfully.");
 
         return "signin";
+    }
+    
+    @GetMapping(value="/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){
+
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/dashboard"; //You can redirect wherever you want, but generally it's a good practice to show login screen again.
     }
 }
