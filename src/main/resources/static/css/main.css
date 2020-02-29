@@ -11,3 +11,7 @@
 .wiz-btn-secondary {
 	color: #fff !important;
 }
+
+.error {
+	color: Red;
+}
