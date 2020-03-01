@@ -8,13 +8,13 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.example.demo.models.User;
-import com.example.demo.service.UserService;
+import com.example.demo.service.UserService_I;
 
 @Component
 public class UserValidator implements Validator{
 
 	@Autowired
-    private UserService userService;
+    private UserService_I userService;
 	
 	@Override
 	public boolean supports(Class<?> aClass) {

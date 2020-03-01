@@ -16,18 +16,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.models.User;
-import com.example.demo.service.SecurityService;
-import com.example.demo.service.UserService;
+import com.example.demo.service.SecurityService_I;
+import com.example.demo.service.UserService_I;
 import com.example.demo.validator.UserValidator;
 
 @Controller
 public class UserController {
 	
 	@Autowired
-	private UserService userService;
+	private UserService_I userService;
 	
 	@Autowired
-    private SecurityService securityService;
+    private SecurityService_I securityService;
 
     @Autowired
     private UserValidator userValidator;
