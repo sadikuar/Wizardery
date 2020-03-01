@@ -24,33 +24,27 @@ public class UserValidator implements Validator{
 	@Override
 	public void validate(Object o, Errors errors) {
 		
-		System.out.println("VALIDATING");
 		User user = (User) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "username.empty", "You must enter a username!");
         if (user.getUsername().length() < 4 || user.getUsername().length() > 32) {
-        	System.out.println("USERNAME");
             errors.rejectValue("username", "username.size", "The size must be between 4 and 32!");
         }
         
         if(!isValidEmail(user.getEmail())) {
-        	System.out.println("EMAIL");
         	errors.rejectValue("email", "email.structure", "This is not a valid email!");
         }
         
         if (userService.findByEmail(user.getEmail()) != null) {
-        	System.out.println("EXISTS");
         	errors.rejectValue("email", "email.dupplicate", "This email is already used!");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
         if (user.getPassword().length() < 8 || user.getPassword().length() > 32) {
-        	System.out.println("PASSWORD SIZE");
         	errors.rejectValue("password", "password.length", "The size must be between 6 and 32!");
         }
 
         if (!user.getPasswordConfirm().equals(user.getPassword())) {
-        	System.out.println("PASSWORD BAD");
         	errors.rejectValue("passwordConfirm", "passwordConfirm.value", "This password doesn't match!");
         }
         

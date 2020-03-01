@@ -47,12 +47,9 @@ public class UserController {
     @PostMapping("/signup")
     public String signup(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
     	
-    	System.out.println(userForm.toString());
-    	
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-        	System.out.println("RETURN WITH ERROR");
             return "signup";
         }
 
@@ -65,14 +62,12 @@ public class UserController {
 
     @GetMapping("/signin")
     public String signin(Model model, String error, String logout) {
-    	System.out.println("ADDED USER");
-        if (error != null)
-        	System.out.println("Your email and/or password is invalid.");
-            model.addAttribute("error", "Your email and/or password is invalid.");
-
-        if (logout != null)
-        	System.out.println("You have been logged out successfully.");
-            model.addAttribute("message", "You have been logged out successfully.");
+        if (error != null) {
+        	model.addAttribute("error", "Your email and/or password is invalid.");
+        }
+        if (logout != null) {
+        	model.addAttribute("logout", "You have been logged out successfully.");
+        }
 
         return "signin";
     }
@@ -81,9 +76,9 @@ public class UserController {
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){
-
+        	System.out.println("LOGOUT USER PLEASE");
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-        return "redirect:/dashboard"; //You can redirect wherever you want, but generally it's a good practice to show login screen again.
+        return "redirect:/signin?logout";
     }
 }

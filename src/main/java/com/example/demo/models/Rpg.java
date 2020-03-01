@@ -29,8 +29,8 @@ public class Rpg {
 	@Column
 	private String rules;
 
-//	@ManyToMany(mappedBy = "favoriteRpgs", fetch = FetchType.LAZY)
-//	private Set<User> users = new HashSet<>();
+	@ManyToMany(mappedBy = "favoriteRpgs", fetch = FetchType.LAZY)
+	private Set<User> users = new HashSet<>();
 
 	@OneToMany(mappedBy = "rpg", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Scenario> scenarios;
@@ -67,13 +67,13 @@ public class Rpg {
 		this.rules = rules;
 	}
 
-//	public Set<User> getUsers() {
-//		return users;
-//	}
-//
-//	public void setUsers(Set<User> users) {
-//		this.users = users;
-//	}
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
 
 	public Set<Scenario> getScenarios() {
 		return scenarios;

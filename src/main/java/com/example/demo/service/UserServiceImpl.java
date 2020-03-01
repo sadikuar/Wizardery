@@ -11,6 +11,13 @@ import com.example.demo.models.User;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
 
+/**
+ * 
+ * @author nicolas.praz
+ * Utilisé par le UserValidator pour vérifier si email pas déjà utilisé
+ * Utilisé par UserController pour signup le nouveau utilisateur et pour récupérer l'utilisateur avant de faire autologin (qui se trouve dans SecurityServiceImpl.autologin)
+ */
+
 @Service
 public class UserServiceImpl implements UserService{
 
@@ -32,8 +39,7 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public User findByEmail(String email) {
-		System.out.println("UserServiceImpl!!!!!!!!!");
-		System.out.println("EMAAAAILLLL: " + email);
+		System.out.println("FIND BY EMAILLLL");
 		return userRepository.findByEmail(email);
 	}
 

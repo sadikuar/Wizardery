@@ -48,11 +48,11 @@ public class User {
 	@JoinColumn
 	private Role role;
 	
-//	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-//    @JoinTable(name = "favorites",
-//            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id",nullable = false, updatable = false)},
-//            inverseJoinColumns = {@JoinColumn(name = "rpg_id", referencedColumnName = "id",nullable = false, updatable = false)})
-//    private Set<Rpg> favoriteRpgs = new HashSet<>();
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "favorites",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id",nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "rpg_id", referencedColumnName = "id",nullable = false, updatable = false)})
+    private Set<Rpg> favoriteRpgs = new HashSet<>();
 
 	public long getId() {
 		return id;
@@ -126,13 +126,13 @@ public class User {
 		this.role = role;
 	}
 
-//	public Set<Rpg> getFavoriteRpgs() {
-//		return favoriteRpgs;
-//	}
-//
-//	public void setFavoriteRpgs(Set<Rpg> favoriteRpgs) {
-//		this.favoriteRpgs = favoriteRpgs;
-//	}
+	public Set<Rpg> getFavoriteRpgs() {
+		return favoriteRpgs;
+	}
+
+	public void setFavoriteRpgs(Set<Rpg> favoriteRpgs) {
+		this.favoriteRpgs = favoriteRpgs;
+	}
 	
 	@Override
 	public String toString() {

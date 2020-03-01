@@ -14,6 +14,11 @@ import org.springframework.stereotype.Service;
 import com.example.demo.models.User;
 import com.example.demo.repository.UserRepository;
 
+/**
+ * 
+ * @author nicolas.praz
+ * Utilisé pour récupérer l'utilisateur depuis le formulaire (UserController.signin et signin.html)
+ */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService{
 
@@ -23,9 +28,8 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		
-		User user = userRepository.findByEmail(email);
 		
-		System.out.println(user.toString());
+		User user = userRepository.findByEmail(email);
 		
 		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 		grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().getName()));

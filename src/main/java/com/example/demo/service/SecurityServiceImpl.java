@@ -10,6 +10,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+/**
+ * 
+ * @author nicolas.praz
+ * Utilisé pour le autologin après inscription
+ */
 @Service
 public class SecurityServiceImpl implements SecurityService{
 
@@ -23,6 +28,7 @@ public class SecurityServiceImpl implements SecurityService{
 
 	@Override
 	public String findLoggedInUsername() {
+		
 		Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
         if (userDetails instanceof UserDetails) {
             return ((UserDetails)userDetails).getUsername();
@@ -33,6 +39,8 @@ public class SecurityServiceImpl implements SecurityService{
 
 	@Override
 	public void autoLogin(String email, String password) {
+		
+		System.out.println("autoLogin");
 		UserDetails userDetails = userDetailsService.loadUserByUsername(email);
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
 
