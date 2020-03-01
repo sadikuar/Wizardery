@@ -3,7 +3,7 @@
 <head th:insert="fragments/head.html" />
 <body>
 	<nav th:insert="fragments/navbar.html :: navbar" />
-	<div class="container">
+	<div class="container mb-3">
 		<div class="card p-4">
 			<h2>Signup</h2>
 			<form action="#" th:action="@{/signup}" method="post" th:object="${userForm}">

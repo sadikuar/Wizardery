@@ -10,5 +10,14 @@ public class RpgController {
 	public String showDashboard() {
 		return "rpg-details";
 	}
-
+	
+	@GetMapping(value = {"/rpg/createscenario"})
+	public String showScenarioCreate() {
+		return "scenario-create";
+	}
+	
+	@GetMapping(value = {"/rpg/scenario"})
+	public String showScenario() {
+		return "scenario-details";
+	}
 }
