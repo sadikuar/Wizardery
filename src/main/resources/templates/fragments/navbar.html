@@ -17,6 +17,12 @@
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item"><a class="nav-link text-light" th:href="@{/creategame}">Create game</a></li>
 		</ul>
-		<a class="nav-link text-light pl-0" th:href="@{/signin}">Signin</a>
+		<div sec:authorize="isAuthenticated()">
+			<div sec:authentication="name"></div>
+			<a class="nav-link text-light" th:href="@{/logout}">Logout</a>
+		</div>
+		<div sec:authorize="!isAuthenticated()">
+			<a class="nav-link text-light" th:href="@{/signin}">Signin</a>
+		</div>
 	</div>
 </nav>

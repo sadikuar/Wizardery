@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "users")
@@ -27,6 +28,9 @@ public class User {
 
 	@Column
 	private String password;
+	
+	@Transient
+    private String passwordConfirm;
 
 	@Column
 	private String username;
@@ -73,6 +77,14 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
+    }
 
 	public String getUsername() {
 		return username;
@@ -122,6 +134,13 @@ public class User {
 		this.favoriteRpgs = favoriteRpgs;
 	}
 	
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", email=" + email + ", password=" + password + ", passwordConfirm=" + passwordConfirm
+				+ ", username=" + username + ", description=" + description + ", imageUrl=" + imageUrl + ", isPublic="
+				+ isPublic + ", role=" + role +  "]";
+	}
+
 	public User() {
 		// nothing
 	}

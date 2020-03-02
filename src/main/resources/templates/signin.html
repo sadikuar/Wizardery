@@ -6,21 +6,25 @@
 	<div class="container mb-3">
 		<div class="card p-4">
 			<h2>Signin</h2>
-			<form action="#" method="post">
+			<form action="#" th:action="@{/signin}" method="post" th:object="${user}">
 				<div class="form-group">
-					<label for="email">Email address</label> <input type="email"
-						class="form-control" id="email" aria-describedby="emailHelp" name="email">
+					<label for="email">Email address</label> 
+					<input type="email" class="form-control" aria-describedby="emailHelp" name="email">
 				</div>
 				<div class="form-group">
-					<label for="password">Password</label> <input type="password"
-						class="form-control" id="password" name="password">
+					<label for="password">Password</label> 
+					<input type="password" class="form-control" name="password">
+					<label th:if="${error != null}" th:text="${error}" class="error">Name Error</label>
+					<label th:if="${logout != null}" th:text="${logout}" class="logout"></label>
 				</div>
+				
 				<div class="form-group">
 					<small id="emailHelp" class="form-text text-muted">Don't
 						have an account ? Sign up <a class="text-primary"
 						th:href="@{/signup}">here</a>
 					</small>
 				</div>
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 				<div class="form-group">
 					<input type="submit" class="btn btn-secondary wiz-btn-secondary"
 						value="Submit" name="submit">
