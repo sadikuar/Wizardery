@@ -10,6 +10,7 @@ import com.example.demo.models.Role;
 import com.example.demo.models.User;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.utils.Role_E;
 
 /**
  * 
@@ -33,7 +34,7 @@ public class UserService implements UserService_I {
 	public void save(User user) {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		if (user.getRole() == null) {
-			user.setRole(roleRepository.findByName("USER"));
+			user.setRole(roleRepository.findByName(""+Role_E.USER));
 		}
 		userRepository.save(user);
 

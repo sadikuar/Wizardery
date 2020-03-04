@@ -7,6 +7,7 @@ import com.example.demo.models.User;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
+import com.example.demo.utils.Role_E;
 
 @Component
 public class UserSeeder implements TableSeeder {
@@ -37,7 +38,7 @@ public class UserSeeder implements TableSeeder {
 		user.setPassword(password);
 		user.setImageUrl(imageUrl);
 		user.setDescription(description);
-		user.setRole(roleRepository.findByName("USER"));
+		user.setRole(roleRepository.findByName(""+Role_E.USER));
 		user.setUsername(username);
 		user.setPublic(isPublic);
 		return user;
@@ -50,7 +51,7 @@ public class UserSeeder implements TableSeeder {
 		user.setPassword(password);
 		user.setImageUrl(imageUrl);
 		user.setDescription(description);
-		user.setRole(roleRepository.findByName("ADMIN"));
+		user.setRole(roleRepository.findByName(""+Role_E.ADMIN));
 		user.setUsername(username);
 		user.setPublic(isPublic);
 		return user;
