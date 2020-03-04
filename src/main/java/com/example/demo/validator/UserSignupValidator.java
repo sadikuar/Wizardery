@@ -1,6 +1,5 @@
 package com.example.demo.validator;
 
-import org.hibernate.validator.internal.constraintvalidators.bv.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -11,7 +10,7 @@ import com.example.demo.models.User;
 import com.example.demo.service.UserService_I;
 
 @Component
-public class UserValidator implements Validator{
+public class UserSignupValidator implements Validator{
 
 	@Autowired
     private UserService_I userService;
@@ -48,8 +47,6 @@ public class UserValidator implements Validator{
         	errors.rejectValue("passwordConfirm", "passwordConfirm.value", "This password doesn't match!");
         }
         
-        
-		
 	}
 	
 	private boolean isValidEmail(String email)

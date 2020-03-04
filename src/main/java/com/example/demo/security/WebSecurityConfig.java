@@ -1,7 +1,5 @@
 package com.example.demo.security;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -13,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableAutoConfiguration
@@ -42,20 +41,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		http
 		.authorizeRequests()
 			.antMatchers("/", "/dashboard").permitAll()
-			.antMatchers("/admin").hasRole("ADMIN")
-			.antMatchers("/profile").permitAll()
+			.antMatchers("/admin").hasAuthority("ADMIN")
+			.antMatchers("/user/profile").permitAll()
 			.antMatchers("/rpg").permitAll()
-			.antMatchers("/signin").permitAll()
-			.antMatchers("/creategame").hasAnyRole("USER", "ADMIN")
+			.antMatchers("/user/signin").permitAll()
+			.antMatchers("/user/signup").permitAll()
+			.antMatchers("/creategame").hasAnyAuthority("USER", "ADMIN")
 			.and()
-		.formLogin()
-			.loginPage("/signin").permitAll()
+		.formLogin() // par défaut, failure url est /user/signin?error
+			.loginPage("/user/signin").permitAll()
 			.usernameParameter("email")
 			.and()
 		.logout()
-			.permitAll();
+			.logoutRequestMatcher(new AntPathRequestMatcher("/user/signout"));
 		
-		http.exceptionHandling().accessDeniedPage("/dashboard");
+		http.exceptionHandling().accessDeniedPage("/test");
 		
 	}
 }

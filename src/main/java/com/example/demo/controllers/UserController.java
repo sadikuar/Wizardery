@@ -1,13 +1,6 @@
 package com.example.demo.controllers;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.demo.models.User;
 import com.example.demo.service.SecurityService_I;
 import com.example.demo.service.UserService_I;
-import com.example.demo.validator.UserValidator;
+import com.example.demo.validator.UserSignupValidator;
 
 @Controller
 public class UserController {
@@ -30,24 +23,24 @@ public class UserController {
     private SecurityService_I securityService;
 
     @Autowired
-    private UserValidator userValidator;
+    private UserSignupValidator userSignupValidator;
     
-	@GetMapping("/profile")
+	@GetMapping("/user/profile")
 	private String showProfile() {
 		return "profile";
 	}
 	
-	@GetMapping("/signup")
+	@GetMapping("/user/signup")
     public String signup(Model model) {
         model.addAttribute("userForm", new User());
 
         return "signup";
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/user/signup")
     public String signup(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
     	
-        userValidator.validate(userForm, bindingResult);
+    	userSignupValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "signup";
@@ -60,8 +53,8 @@ public class UserController {
         return "redirect:/dashboard";
     }
 
-    @GetMapping("/signin")
-    public String signin(Model model, String error, String logout) {
+    @GetMapping("/user/signin")
+    public String signin(Model model, String error, String logout) {	
         if (error != null) {
         	model.addAttribute("error", "Your email and/or password is invalid.");
         }
@@ -70,14 +63,5 @@ public class UserController {
         }
 
         return "signin";
-    }
-    
-    @GetMapping(value="/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return "redirect:/signin?logout";
     }
 }

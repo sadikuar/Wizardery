@@ -17,12 +17,15 @@
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item"><a class="nav-link text-light" th:href="@{/creategame}">Create game</a></li>
 		</ul>
+		<form id="logoutForm" action="#" th:action="@{/user/signout}" method="post">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </form>
 		<div sec:authorize="isAuthenticated()">
 			<div sec:authentication="name"></div>
-			<a class="nav-link text-light" th:href="@{/logout}">Logout</a>
+			<a class="nav-link text-light" onclick="document.forms['logoutForm'].submit()">Logout</a>
 		</div>
 		<div sec:authorize="!isAuthenticated()">
-			<a class="nav-link text-light" th:href="@{/signin}">Signin</a>
+			<a class="nav-link text-light" th:href="@{/user/signin}">Signin</a>
 		</div>
 	</div>
 </nav>
