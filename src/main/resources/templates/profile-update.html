@@ -6,23 +6,23 @@
 	<div class="container mb-3">
 		<div class="card p-4">
 			<h2>Update</h2>
-			<form th:action="@{/user/update}" th:method="post" th:object="${user}">
+			<form th:action="@{${T(com.example.demo.utils.Routes).PROFILE_UPDATE}}" th:method="post" th:object="${user}">
 			<input type="hidden" th:field="*{id}">
 			<input type="hidden" th:field="*{email}">
 				<div class="form-group">
 					<label for="username">Username</label> 
-					<input type="text" th:field="*{username}" class="form-control" id="username" name="username">
-					<label th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error">Name Error</label>
+					<input type="text" th:field="*{username}" class="form-control" th:errorclass="is-invalid" id="username" name="username">
+					<label th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="invalid-feedback">Name Error</label>
 				</div>
 				<div class="form-group">
 					<label for="password">Password</label> 
-					<input type="password" th:field="*{password}" class="form-control" id="password" name="password">
-                    <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error">Name Error</label>
+					<input type="password" th:field="*{password}" class="form-control" th:errorclass="is-invalid" id="password" name="password">
+                    <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback">Password Error</label>
 				</div>
 				<div class="form-group">
 					<label for="password_confirm">Confirm password</label>
-					<input type="password" th:field="*{passwordConfirm}" class="form-control" id="passwordConfirm" name="passwordConfirm">
-					<label th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}" class="error">Name Error</label>
+					<input type="password" th:field="*{passwordConfirm}" class="form-control" th:errorclass="is-invalid" id="passwordConfirm" name="passwordConfirm">
+					<label th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}" class="invalid-feedback">PasswordConfirm Error</label>
 				</div>
 				<div class="form-group">
 					<label for="description">Description</label>

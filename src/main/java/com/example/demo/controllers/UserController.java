@@ -1,13 +1,17 @@
 package com.example.demo.controllers;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,15 +63,17 @@ public class UserController {
 
 		securityService.autoLogin(userForm.getEmail(), userForm.getPasswordConfirm());
 
-		return "redirect:/user/signin/confirm";
+		return "redirect:/signin/confirm";
 	}
 
 	@GetMapping(Routes.SIGNIN)
 	public String signin(Model model, String error, String logout) {
 		if (error != null) {
+			System.out.println("error");
 			model.addAttribute("error", "Your email and/or password is invalid.");
 		}
 		if (logout != null) {
+			System.out.println("logout");
 			model.addAttribute("logout", "You have been logged out successfully.");
 		}
 
@@ -86,7 +92,7 @@ public class UserController {
 		return "redirect:/dashboard";
 	}
 
-	@GetMapping(Routes.USER_UPDATE)
+	@GetMapping(Routes.PROFILE_UPDATE)
 	public String update(Model model) {
 
 		if (SecurityContextHolder.getContext().getAuthentication() != null
@@ -97,19 +103,32 @@ public class UserController {
 			model.addAttribute("user", user);
 		}
 
-		return "user-update";
+		return "profile-update";
 	}
 
-	@PostMapping(Routes.USER_UPDATE)
+	@PostMapping(Routes.PROFILE_UPDATE)
 	public String update(@ModelAttribute User user, BindingResult bindingResult) {
 		userUpdateValidator.validate(user, bindingResult);
 
 		if (bindingResult.hasErrors()) {
-			return "user-update";
+			return "profile-update";
 		}
 
 		userService.save(user);
 
+		return "redirect:/dashboard";
+	}
+	
+	@Transactional
+	@PostMapping(Routes.PROFILE_DELETE)
+	public String delete(HttpServletRequest request) throws ServletException
+	{
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+		System.out.println(email);
+		long i = userService.deleteByEmail(email);
+		System.out.println("i: " + i);
+		
+		request.logout();
 		return "redirect:/dashboard";
 	}
 }

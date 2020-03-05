@@ -18,10 +18,12 @@ public final class Routes {
 	public static final String SCENARIO_CREATE = "/rpg/scenario/create";
 
 	// user
-	public static final String PROFILE = "/profile";
 	public static final String SIGNUP = "/signup";
 	public static final String SIGNIN = "/signin";
 	public static final String SIGNIN_CONFIRM = "/signin/confirm";
-	public static final String USER_UPDATE = "/user/update";
+	public static final String SIGNOUT = "/signout";
+	public static final String PROFILE = "/profile";
+	public static final String PROFILE_UPDATE = "/profile/update";
+	public static final String PROFILE_DELETE = "/profile/delete";
 
 }
