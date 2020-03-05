@@ -51,6 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		.formLogin() // par défaut, failure url est /user/signin?error
 			.loginPage("/user/signin").permitAll()
 			.usernameParameter("email")
+			.defaultSuccessUrl("/user/signin/confirm")
 			.and()
 		.logout()
 			.logoutRequestMatcher(new AntPathRequestMatcher("/user/signout"));

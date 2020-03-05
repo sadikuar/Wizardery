@@ -1,6 +1,10 @@
 package com.example.demo.controllers;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,7 +54,7 @@ public class UserController {
 
         securityService.autoLogin(userForm.getEmail(), userForm.getPasswordConfirm());
 
-        return "redirect:/dashboard";
+        return "redirect:/user/signin/confirm";
     }
 
     @GetMapping("/user/signin")
@@ -63,5 +67,18 @@ public class UserController {
         }
 
         return "signin";
+    }
+    
+    @GetMapping("/user/signin/confirm")
+    public String signinConfirm(HttpSession session)
+    {
+    	if (SecurityContextHolder.getContext().getAuthentication() != null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated() && !(SecurityContextHolder.getContext().getAuthentication() 
+		          instanceof AnonymousAuthenticationToken))
+		{
+    		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+    		User user = userService.findByEmail(email);
+    		session.setAttribute("username", user.getUsername());
+		}
+    	return "redirect:/dashboard";
     }
 }
