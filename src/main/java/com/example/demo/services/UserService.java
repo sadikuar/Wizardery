@@ -44,7 +44,6 @@ public class UserService implements UserServiceInterface {
 
 	@Override
 	public Long deleteByEmail(String email) {
-		System.out.println("USERSERVICE: " + email);
 		return userRepository.deleteByEmail(email);
 	}
 
