@@ -1,12 +1,12 @@
 package com.example.demo.seeders;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.models.User;
-import com.example.demo.repository.RoleRepository;
-import com.example.demo.repository.UserRepository;
-import com.example.demo.service.UserService;
+import com.example.demo.repositories.RoleRepository;
+import com.example.demo.repositories.UserRepository;
+import com.example.demo.services.UserService;
+import com.example.demo.utils.RoleEnum;
 
 @Component
 public class UserSeeder implements TableSeeder {
@@ -22,7 +22,7 @@ public class UserSeeder implements TableSeeder {
 	}
 
 	public void seed() {
-		if (userRepository.findAll().size() == 0) {
+		if (userRepository.findAll().isEmpty()) {
 			User admin = createAdmin("admin@wizardery.ch", "Administrator", "password", "", "", true);
 			userService.save(admin);
 			User user = createUser("user@wizardery.ch", "User", "password", "", "", false);
@@ -37,7 +37,7 @@ public class UserSeeder implements TableSeeder {
 		user.setPassword(password);
 		user.setImageUrl(imageUrl);
 		user.setDescription(description);
-		user.setRole(roleRepository.findByName("USER"));
+		user.setRole(roleRepository.findByName(""+RoleEnum.USER));
 		user.setUsername(username);
 		user.setPublic(isPublic);
 		return user;
@@ -50,7 +50,7 @@ public class UserSeeder implements TableSeeder {
 		user.setPassword(password);
 		user.setImageUrl(imageUrl);
 		user.setDescription(description);
-		user.setRole(roleRepository.findByName("ADMIN"));
+		user.setRole(roleRepository.findByName(""+RoleEnum.ADMIN));
 		user.setUsername(username);
 		user.setPublic(isPublic);
 		return user;

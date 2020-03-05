@@ -1,20 +1,14 @@
-package com.example.demo.validator;
+package com.example.demo.validators;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.example.demo.models.User;
-import com.example.demo.service.UserService_I;
 
 @Component
 public class UserUpdateValidator implements Validator{
-
-	@Autowired
-    private UserService_I userService;
 	
 	@Override
 	public boolean supports(Class<?> aClass) {
@@ -42,11 +36,5 @@ public class UserUpdateValidator implements Validator{
             }
         }
         
-	}
-	
-	private boolean isValidEmail(String email)
-	{
-		String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
-	    return email.matches(regex);
 	}
 }

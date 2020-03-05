@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  * Utilisé pour le autologin après inscription
  */
 @Service
-public class SecurityService implements SecurityService_I{
+public class SecurityService implements SecurityServiceInterface{
 
 	@Autowired
     private AuthenticationManager authenticationManager;

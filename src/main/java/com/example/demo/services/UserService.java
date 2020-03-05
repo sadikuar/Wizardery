@@ -1,12 +1,13 @@
-package com.example.demo.service;
+package com.example.demo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.models.User;
-import com.example.demo.repository.RoleRepository;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.repositories.RoleRepository;
+import com.example.demo.repositories.UserRepository;
+import com.example.demo.utils.RoleEnum;
 
 /**
  * 
@@ -17,7 +18,7 @@ import com.example.demo.repository.UserRepository;
  */
 
 @Service
-public class UserService implements UserService_I {
+public class UserService implements UserServiceInterface {
 
 	@Autowired
 	private UserRepository userRepository;
@@ -30,7 +31,7 @@ public class UserService implements UserService_I {
 	public void save(User user) {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		if (user.getRole() == null) {
-			user.setRole(roleRepository.findByName("USER"));
+			user.setRole(roleRepository.findByName(""+RoleEnum.USER));
 		}
 		userRepository.save(user);
 

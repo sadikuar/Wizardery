@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <head th:insert="fragments/head.html" />
 <body>
-	<nav th:insert="fragments/navbar.html :: navbar" />
+	<nav th:insert="fragments/navbar.html :: navbar"></nav>
         <h2>Welcome</h2>
         <p>Spring Security Thymeleaf tutorial</p>
         <div sec:authorize="hasRole('USER')">Text visible to user.</div>
@@ -14,5 +14,6 @@
         Authenticated user roles:
         <div sec:authentication="principal.authorities"></div>
         </div>
+        <div th:utext="${markdown}"></div>
     </body>
 </html>

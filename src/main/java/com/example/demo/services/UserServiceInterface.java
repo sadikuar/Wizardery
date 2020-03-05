@@ -1,8 +1,8 @@
-package com.example.demo.service;
+package com.example.demo.services;
 
 import com.example.demo.models.User;
 
-public interface UserService_I {
+public interface UserServiceInterface {
 	void save(User user);
 	
 	User findByEmail(String email);

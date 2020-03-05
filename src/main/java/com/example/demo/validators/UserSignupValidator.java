@@ -1,4 +1,4 @@
-package com.example.demo.validator;
+package com.example.demo.validators;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -7,13 +7,13 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.example.demo.models.User;
-import com.example.demo.service.UserService_I;
+import com.example.demo.services.UserServiceInterface;
 
 @Component
 public class UserSignupValidator implements Validator{
 
 	@Autowired
-    private UserService_I userService;
+    private UserServiceInterface userService;
 	
 	@Override
 	public boolean supports(Class<?> aClass) {
@@ -46,8 +46,6 @@ public class UserSignupValidator implements Validator{
         if (!user.getPasswordConfirm().equals(user.getPassword())) {
         	errors.rejectValue("passwordConfirm", "passwordConfirm.value", "This password doesn't match!");
         }
-        
-
         
 	}
 	

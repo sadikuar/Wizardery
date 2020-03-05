@@ -1,11 +1,10 @@
 package com.example.demo.seeders;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.example.demo.models.Role;
-import com.example.demo.repository.RoleRepository;
+import com.example.demo.repositories.RoleRepository;
+import com.example.demo.utils.RoleEnum;
 
 @Component
 public class RoleSeeder implements TableSeeder {
@@ -17,13 +16,12 @@ public class RoleSeeder implements TableSeeder {
 	}
 
 	public void seed() {
-		System.out.println(roleRepository);
-		if (roleRepository.findAll().size() == 0) {
+		if (roleRepository.findAll().isEmpty()) {
 			Role role = new Role();
-			role.setName("USER");
+			role.setName(""+RoleEnum.USER);
 			roleRepository.save(role);
 			role = new Role();
-			role.setName("ADMIN");
+			role.setName(""+RoleEnum.ADMIN);
 			roleRepository.save(role);
 		}
 

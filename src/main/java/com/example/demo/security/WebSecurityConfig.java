@@ -13,40 +13,45 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.example.demo.utils.RoleEnum;
+
 @Configuration
 @EnableAutoConfiguration
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Qualifier("userDetailsServiceImpl")
-    @Autowired
-    private UserDetailsService userDetailsService;
-	
-	@Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-	
-	@Bean
-    public AuthenticationManager customAuthenticationManager() throws Exception {
-        return authenticationManager();
-    }
+	@Autowired
+	private UserDetailsService userDetailsService;
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
-    }
-	
+	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public AuthenticationManager customAuthenticationManager() throws Exception {
+		return authenticationManager();
+	}
+
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+	}
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		String admin = RoleEnum.ADMIN.toString();
+		String user = RoleEnum.USER.toString();
+
 		http
 		.authorizeRequests()
 			.antMatchers("/", "/dashboard").permitAll()
-			.antMatchers("/admin").hasAuthority("ADMIN")
+			.antMatchers("/admin").hasAuthority(admin)
 			.antMatchers("/user/profile").permitAll()
 			.antMatchers("/rpg").permitAll()
 			.antMatchers("/user/signin").permitAll()
 			.antMatchers("/user/signup").permitAll()
-			.antMatchers("/creategame").hasAnyAuthority("USER", "ADMIN")
+			.antMatchers("/creategame").hasAnyAuthority(user, admin)
 			.and()
 		.formLogin() // par défaut, failure url est /user/signin?error
 			.loginPage("/user/signin").permitAll()
@@ -57,6 +62,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 			.logoutRequestMatcher(new AntPathRequestMatcher("/user/signout"));
 		
 		http.exceptionHandling().accessDeniedPage("/test");
-		
 	}
 }
