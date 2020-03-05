@@ -3,12 +3,16 @@ package com.example.demo.controllers;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.example.demo.service.MarkdownParsingService;
 import com.example.demo.utils.Routes;
 
 @Controller
 public class DashboardController {
+	
+	
 
 	@GetMapping(value = { Routes.DASHBOARD, "/dashboard" })
 	public String showDashboard() {
@@ -28,7 +32,9 @@ public class DashboardController {
 	}
 	
 	@GetMapping(Routes.TEST)
-	public String showTest() {
+	public String showTest(Model model) {
+		
+		model.addAttribute("markdown", MarkdownParsingService.parse("This is **SPARTA**"));
 		return "test";
 	}
 }
