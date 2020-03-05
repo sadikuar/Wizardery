@@ -16,7 +16,7 @@ import com.example.demo.utils.Routes;
 public class DashboardController {
 
 	@Autowired
-	RpgRepository rpgRepository;
+	private RpgRepository rpgRepository;
 
 	@GetMapping(value = { Routes.DASHBOARD, "/dashboard" })
 	public String showDashboard(Model model) {
