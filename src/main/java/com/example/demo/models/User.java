@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -28,9 +29,9 @@ public class User {
 
 	@Column
 	private String password;
-	
+
 	@Transient
-    private String passwordConfirm;
+	private String passwordConfirm;
 
 	@Column
 	private String username;
@@ -43,16 +44,19 @@ public class User {
 
 	@Column
 	private boolean isPublic;
-	
+
 	@ManyToOne
 	@JoinColumn
 	private Role role;
-	
+
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "favorites",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id",nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "rpg_id", referencedColumnName = "id",nullable = false, updatable = false)})
-    private Set<Rpg> favoriteRpgs = new HashSet<>();
+	@JoinTable(name = "favorites", joinColumns = {
+			@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "rpg_id", referencedColumnName = "id", nullable = false, updatable = false) })
+	private Set<Rpg> favoriteRpgs = new HashSet<>();
+
+	@OneToMany(mappedBy = "creator", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Rpg> rpgs;
 
 	public long getId() {
 		return id;
@@ -77,14 +81,14 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	public String getPasswordConfirm() {
-        return passwordConfirm;
-    }
 
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
-    }
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
+	}
 
 	public String getUsername() {
 		return username;
@@ -133,12 +137,12 @@ public class User {
 	public void setFavoriteRpgs(Set<Rpg> favoriteRpgs) {
 		this.favoriteRpgs = favoriteRpgs;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", email=" + email + ", password=" + password + ", passwordConfirm=" + passwordConfirm
 				+ ", username=" + username + ", description=" + description + ", imageUrl=" + imageUrl + ", isPublic="
-				+ isPublic + ", role=" + role +  "]";
+				+ isPublic + ", role=" + role + "]";
 	}
 
 	public User() {

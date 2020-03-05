@@ -10,8 +10,11 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -33,15 +36,19 @@ public class Rpg {
 	@Column
 	private String rules;
 
+	@ManyToOne
+	@JoinColumn
+	private User creator;
+
 	@ManyToMany(mappedBy = "favoriteRpgs", fetch = FetchType.LAZY)
 	private Set<User> users = new HashSet<>();
 
 	@OneToMany(mappedBy = "rpg", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Scenario> scenarios;
-	
+
 	@OneToMany(mappedBy = "rpg", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<File> files;
-	
+	private List<File> files;
+
 	transient MultipartFile[] uploadedFiles;
 
 	public long getId() {
@@ -106,6 +113,15 @@ public class Rpg {
 
 	public void setUploadedFiles(MultipartFile[] uploadedFiles) {
 		this.uploadedFiles = uploadedFiles;
+	}
+
+
+	public User getCreator() {
+		return creator;
+	}
+
+	public void setCreator(User creator) {
+		this.creator = creator;
 	}
 
 	public Rpg() {
