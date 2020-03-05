@@ -15,6 +15,7 @@ import com.example.demo.models.File;
 import com.example.demo.models.Rpg;
 import com.example.demo.repository.RpgRepository;
 import com.example.demo.service.StorageService;
+import com.example.demo.utils.Routes;
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -27,18 +28,18 @@ public class RpgController {
 	@Autowired
 	private RpgRepository rpgRepository;
 	
-	@GetMapping(value = {"/rpg"})
+	@GetMapping(Routes.RPG_DASHBOARD)
 	public String showDashboard() {
 		return "rpg-details";
 	}
 	
-	@GetMapping("/rpg/create")
+	@GetMapping(Routes.RPG_CREATE)
 	public String showRpgCreate(Model model) {
 		model.addAttribute("rpg", new Rpg());
 		return "rpg-create";
 	}
 	
-	@PostMapping("/rpg/insert")
+	@PostMapping(Routes.RPG_CREATE)
 	public String insertRpg(@ModelAttribute Rpg rpg,Model model) {
 		MultipartFile[] multipartFiles = rpg.getUploadedFiles();
 		List<File> files = new ArrayList<File>();
@@ -59,15 +60,15 @@ public class RpgController {
 		
 		rpg.setFiles(files);
 		rpgRepository.save(rpg);
-		return "rpg-details";
+		return "redirect:"+Routes.DASHBOARD;
 	}
 	
-	@GetMapping(value = {"/rpg/createscenario"})
+	@GetMapping(Routes.SCENARIO_CREATE)
 	public String showScenarioCreate() {
 		return "scenario-create";
 	}
 	
-	@GetMapping(value = {"/rpg/scenario"})
+	@GetMapping(Routes.SCENARIO)
 	public String showScenario() {
 		return "scenario-details";
 	}

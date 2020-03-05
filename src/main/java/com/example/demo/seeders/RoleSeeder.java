@@ -6,6 +6,7 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.example.demo.models.Role;
 import com.example.demo.repository.RoleRepository;
+import com.example.demo.utils.Role_E;
 
 @Component
 public class RoleSeeder implements TableSeeder {
@@ -20,10 +21,10 @@ public class RoleSeeder implements TableSeeder {
 		System.out.println(roleRepository);
 		if (roleRepository.findAll().size() == 0) {
 			Role role = new Role();
-			role.setName("USER");
+			role.setName(""+Role_E.USER);
 			roleRepository.save(role);
 			role = new Role();
-			role.setName("ADMIN");
+			role.setName(""+Role_E.ADMIN);
 			roleRepository.save(role);
 		}
 

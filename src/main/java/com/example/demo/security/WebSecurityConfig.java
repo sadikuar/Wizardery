@@ -14,6 +14,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.example.demo.utils.Role_E;
+
 @Configuration
 @EnableAutoConfiguration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
@@ -39,14 +41,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		String admin=Role_E.ADMIN.toString();
+		String user=Role_E.USER.toString();
 		http
 		.authorizeRequests()
 			.antMatchers("/", "/dashboard").permitAll()
-			.antMatchers("/admin").hasRole("ADMIN")
+			.antMatchers("/admin").hasRole(admin)
 			.antMatchers("/profile").permitAll()
 			.antMatchers("/rpg").permitAll()
 			.antMatchers("/signin").permitAll()
-			.antMatchers("/creategame").hasAnyRole("USER", "ADMIN")
+			.antMatchers("/creategame").hasAnyRole(user, admin)
 			.and()
 		.formLogin()
 			.loginPage("/signin").permitAll()
