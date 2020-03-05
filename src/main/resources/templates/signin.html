@@ -14,8 +14,8 @@
 				<div class="form-group">
 					<label for="password">Password</label> 
 					<input type="password" class="form-control" name="password">
-					<label th:if="${error != null}" th:text="${error}" class="error">Name Error</label>
-					<label th:if="${logout != null}" th:text="${logout}" class="logout"></label>
+					<div th:if="${error != null}" th:text="${error}" class="invalid-feedback">Name Error</div>
+					<div th:if="${logout != null}" th:text="${logout}" class="logout"></div>
 				</div>
 				
 				<div class="form-group">
