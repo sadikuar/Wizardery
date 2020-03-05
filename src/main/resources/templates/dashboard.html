@@ -6,7 +6,7 @@
 	<div class="container">
 		<div class="rpg-card-holder" th:each="rpg : ${rpgs}">
 			<div
-				th:replace="fragments/rpg-card.html :: rpg-card(title=${rpg.name}, creator='Toto', content=${rpg.description}, link='/rpg')"></div>
+				th:replace="fragments/rpg-card.html :: rpg-card(title=${rpg.name}, creator='Toto', content=${rpg.description}, link=@{${T(com.example.demo.utils.Routes).RPG_DETAILS + rpg.id}})"></div>
 		</div>
 	</div>
 </body>

@@ -7,8 +7,8 @@ public final class Routes {
 	public static final String TEST="/test";
 	
 	//rpg
-	public static final String RPG_DASHBOARD="/rpg";
-	public static final String RPG_CREATE="/rpg/create";
+	public static final String RPG_DETAILS="/rpgs/";
+	public static final String RPG_CREATE="/rpgs/create";
 	
 	//scenario
 	public static final String SCENARIO="/rpg/scenario";
