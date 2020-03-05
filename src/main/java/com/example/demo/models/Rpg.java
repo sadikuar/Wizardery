@@ -1,6 +1,7 @@
 package com.example.demo.models;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "rpgs")
@@ -34,6 +38,11 @@ public class Rpg {
 
 	@OneToMany(mappedBy = "rpg", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Scenario> scenarios;
+	
+	@OneToMany(mappedBy = "rpg", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<File> files;
+	
+	transient MultipartFile[] uploadedFiles;
 
 	public long getId() {
 		return id;
@@ -81,6 +90,22 @@ public class Rpg {
 
 	public void setScenarios(Set<Scenario> scenarios) {
 		this.scenarios = scenarios;
+	}
+
+	public List<File> getFiles() {
+		return files;
+	}
+
+	public void setFiles(List<File> files) {
+		this.files = files;
+	}
+
+	public MultipartFile[] getUploadedFiles() {
+		return uploadedFiles;
+	}
+
+	public void setUploadedFiles(MultipartFile[] uploadedFiles) {
+		this.uploadedFiles = uploadedFiles;
 	}
 
 	public Rpg() {

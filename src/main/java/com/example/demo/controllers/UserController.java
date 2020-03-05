@@ -2,7 +2,6 @@ package com.example.demo.controllers;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.demo.models.User;
 import com.example.demo.service.SecurityService_I;
 import com.example.demo.service.UserService_I;
+import com.example.demo.utils.Routes;
 import com.example.demo.validator.UserValidator;
 
 @Controller
@@ -32,19 +32,19 @@ public class UserController {
     @Autowired
     private UserValidator userValidator;
     
-	@GetMapping("/profile")
+	@GetMapping(Routes.PROFILE)
 	private String showProfile() {
 		return "profile";
 	}
 	
-	@GetMapping("/signup")
+	@GetMapping(Routes.SIGNUP)
     public String signup(Model model) {
         model.addAttribute("userForm", new User());
 
         return "signup";
     }
 
-    @PostMapping("/signup")
+    @PostMapping(Routes.SIGNUP)
     public String signup(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
     	
         userValidator.validate(userForm, bindingResult);
@@ -60,7 +60,7 @@ public class UserController {
         return "redirect:/dashboard";
     }
 
-    @GetMapping("/signin")
+    @GetMapping(Routes.SIGNIN)
     public String signin(Model model, String error, String logout) {
         if (error != null) {
         	model.addAttribute("error", "Your email and/or password is invalid.");
@@ -72,7 +72,7 @@ public class UserController {
         return "signin";
     }
     
-    @GetMapping(value="/logout")
+    @GetMapping(Routes.LOGOUT)
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){

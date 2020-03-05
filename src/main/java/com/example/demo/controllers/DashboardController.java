@@ -5,10 +5,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.example.demo.utils.Routes;
+
 @Controller
 public class DashboardController {
 
-	@GetMapping(value = { "/", "/dashboard" })
+	@GetMapping(value = { Routes.DASHBOARD, "/dashboard" })
 	public String showDashboard() {
 		// tester si user connecté 
 //		if (SecurityContextHolder.getContext().getAuthentication() != null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated() && !(SecurityContextHolder.getContext().getAuthentication() 
@@ -25,12 +27,7 @@ public class DashboardController {
 		return "dashboard";
 	}
 	
-	@GetMapping(value = "/creategame")
-	public String showRpgCreate() {
-		return "rpg-create";
-	}
-	
-	@GetMapping(value = "/test")
+	@GetMapping(Routes.TEST)
 	public String showTest() {
 		return "test";
 	}
