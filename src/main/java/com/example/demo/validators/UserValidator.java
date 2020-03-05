@@ -1,6 +1,5 @@
 package com.example.demo.validators;
 
-import org.hibernate.validator.internal.constraintvalidators.bv.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -8,13 +7,13 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.example.demo.models.User;
-import com.example.demo.services.UserService_I;
+import com.example.demo.services.UserServiceInterface;
 
 @Component
 public class UserValidator implements Validator {
 
 	@Autowired
-	private UserService_I userService;
+	private UserServiceInterface userService;
 
 	@Override
 	public boolean supports(Class<?> aClass) {

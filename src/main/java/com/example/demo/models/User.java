@@ -137,6 +137,13 @@ public class User {
 	public void setFavoriteRpgs(Set<Rpg> favoriteRpgs) {
 		this.favoriteRpgs = favoriteRpgs;
 	}
+	
+	public void addFavoriteRpg(Rpg rpg)
+	{
+		Set<Rpg> setRpgs = getFavoriteRpgs();
+		setRpgs.add(rpg);
+		setFavoriteRpgs(setRpgs);
+	}
 
 	@Override
 	public String toString() {

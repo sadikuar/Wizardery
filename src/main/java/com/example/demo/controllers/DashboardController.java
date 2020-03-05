@@ -20,19 +20,6 @@ public class DashboardController {
 
 	@GetMapping(value = { Routes.DASHBOARD, "/dashboard" })
 	public String showDashboard(Model model) {
-		// tester si user connecté
-//		if (SecurityContextHolder.getContext().getAuthentication() != null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated() && !(SecurityContextHolder.getContext().getAuthentication() 
-//		          instanceof AnonymousAuthenticationToken))
-//		{
-//			System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
-//			System.out.println("LOGGED IN");
-//		}
-//		else
-//		{
-//			
-//			System.out.println("NOT LOGGED IN");
-//		}
-
 		List<Rpg> listRpg = rpgRepository.findAll(PageRequest.of(0, 5)).getContent();
 		model.addAttribute("rpgs", listRpg);
 		return "dashboard";
