@@ -5,9 +5,9 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.repository.RoleRepository;
-import com.example.demo.repository.UserRepository;
-import com.example.demo.service.UserService;
+import com.example.demo.repositories.RoleRepository;
+import com.example.demo.repositories.UserRepository;
+import com.example.demo.services.UserService;
 
 @Component
 public class Seeder {

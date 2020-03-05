@@ -13,8 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.models.File;
 import com.example.demo.models.Rpg;
-import com.example.demo.repository.RpgRepository;
-import com.example.demo.service.StorageService;
+import com.example.demo.repositories.RpgRepository;
+import com.example.demo.services.StorageService;
 import com.example.demo.utils.Routes;
 
 import java.io.IOException;
