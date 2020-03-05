@@ -1,6 +1,7 @@
 package com.example.demo.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -10,7 +11,7 @@ import com.example.demo.models.User;
 import com.example.demo.service.UserService_I;
 
 @Component
-public class UserSignupValidator implements Validator{
+public class UserUpdateValidator implements Validator{
 
 	@Autowired
     private UserService_I userService;
@@ -30,24 +31,16 @@ public class UserSignupValidator implements Validator{
             errors.rejectValue("username", "username.size", "The size must be between 4 and 32!");
         }
         
-        if(!isValidEmail(user.getEmail())) {
-        	errors.rejectValue("email", "email.structure", "This is not a valid email!");
-        }
-        
-        if (userService.findByEmail(user.getEmail()) != null) {
-        	errors.rejectValue("email", "email.dupplicate", "This email is already used!");
-        }
+        if(!user.getPassword().isEmpty() || !user.getPasswordConfirm().isEmpty())
+        {
+        	if (user.getPassword().length() < 8 || user.getPassword().length() > 32) {
+            	errors.rejectValue("password", "password.length", "The size must be between 6 and 32!");
+            }
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
-        if (user.getPassword().length() < 8 || user.getPassword().length() > 32) {
-        	errors.rejectValue("password", "password.length", "The size must be between 6 and 32!");
+            if (!user.getPasswordConfirm().equals(user.getPassword())) {
+            	errors.rejectValue("passwordConfirm", "passwordConfirm.value", "This password doesn't match!");
+            }
         }
-
-        if (!user.getPasswordConfirm().equals(user.getPassword())) {
-        	errors.rejectValue("passwordConfirm", "passwordConfirm.value", "This password doesn't match!");
-        }
-        
-
         
 	}
 	
@@ -56,5 +49,4 @@ public class UserSignupValidator implements Validator{
 		String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
 	    return email.matches(regex);
 	}
-
 }

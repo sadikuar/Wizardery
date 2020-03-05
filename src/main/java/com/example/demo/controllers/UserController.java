@@ -10,12 +10,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.models.User;
 import com.example.demo.service.SecurityService_I;
 import com.example.demo.service.UserService_I;
 import com.example.demo.validator.UserSignupValidator;
+import com.example.demo.validator.UserUpdateValidator;
 
 @Controller
 public class UserController {
@@ -28,6 +30,9 @@ public class UserController {
 
     @Autowired
     private UserSignupValidator userSignupValidator;
+    
+    @Autowired
+    private UserUpdateValidator userUpdateValidator;
     
 	@GetMapping("/user/profile")
 	private String showProfile() {
@@ -79,6 +84,35 @@ public class UserController {
     		User user = userService.findByEmail(email);
     		session.setAttribute("username", user.getUsername());
 		}
+    	return "redirect:/dashboard";
+    }
+    
+    @GetMapping("/user/update")
+    public String update(Model model) {
+    	
+    	if (SecurityContextHolder.getContext().getAuthentication() != null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated() && !(SecurityContextHolder.getContext().getAuthentication() 
+		          instanceof AnonymousAuthenticationToken))
+		{
+	  		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+	  		User user = userService.findByEmail(email);
+	  		model.addAttribute("user", user);
+	  		System.out.println(user.toString());
+		}
+    	
+        return "user-update";
+    }
+    
+    @PostMapping("/user/update")
+    public String update(@ModelAttribute User user, BindingResult bindingResult)
+    {	
+    	userUpdateValidator.validate(user, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return "user-update";
+        }
+    	
+  		userService.save(user);
+  		
     	return "redirect:/dashboard";
     }
 }
