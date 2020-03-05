@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  * Utilisé pour le autologin après inscription
  */
 @Service
-public class SecurityService implements SecurityService_I{
+public class SecurityService implements SecurityServiceInterface{
 
 	@Autowired
     private AuthenticationManager authenticationManager;
@@ -47,7 +47,6 @@ public class SecurityService implements SecurityService_I{
 
         if (usernamePasswordAuthenticationToken.isAuthenticated()) {
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            logger.debug(String.format("Auto login %s successfully!", email));
         }
 		
 	}

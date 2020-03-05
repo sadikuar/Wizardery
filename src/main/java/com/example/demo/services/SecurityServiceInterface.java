@@ -1,6 +1,6 @@
 package com.example.demo.services;
 
-public interface SecurityService_I {
+public interface SecurityServiceInterface {
 
 	String findLoggedInUsername();
 	

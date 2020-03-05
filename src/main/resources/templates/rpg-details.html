@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:insert="fragments/head.html" />
 <body>
 	<nav th:insert="fragments/navbar.html :: navbar"></nav>
@@ -8,8 +8,26 @@
 			<h2 th:text="${rpg.name}"></h2>
 			<p class="text-muted"
 				th:text="${'Created by ' + rpg.creator.username}"></p>
-			<a href="#" class="btn btn-secondary wiz-btn-secondary">Add to
-				favourite</a>
+			<div sec:authorize="isAuthenticated()">
+				<div th:if="${!hasFavourite}">
+					<form th:action="@{${rpg.id + '/addToFavourite'}}"
+						th:object="${user}" method="post">
+						<input type="hidden" th:field="*{id}" id="user" name="user"
+							value="${user.id}"> <input type="submit"
+							class="btn btn-secondary wiz-btn-secondary"
+							value="Add to favourites" name="submit">
+					</form>
+				</div>
+				<div th:if="${hasFavourite}">
+					<form action="#" method="post">
+					<!-- todo -->
+					</form>
+				</div>
+			</div>
+			<div sec:authorize="!isAuthenticated()">
+				<a th:href="@{${T(com.example.demo.utils.Routes).SIGNIN}}"
+					class="btn btn-secondary wiz-btn-secondary">Add to favourites</a>
+			</div>
 			<div class="rpg-description mt-3">
 				<p class="lead" th:text="${rpg.description}"></p>
 			</div>

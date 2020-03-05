@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.models.User;
-import com.example.demo.services.SecurityService_I;
-import com.example.demo.services.UserService_I;
+import com.example.demo.services.SecurityServiceInterface;
+import com.example.demo.services.UserServiceInterface;
 import com.example.demo.utils.Routes;
 import com.example.demo.validators.UserValidator;
 
@@ -24,16 +24,16 @@ import com.example.demo.validators.UserValidator;
 public class UserController {
 	
 	@Autowired
-	private UserService_I userService;
+	private UserServiceInterface userService;
 	
 	@Autowired
-    private SecurityService_I securityService;
+    private SecurityServiceInterface securityService;
 
     @Autowired
     private UserValidator userValidator;
     
 	@GetMapping(Routes.PROFILE)
-	private String showProfile() {
+	public String showProfile() {
 		return "profile";
 	}
 	

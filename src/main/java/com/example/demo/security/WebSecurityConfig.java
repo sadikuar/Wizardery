@@ -1,7 +1,5 @@
 package com.example.demo.security;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -14,52 +12,41 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.example.demo.utils.Role_E;
+import com.example.demo.utils.RoleEnum;
 
 @Configuration
 @EnableAutoConfiguration
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Qualifier("userDetailsServiceImpl")
-    @Autowired
-    private UserDetailsService userDetailsService;
-	
-	@Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-	
-	@Bean
-    public AuthenticationManager customAuthenticationManager() throws Exception {
-        return authenticationManager();
-    }
+	@Autowired
+	private UserDetailsService userDetailsService;
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
-    }
-	
+	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public AuthenticationManager customAuthenticationManager() throws Exception {
+		return authenticationManager();
+	}
+
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+	}
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		String admin=Role_E.ADMIN.toString();
-		String user=Role_E.USER.toString();
-		http
-		.authorizeRequests()
-			.antMatchers("/", "/dashboard").permitAll()
-			.antMatchers("/admin").hasRole(admin)
-			.antMatchers("/profile").permitAll()
-			.antMatchers("/rpg").permitAll()
-			.antMatchers("/signin").permitAll()
-			.antMatchers("/creategame").hasAnyRole(user, admin)
-			.and()
-		.formLogin()
-			.loginPage("/signin").permitAll()
-			.usernameParameter("email")
-			.and()
-		.logout()
-			.permitAll();
-		
+		String admin = RoleEnum.ADMIN.toString();
+		String user = RoleEnum.USER.toString();
+		http.authorizeRequests().antMatchers("/", "/dashboard").permitAll().antMatchers("/admin").hasRole(admin)
+				.antMatchers("/profile").permitAll().antMatchers("/rpg").permitAll().antMatchers("/signin").permitAll()
+				.antMatchers("/creategame").hasAnyRole(user, admin).and().formLogin().loginPage("/signin").permitAll()
+				.usernameParameter("email").and().logout().permitAll();
+
 		http.exceptionHandling().accessDeniedPage("/dashboard");
-		
+
 	}
 }

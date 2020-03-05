@@ -35,13 +35,37 @@ public class RpgController {
 	private UserRepository userRepository;
 
 	@GetMapping(Routes.RPG_DETAILS + "{id}")
-	public String showRpg(Model model, @PathVariable Long id) {
-
+	public String showRpg(Model model, @PathVariable Long id, Principal principal) {
 		Optional<Rpg> optionalRpg = rpgRepository.findById(id);
-
 		optionalRpg.ifPresent(rpg -> model.addAttribute("rpg", rpg));
 
+		if (principal != null) {
+			User authUser = userRepository.findByEmail(principal.getName());
+			model.addAttribute("user", authUser);
+			if (optionalRpg.isPresent()) {
+				boolean hasFavourite = optionalRpg.get().getUsers().stream()
+						.anyMatch(u -> u.getId() == authUser.getId());
+				model.addAttribute("hasFavourite", hasFavourite);
+			}
+		}
+
 		return "rpg-details";
+	}
+
+	@PostMapping(Routes.RPG_DETAILS + "{id}" + "/addToFavourite")
+	public String addToFavourite(@ModelAttribute User user, Model model, @PathVariable Long id) {
+		Optional<User> optionalUser = userRepository.findById(user.getId());
+		Optional<Rpg> optionalRpg = rpgRepository.findById(id);
+		optionalUser.ifPresent(u -> u.addFavoriteRpg(optionalRpg.get()));
+
+		if (optionalUser.isPresent()) {
+			userRepository.save(optionalUser.get());
+		}
+
+		boolean hasFavourite = true;
+		model.addAttribute("hasFavourite", hasFavourite);
+
+		return "redirect:" + Routes.RPG_DETAILS + id;
 	}
 
 	@GetMapping(Routes.RPG_CREATE)
@@ -53,7 +77,7 @@ public class RpgController {
 	@PostMapping(Routes.RPG_CREATE)
 	public String insertRpg(@ModelAttribute Rpg rpg, Model model, Principal principal) {
 		MultipartFile[] multipartFiles = rpg.getUploadedFiles();
-		List<File> files = new ArrayList<File>();
+		List<File> files = new ArrayList<>();
 
 		if (multipartFiles != null) {
 			for (MultipartFile multipartFile : multipartFiles) {

@@ -1,6 +1,6 @@
 package com.example.demo.utils;
 
-public enum Role_E {
+public enum RoleEnum {
 	ADMIN, //
 	USER;
 	
