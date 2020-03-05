@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +23,10 @@ public class DashboardController {
 	public String showDashboard(Model model) {
 		List<Rpg> listRpg = rpgRepository.findAll(PageRequest.of(0, 5)).getContent();
 		model.addAttribute("rpgs", listRpg);
+		
 		return "dashboard";
 	}
+
 
 	@GetMapping(Routes.TEST)
 	public String showTest(Model model) {

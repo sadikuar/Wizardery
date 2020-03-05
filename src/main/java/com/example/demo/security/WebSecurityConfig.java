@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.example.demo.utils.RoleEnum;
 
@@ -41,12 +42,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		String admin = RoleEnum.ADMIN.toString();
 		String user = RoleEnum.USER.toString();
-		http.authorizeRequests().antMatchers("/", "/dashboard").permitAll().antMatchers("/admin").hasRole(admin)
-				.antMatchers("/profile").permitAll().antMatchers("/rpg").permitAll().antMatchers("/signin").permitAll()
-				.antMatchers("/creategame").hasAnyRole(user, admin).and().formLogin().loginPage("/signin").permitAll()
-				.usernameParameter("email").and().logout().permitAll();
 
-		http.exceptionHandling().accessDeniedPage("/dashboard");
-
+		http
+		.authorizeRequests()
+			.antMatchers("/", "/dashboard").permitAll()
+			.antMatchers("/admin").hasAuthority(admin)
+			.antMatchers("/user/profile").permitAll()
+			.antMatchers("/rpg").permitAll()
+			.antMatchers("/user/signin").permitAll()
+			.antMatchers("/user/signup").permitAll()
+			.antMatchers("/creategame").hasAnyAuthority(user, admin)
+			.and()
+		.formLogin() // par défaut, failure url est /user/signin?error
+			.loginPage("/user/signin").permitAll()
+			.usernameParameter("email")
+			.defaultSuccessUrl("/user/signin/confirm")
+			.and()
+		.logout()
+			.logoutRequestMatcher(new AntPathRequestMatcher("/user/signout"));
+		
+		http.exceptionHandling().accessDeniedPage("/test");
 	}
 }
