@@ -69,11 +69,9 @@ public class UserController {
 	@GetMapping(Routes.SIGNIN)
 	public String signin(Model model, String error, String logout) {
 		if (error != null) {
-			System.out.println("error");
 			model.addAttribute("error", "Your email and/or password is invalid.");
 		}
 		if (logout != null) {
-			System.out.println("logout");
 			model.addAttribute("logout", "You have been logged out successfully.");
 		}
 
