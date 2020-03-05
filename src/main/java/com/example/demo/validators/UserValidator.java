@@ -1,4 +1,4 @@
-package com.example.demo.validator;
+package com.example.demo.validators;
 
 import org.hibernate.validator.internal.constraintvalidators.bv.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.example.demo.models.User;
-import com.example.demo.service.UserService_I;
+import com.example.demo.services.UserService_I;
 
 @Component
 public class UserValidator implements Validator {

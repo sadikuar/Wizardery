@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.services;
 
 import java.util.HashSet;
 
@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.models.Role;
 import com.example.demo.models.User;
-import com.example.demo.repository.RoleRepository;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.repositories.RoleRepository;
+import com.example.demo.repositories.UserRepository;
 import com.example.demo.utils.Role_E;
 
 /**

@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.models.User;
-import com.example.demo.service.SecurityService_I;
-import com.example.demo.service.UserService_I;
+import com.example.demo.services.SecurityService_I;
+import com.example.demo.services.UserService_I;
 import com.example.demo.utils.Routes;
-import com.example.demo.validator.UserValidator;
+import com.example.demo.validators.UserValidator;
 
 @Controller
 public class UserController {

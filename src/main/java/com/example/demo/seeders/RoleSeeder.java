@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.example.demo.models.Role;
-import com.example.demo.repository.RoleRepository;
+import com.example.demo.repositories.RoleRepository;
 import com.example.demo.utils.Role_E;
 
 @Component
