@@ -124,9 +124,7 @@ public class UserController {
 	public String delete(HttpServletRequest request) throws ServletException
 	{
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
-		System.out.println(email);
-		long i = userService.deleteByEmail(email);
-		System.out.println("i: " + i);
+		userService.deleteByEmail(email);
 		
 		request.logout();
 		return "redirect:/dashboard";
