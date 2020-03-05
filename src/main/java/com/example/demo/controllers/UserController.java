@@ -16,8 +16,8 @@ import com.example.demo.models.User;
 import com.example.demo.services.SecurityServiceInterface;
 import com.example.demo.services.UserServiceInterface;
 import com.example.demo.utils.Routes;
-import com.example.demo.validator.UserSignupValidator;
-import com.example.demo.validator.UserUpdateValidator;
+import com.example.demo.validators.UserSignupValidator;
+import com.example.demo.validators.UserUpdateValidator;
 
 @Controller
 public class UserController {
