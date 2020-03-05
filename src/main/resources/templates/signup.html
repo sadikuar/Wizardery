@@ -9,29 +9,29 @@
 			<form action="#" th:action="@{/signup}" method="post" th:object="${userForm}">
 				<div class="form-group">
 					<label for="email">Email address</label> 
-					<input type="email" th:field="*{email}" class="form-control" id="email" aria-describedby="emailHelp" name="email">
+					<input type="email" th:field="*{email}" th:errorclass="is-invalid" class="form-control" id="email" aria-describedby="emailHelp" name="email" required>
 					<small id="emailHelp" class="form-text text-muted">We'll
 						never share your email with anyone else.</small>
-					<label th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error">Name Error</label>
+					<div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback">Name Error</div>
 				</div>
 				<div class="form-group">
 					<label for="username">Username</label> 
-					<input type="text" th:field="*{username}" class="form-control" id="username" name="username">
-					<label th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error">Name Error</label>
+					<input type="text" th:field="*{username}" th:errorclass="is-invalid" class="form-control" id="username" name="username" required>
+					<div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="invalid-feedback">Name Error</div>
 				</div>
 				<div class="form-group">
 					<label for="password">Password</label> 
-					<input type="password" th:field="*{password}" class="form-control" id="password" name="password">
-                    <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error">Name Error</label>
+					<input type="password" th:field="*{password}" th:errorclass="is-invalid" class="form-control" id="password" name="password" required>
+                    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback">Name Error</div>
 				</div>
 				<div class="form-group">
 					<label for="password_confirm">Confirm password</label>
-					<input type="password" th:field="*{passwordConfirm}" class="form-control" id="passwordConfirm" name="passwordConfirm">
-					<label th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}" class="error">Name Error</label>
+					<input type="password" th:field="*{passwordConfirm}" th:errorclass="is-invalid" class="form-control" id="passwordConfirm" name="passwordConfirm" required>
+					<div th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}" class="invalid-feedback">Name Error</div>
 				</div>
 				<div class="form-group">
 					<label for="description">Description</label>
-					<textarea th:field="*{description}" class="form-control" id="description" rows="" cols="" name="description"></textarea>
+					<textarea th:field="*{description}" class="form-control" id="description" rows="" cols="" name="description" required></textarea>
 				</div>
 				<div class="form-group">
 					<label for="avatar">Avatar</label>
