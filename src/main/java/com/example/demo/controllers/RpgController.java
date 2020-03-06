@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.models.File;
 import com.example.demo.models.Rpg;
 import com.example.demo.models.User;
+import com.example.demo.repositories.FileRepository;
 import com.example.demo.repositories.RpgRepository;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.services.StorageService;
@@ -40,6 +41,9 @@ public class RpgController {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private FileRepository fileRepository;
 
 	@GetMapping(Routes.RPG_DETAILS + "{id}")
 	public String showRpg(Model model, @PathVariable Long id, Principal principal) {
@@ -110,16 +114,11 @@ public class RpgController {
 
 	@GetMapping(Routes.RPG_DETAILS + "{id}" + "/download/{fileId}")
 	public ResponseEntity<Resource> download(@PathVariable Long id, @PathVariable Long fileId) throws IOException {
-
-		Optional<Rpg> rpg = rpgRepository.findById(id);
-		if (rpg.isPresent()) {
-			for (File file : rpg.get().getFiles()) {
-				if (file.getId() == fileId) {
-					java.io.File f = new java.io.File(file.getFileLocation());
-					return StorageService.downloadFromDisk(f, file.getName());
-				}
-			}
-
+		Optional<File> f = fileRepository.findById(fileId);
+		if (f.isPresent()) {
+			File file = f.get();
+			java.io.File diskFile = new java.io.File(file.getFileLocation());
+			return StorageService.downloadFromDisk(diskFile, file.getName());
 		}
 		return null;
 	}
