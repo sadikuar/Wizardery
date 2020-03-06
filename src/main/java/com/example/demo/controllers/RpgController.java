@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,6 +32,7 @@ import com.example.demo.repositories.UserRepository;
 import com.example.demo.services.StorageService;
 import com.example.demo.utils.Directory;
 import com.example.demo.utils.Routes;
+import com.example.demo.validators.RpgValidator;
 
 @Controller
 public class RpgController {
@@ -40,6 +42,9 @@ public class RpgController {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private RpgValidator rpgValidator;
 
 	@Autowired
 	private FileRepository fileRepository;
@@ -101,7 +106,14 @@ public class RpgController {
 	}
 
 	@PostMapping(Routes.RPG_CREATE)
-	public String insertRpg(@ModelAttribute Rpg rpg, Model model, Principal principal) {
+	public String insertRpg(@ModelAttribute Rpg rpg, Model model, Principal principal, BindingResult bindingResult) {
+
+		rpgValidator.validate(rpg, bindingResult);
+
+		if (bindingResult.hasErrors()) {
+			return "rpg-create";
+		}
+
 		MultipartFile[] multipartFiles = rpg.getUploadedFiles();
 		List<File> files = new ArrayList<>();
 
@@ -124,6 +136,40 @@ public class RpgController {
 		rpg.setCreator(creator);
 		rpg.setFiles(files);
 		rpgRepository.save(rpg);
+		return "redirect:" + Routes.DASHBOARD;
+	}
+
+	@PostMapping(Routes.RPG_DETAILS + "{id}" + "/update/form")
+	public String updateRpgForm(@ModelAttribute Rpg rpg, Model model) {
+
+		Optional<Rpg> optionalRpg = rpgRepository.findById(rpg.getId());
+		if (optionalRpg.isPresent()) {
+			model.addAttribute("rpg", optionalRpg.get());
+
+			return "rpg-update";
+		}
+
+		return "redirect:" + Routes.TEST; // a changer par page d'erreur
+	}
+
+	@PostMapping(Routes.RPG_DETAILS + "{id}" + "/update")
+	public String updateRpg(@ModelAttribute Rpg rpg, BindingResult bindingResult) {
+
+		rpgValidator.validate(rpg, bindingResult);
+		if (bindingResult.hasErrors()) {
+			return "rpg-update";
+		}
+
+		rpgRepository.save(rpg);
+
+		return "redirect:" + Routes.RPG_DETAILS + rpg.getId();
+	}
+
+	@PostMapping(Routes.RPG_DETAILS + "{id}" + "/delete")
+	public String deleteRpg(@ModelAttribute Rpg rpg) {
+		// TODO: faire assert rpg.id() == {id} de l'url pour coverage?
+		rpgRepository.deleteById(rpg.getId());
+
 		return "redirect:" + Routes.DASHBOARD;
 	}
 

@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.security.Principal;
 import java.util.Optional;
 
 import javax.servlet.ServletException;
@@ -15,10 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -107,11 +106,10 @@ public class UserController {
 	}
 
 	@GetMapping(Routes.SIGNIN_CONFIRM)
-	public String signinConfirm(HttpSession session) {
-		if (SecurityContextHolder.getContext().getAuthentication() != null
-				&& SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
-				&& !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
-			String email = SecurityContextHolder.getContext().getAuthentication().getName();
+	public String signinConfirm(HttpSession session, Principal principal) {
+
+		if (principal != null) {
+			String email = principal.getName();
 			User user = userService.findByEmail(email);
 			session.setAttribute("username", user.getUsername());
 			session.setAttribute("user_id", user.getId());
@@ -170,7 +168,7 @@ public class UserController {
 	}
 
 	@Transactional
-	@DeleteMapping(Routes.USER_DETAILS + "{id}")
+	@PostMapping(Routes.USER_DETAILS + "{id}" + "/details")
 	public String delete(HttpServletRequest request) throws ServletException {
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		userService.deleteByEmail(email);
