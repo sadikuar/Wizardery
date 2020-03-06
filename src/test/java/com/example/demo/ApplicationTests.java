@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class ApplicationTests {
 
 	@Autowired
 	private TestRestTemplate restTemplate;
-	
+
 	@BeforeEach
 	public void checkRestTemplateNotNull() {
 		assertThat(restTemplate).isNotNull();
@@ -86,7 +87,7 @@ public class ApplicationTests {
 
 	@Test
 	public void scenarioDetailsShowTest() {
-		ResponseEntity<String> entity = this.restTemplate.getForEntity(Routes.SCENARIO, String.class);
+		ResponseEntity<String> entity = this.restTemplate.getForEntity(Routes.SCENARIO_DETAILS, String.class);
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}
 }
