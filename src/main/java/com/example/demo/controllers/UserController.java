@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import java.security.Principal;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Optional;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -107,11 +107,11 @@ public class UserController {
 	}
 
 	@GetMapping(Routes.SIGNIN_CONFIRM)
-	public String signinConfirm(HttpSession session) {
-		if (SecurityContextHolder.getContext().getAuthentication() != null
-				&& SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
-				&& !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
-			String email = SecurityContextHolder.getContext().getAuthentication().getName();
+	public String signinConfirm(HttpSession session, Principal principal) {
+			
+		if(principal != null)
+		{
+			String email = principal.getName();
 			User user = userService.findByEmail(email);
 			session.setAttribute("username", user.getUsername());
 			session.setAttribute("user_id", user.getId());
