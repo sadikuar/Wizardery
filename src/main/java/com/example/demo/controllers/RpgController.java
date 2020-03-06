@@ -15,6 +15,7 @@ import com.example.demo.models.File;
 import com.example.demo.models.Rpg;
 import com.example.demo.repository.RpgRepository;
 import com.example.demo.service.StorageService;
+import com.example.demo.utils.Directory;
 import com.example.demo.utils.Routes;
 
 import java.io.IOException;
@@ -23,7 +24,6 @@ import java.security.MessageDigest;
 @Controller
 public class RpgController {
 	
-	private static final String FILE_DIRECTORY=System.getProperty("user.dir")+"/src/main/resources/static/public/rpg/";
 	
 	@Autowired
 	private RpgRepository rpgRepository;
@@ -49,7 +49,7 @@ public class RpgController {
 				File file = new File();
 				String originalFileName = multipartFile.getOriginalFilename();
 				
-				String filePath = StorageService.saveToDisk(multipartFile, FILE_DIRECTORY);
+				String filePath = StorageService.saveToDisk(multipartFile, Directory.RPG_DIR);
 				
 				file.setName(originalFileName);
 				file.setRpg(rpg);
