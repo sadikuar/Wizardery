@@ -1,5 +1,7 @@
 package com.example.demo.controllers;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Optional;
 
 import javax.servlet.ServletException;
@@ -18,11 +20,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.models.File;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.services.SecurityServiceInterface;
+import com.example.demo.services.StorageService;
 import com.example.demo.services.UserServiceInterface;
+import com.example.demo.utils.Directory;
 import com.example.demo.utils.Routes;
 import com.example.demo.validators.UserSignupValidator;
 import com.example.demo.validators.UserUpdateValidator;
@@ -48,10 +55,14 @@ public class UserController {
 	@GetMapping(Routes.USER_DETAILS + "{id}")
 	public String showProfile(Model model, @PathVariable Long id) {
 		Optional<User> optionalUser = userRepository.findById(id);
-
 		if (optionalUser.isPresent()) {
-			model.addAttribute("user", optionalUser.get());
-
+			User user = optionalUser.get();
+			model.addAttribute("user", user);
+			if(!user.getImageUrl().isEmpty()) {
+				String[] tabFile = user.getImageUrl().split("\\.");
+				model.addAttribute("imageName",tabFile[0]);
+				model.addAttribute("imageExt", tabFile[1]);
+			}
 			return "user-details";
 		}
 		
@@ -82,12 +93,14 @@ public class UserController {
 	}
 
 	@GetMapping(Routes.SIGNIN)
-	public String signin(Model model, String error, String logout) {
+	public String signin(Model model, String error, String logout,HttpSession session) {
 		if (error != null) {
 			model.addAttribute("error", "Your email and/or password is invalid.");
 		}
 		if (logout != null) {
 			model.addAttribute("logout", "You have been logged out successfully.");
+			session.setAttribute("username", "");
+			session.setAttribute("user_id", "");
 		}
 
 		return "signin";
@@ -101,6 +114,7 @@ public class UserController {
 			String email = SecurityContextHolder.getContext().getAuthentication().getName();
 			User user = userService.findByEmail(email);
 			session.setAttribute("username", user.getUsername());
+			session.setAttribute("user_id", user.getId());
 		}
 		return "redirect:/dashboard";
 	}
@@ -124,13 +138,34 @@ public class UserController {
 		userUpdateValidator.validate(user, bindingResult);
 
 		if (bindingResult.hasErrors()) {
+			System.out.println(bindingResult.getAllErrors());
 			return "user-update";
 		}
-
+		
+		MultipartFile multipartFile = user.getUploadedFile();
+		if(multipartFile!=null) {
+			String filePath = StorageService.saveToDisk(multipartFile, Directory.PROFILE_DIR);
+			String[] tab = filePath.split("/");
+			
+			user.setImageUrl(tab[tab.length-1]);
+		}
+		
 		userService.update(user);
 		session.setAttribute("username", user.getUsername());
 
 		return "redirect:/dashboard";
+	}
+	
+	@GetMapping("/profile/image/{fileName}/{fileExt}")
+	@ResponseBody
+	public byte[] getImage(@PathVariable String fileName, @PathVariable String fileExt) {
+		fileName = Directory.PROFILE_DIR+fileName+"."+fileExt;
+		java.io.File file = new java.io.File(fileName);
+		try {
+			return Files.readAllBytes(file.toPath());
+		} catch (IOException e) {
+			return null;
+		}
 	}
 
 	@Transactional

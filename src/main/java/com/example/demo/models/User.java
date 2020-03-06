@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.web.multipart.MultipartFile;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -57,6 +59,8 @@ public class User {
 
 	@OneToMany(mappedBy = "creator", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Rpg> rpgs;
+	
+	transient MultipartFile uploadedFile;
 
 	public long getId() {
 		return id;
@@ -143,6 +147,22 @@ public class User {
 		Set<Rpg> setRpgs = getFavoriteRpgs();
 		setRpgs.add(rpg);
 		setFavoriteRpgs(setRpgs);
+	}
+
+	public Set<Rpg> getRpgs() {
+		return rpgs;
+	}
+
+	public void setRpgs(Set<Rpg> rpgs) {
+		this.rpgs = rpgs;
+	}
+
+	public MultipartFile getUploadedFile() {
+		return uploadedFile;
+	}
+
+	public void setUploadedFile(MultipartFile uploadedFile) {
+		this.uploadedFile = uploadedFile;
 	}
 
 	@Override

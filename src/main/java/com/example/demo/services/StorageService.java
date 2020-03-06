@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
@@ -36,7 +37,7 @@ public class StorageService {
 		String fileExt = "." + decomposedFileName[decomposedFileName.length - 1];
 		try {
 			MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-			String filePath = pathOfDirectory + messageDigest.digest(multipartFile.getBytes()) + fileExt;
+			String filePath = pathOfDirectory + toHex(messageDigest.digest(multipartFile.getBytes())) + fileExt;
 			messageDigest.reset();
 			multipartFile.transferTo(new java.io.File(filePath));
 			return filePath;
@@ -55,5 +56,10 @@ public class StorageService {
 			return null;
 		}
 		
+	}
+	
+	private static String toHex(byte[] bytes) {
+	    BigInteger bi = new BigInteger(1, bytes);
+	    return String.format("%0" + (bytes.length << 1) + "X", bi);
 	}
 }
