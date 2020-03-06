@@ -31,9 +31,8 @@
 				value="${_csrf.token}" />
 		</form>
 		<div sec:authorize="isAuthenticated()">
-			<div th:text="${session.username}"></div>
-			<a class="nav-link text-light" href="#"
-				onclick="document.forms['logoutForm'].submit()">Logout</a>
+			<a th:text="${session.username}" th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS+session.user_id}}"></a>
+			<a class="nav-link text-light" href="#" onclick="document.forms['logoutForm'].submit()">Logout</a>
 		</div>
 		<div sec:authorize="!isAuthenticated()">
 			<a class="nav-link text-light"
