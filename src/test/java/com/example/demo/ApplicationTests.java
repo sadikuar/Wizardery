@@ -31,16 +31,14 @@ public class ApplicationTests {
 
 	@Autowired
 	private TestRestTemplate restTemplate;
-
-	@Test
-	public void dashboardShowTest() {
+	
+	@BeforeEach
+	public void checkRestTemplateNotNull() {
 		assertThat(restTemplate).isNotNull();
 	}
 
 	@Test
 	public void signinShowTest() {
-		assertThat(restTemplate).isNotNull();
-
 		ResponseEntity<String> entity = this.restTemplate.getForEntity(Routes.SIGNIN, String.class);
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(entity.getBody()).contains("Signin");
@@ -48,8 +46,6 @@ public class ApplicationTests {
 
 	@Test
 	public void signupShowTest() {
-		assertThat(restTemplate).isNotNull();
-
 		ResponseEntity<String> entity = this.restTemplate.getForEntity(Routes.SIGNUP, String.class);
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(entity.getBody()).contains("Signup");
@@ -57,8 +53,6 @@ public class ApplicationTests {
 
 	@Test
 	public void createGameShowTest() {
-		assertThat(restTemplate).isNotNull();
-
 		ResponseEntity<String> entity = this.restTemplate.getForEntity(Routes.RPG_CREATE, String.class);
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(entity.getBody()).contains("Create game");
@@ -66,7 +60,6 @@ public class ApplicationTests {
 
 	@Test
 	public void rpgDetailsShowTest() {
-		assertThat(restTemplate).isNotNull();
 		assertThat(rpgRepository).isNotNull();
 
 		if (rpgRepository.count() > 0) {
@@ -86,8 +79,6 @@ public class ApplicationTests {
 
 	@Test
 	public void scenarioCreateShowTest() {
-		assertThat(restTemplate).isNotNull();
-
 		ResponseEntity<String> entity = this.restTemplate.getForEntity(Routes.SCENARIO_CREATE, String.class);
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(entity.getBody()).contains("Create scenario");
@@ -95,8 +86,6 @@ public class ApplicationTests {
 
 	@Test
 	public void scenarioDetailsShowTest() {
-		assertThat(restTemplate).isNotNull();
-
 		ResponseEntity<String> entity = this.restTemplate.getForEntity(Routes.SCENARIO, String.class);
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}
