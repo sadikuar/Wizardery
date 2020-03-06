@@ -10,18 +10,23 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.models.File;
 import com.example.demo.models.Rpg;
@@ -118,9 +123,18 @@ public class RpgController {
 		if (f.isPresent()) {
 			File file = f.get();
 			java.io.File diskFile = new java.io.File(file.getFileLocation());
-			return StorageService.downloadFromDisk(diskFile, file.getName());
+			ResponseEntity<Resource> response = StorageService.downloadFromDisk(diskFile, file.getName());
+			if(response==null) {
+				throw new DataAccessResourceFailureException("not found");
+			}
 		}
-		return null;
+		throw new DataAccessResourceFailureException("not found");
+	}
+	
+	@ResponseStatus(HttpStatus.NOT_FOUND) // Or @ResponseStatus(HttpStatus.NO_CONTENT)
+	@ExceptionHandler(DataAccessResourceFailureException.class)
+	public String handleNotFound(DataAccessResourceFailureException ex, RedirectAttributes redirectAttrs) {
+	    return "forward:"+Routes.DASHBOARD;
 	}
 
 	@GetMapping(Routes.SCENARIO_CREATE)
