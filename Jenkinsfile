@@ -20,6 +20,12 @@ pipeline {
             }
         }
         
+        stage('Unit tests') {
+        	steps {
+        		sh 'mvn clean test'
+    		}
+        }
+        
         stage('Deploy') {
         	steps {
         		sh 'echo deploying'
