@@ -6,7 +6,7 @@
 	<div class="container mb-3">
 		<div class="card p-4">
 			<h2>Update</h2>
-			<form th:action="@{${T(com.example.demo.utils.Routes).PROFILE_UPDATE}}" th:method="post" th:object="${user}">
+			<form th:action="@{${T(com.example.demo.utils.Routes).USER_UPDATE}}" th:method="post" th:object="${user}">
 			<input type="hidden" th:field="*{id}">
 			<input type="hidden" th:field="*{email}">
 				<div class="form-group">

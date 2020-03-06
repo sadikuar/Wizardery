@@ -50,10 +50,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers(Routes.RPG_DETAILS).permitAll()
 			.antMatchers(Routes.SIGNIN).permitAll()
 			.antMatchers(Routes.SIGNUP).permitAll()
-			.antMatchers(Routes.PROFILE).authenticated()
-			.antMatchers(Routes.PROFILE_UPDATE).authenticated()
+			.antMatchers(Routes.USER_PROFILE).authenticated()
+			.antMatchers(Routes.USER_UPDATE).authenticated()
 			.antMatchers(Routes.RPG_CREATE).authenticated()
-			.antMatchers(Routes.PROFILE_DELETE).authenticated()
+			.antMatchers(Routes.USER_DELETE).authenticated()
 			.and()
 		.formLogin() // par défaut, failure url est /user/signin?error
 			.loginPage(Routes.SIGNIN).permitAll()
