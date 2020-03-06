@@ -20,10 +20,9 @@
 	<h1>Description</h1>
 	<p th:text="${user.description}"></p>
 	<h1>Favorite games</h1>
-	<h2>Dungeon & Dragons</h2>
-	<p>Viverra adipiscing at in tellus integer feugiat. Varius vel pharetra vel turpis. Eu augue ut lectus arcu bibendum at. Risus quis varius quam quisque id diam vel quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames. Id ornare arcu odio ut sem nulla pharetra. Elementum eu facilisis sed odio morbi. Felis bibendum ut tristique et egestas quis ipsum suspendisse. Curabitur vitae nunc sed velit. Nam libero justo laoreet sit amet cursus sit amet dictum. Aliquet sagittis id consectetur purus. Amet luctus venenatis lectus magna fringilla. Tristique senectus et netus et malesuada fames ac. A pellentesque sit amet porttitor eget dolor.</p>
-	<h1>Created games</h1>
-	<h2>Pathfinder</h2>
-	<p>Amet luctus venenatis lectus magna fringilla. Tristique senectus et netus et malesuada fames ac. A pellentesque sit amet porttitor eget dolor. Faucibus interdum posuere lorem ipsum dolor sit.</p>
+	<div th:each="rpg : ${user.favoriteRpgs}">
+		<div th:replace="fragments/rpg-card.html :: rpg-card(title=${rpg.name}, creator=${rpg.creator.username}, content=${rpg.description}, link=@{${T(com.example.demo.utils.Routes).RPG_DETAILS + rpg.id}})"></div>
+		</div>
+	</div>
 </body>
 </html>
