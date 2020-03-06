@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.example.demo.utils.RoleEnum;
+import com.example.demo.utils.Routes;
 
 @Configuration
 @EnableAutoConfiguration
@@ -45,18 +46,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http
 		.authorizeRequests()
-			.antMatchers("/", "/dashboard").permitAll()
+			.antMatchers(Routes.DASHBOARD, "/dashboard").permitAll()
 			.antMatchers("/admin").hasAuthority(admin)
-			.antMatchers("/user/profile").permitAll()
+			.antMatchers(Routes.PROFILE).permitAll()
 			.antMatchers("/rpg").permitAll()
-			.antMatchers("/user/signin").permitAll()
-			.antMatchers("/user/signup").permitAll()
-			.antMatchers("/creategame").hasAnyAuthority(user, admin)
+			.antMatchers(Routes.SIGNIN).permitAll()
+			.antMatchers(Routes.SIGNUP).permitAll()
+			.antMatchers(Routes.RPG_CREATE).hasAnyAuthority(user, admin)
 			.and()
 		.formLogin() // par défaut, failure url est /user/signin?error
-			.loginPage("/user/signin").permitAll()
+			.loginPage(Routes.SIGNIN).permitAll()
 			.usernameParameter("email")
-			.defaultSuccessUrl("/user/signin/confirm")
+			.defaultSuccessUrl(Routes.SIGNIN_CONFIRM)
 			.and()
 		.logout()
 			.logoutRequestMatcher(new AntPathRequestMatcher("/user/signout"));
