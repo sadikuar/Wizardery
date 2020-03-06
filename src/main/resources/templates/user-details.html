@@ -3,59 +3,55 @@
 <head th:insert="fragments/head.html" />
 <body>
 	<nav th:insert="fragments/navbar.html :: navbar"></nav>
-	
+
 	<div th:if="${session.user_id == user.id}">
-		<form th:action="@{${T(com.example.demo.utils.Routes).USER_DELETE}}"
-		th:method="post" id="formDeleteProfile">
-		<input type="hidden" id="email" name="email" th:value="${user.email}">
-	</form>
-	<button type="button" class="btn btn-secondary wiz-btn-secondary"
-		data-toggle="modal" data-target="#confirmModal">Delete
-		Profile</button>
-	<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog"
-		aria-labelledby="confirmModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="confirmModalLabel">Delete your
-						profile</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<p>Are you sure you want to delete your profile ?</p>
-					<p>
-						Bear in mind that this process is <strong>irreversible</strong> !
-					</p>
-					<p>If you are sure you want to delete your profile then please
-						type your email down below to confirm this action.</p>
-					<label for="confirmEmail">Confirm your email</label>
-					<input type="text" class="form-control" id="confirmEmail"
-						placeholder="myemail@domain.com">
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-danger" id="confirmDelete">Confirm
-						delete</button>
+		<form th:action="@{${T(com.example.demo.utils.Routes).USER_DELETE}}" th:method="post"
+			id="formDeleteProfile">
+			<input type="hidden" id="email" name="email" th:value="${user.email}">
+		</form>
+		<button type="button" class="btn btn-secondary wiz-btn-secondary" data-toggle="modal"
+			data-target="#confirmModal">Delete Profile</button>
+		<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog"
+			aria-labelledby="confirmModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="confirmModalLabel">Delete your profile</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<p>Are you sure you want to delete your profile ?</p>
+						<p>
+							Bear in mind that this process is <strong>irreversible</strong> !
+						</p>
+						<p>If you are sure you want to delete your profile then please type your email down below
+							to confirm this action.</p>
+						<label for="confirmEmail">Confirm your email</label>
+						<input type="text" class="form-control" id="confirmEmail" placeholder="myemail@domain.com">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-danger" id="confirmDelete">Confirm delete</button>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 		<a th:href="@{${T(com.example.demo.utils.Routes).USER_UPDATE}}" class="btn btn-secondary">Edit</a>
 	</div>
-	<img alt="profileImage" th:if="${#strings.isEmpty(user.imageUrl)}" th:src="@{/images/default.png}"/>
-	<img alt="profileImage" th:if="${!#strings.isEmpty(user.imageUrl)}" th:src="@{${'/profile/image/'+imageName+'/'+imageExt}}"/>
+	<img alt="profileImage" th:if="${#strings.isEmpty(user.imageUrl)}" th:src="@{/images/default.png}" />
+	<img alt="profileImage" th:if="${!#strings.isEmpty(user.imageUrl)}"
+		th:src="@{${'/profile/image/'+imageName+'/'+imageExt}}" />
 	<h1 th:text="${user.username}"></h1>
 	<h2 th:text="${user.email}"></h2>
 	<h1>Description</h1>
 	<p th:text="${user.description}"></p>
 	<h1>Favorite games</h1>
 	<div th:each="rpg : ${user.favoriteRpgs}">
-		<div th:replace="fragments/rpg-card.html :: rpg-card(title=${rpg.name}, creator=${rpg.creator.username}, content=${rpg.description}, link=@{${T(com.example.demo.utils.Routes).RPG_DETAILS + rpg.id}})"></div>
-		</div>
+		<div
+			th:replace="fragments/rpg-card.html :: rpg-card(title=${rpg.name}, creator=${rpg.creator.username}, content=${rpg.description}, link=@{${T(com.example.demo.utils.Routes).RPG_DETAILS + rpg.id}})"></div>
+	</div>
 	</div>
 </body>
 <script defer src="/js/deleteConfirm.js" type="text/javascript"></script>

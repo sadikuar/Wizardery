@@ -1,6 +1,5 @@
 package com.example.demo.controllers;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -8,17 +7,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -84,6 +78,22 @@ public class RpgController {
 		return "redirect:" + Routes.RPG_DETAILS + id;
 	}
 
+	@PostMapping(Routes.RPG_DETAILS + "{id}" + "/removeFromFavourite")
+	public String removeFromFavourite(@ModelAttribute User user, Model model, @PathVariable Long id) {
+		Optional<User> optionalUser = userRepository.findById(user.getId());
+		Optional<Rpg> optionalRpg = rpgRepository.findById(id);
+		optionalUser.ifPresent(u -> u.removeFavoriteRPG(optionalRpg.get()));
+
+		if (optionalUser.isPresent()) {
+			userRepository.save(optionalUser.get());
+		}
+
+		boolean hasFavourite = false;
+		model.addAttribute("hasFavourite", hasFavourite);
+
+		return "redirect:" + Routes.RPG_DETAILS + id;
+	}
+
 	@GetMapping(Routes.RPG_CREATE)
 	public String showRpgCreate(Model model) {
 		model.addAttribute("rpg", new Rpg());
@@ -124,17 +134,17 @@ public class RpgController {
 			File file = f.get();
 			java.io.File diskFile = new java.io.File(file.getFileLocation());
 			ResponseEntity<Resource> response = StorageService.downloadFromDisk(diskFile, file.getName());
-			if(response==null) {
+			if (response == null) {
 				throw new DataAccessResourceFailureException("not found");
 			}
 		}
 		throw new DataAccessResourceFailureException("not found");
 	}
-	
+
 	@ResponseStatus(HttpStatus.NOT_FOUND) // Or @ResponseStatus(HttpStatus.NO_CONTENT)
 	@ExceptionHandler(DataAccessResourceFailureException.class)
 	public String handleNotFound(DataAccessResourceFailureException ex, RedirectAttributes redirectAttrs) {
-	    return "forward:"+Routes.DASHBOARD;
+		return "forward:" + Routes.DASHBOARD;
 	}
 
 	@GetMapping(Routes.SCENARIO_CREATE)
