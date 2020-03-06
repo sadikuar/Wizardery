@@ -93,12 +93,14 @@ public class UserController {
 	}
 
 	@GetMapping(Routes.SIGNIN)
-	public String signin(Model model, String error, String logout) {
+	public String signin(Model model, String error, String logout,HttpSession session) {
 		if (error != null) {
 			model.addAttribute("error", "Your email and/or password is invalid.");
 		}
 		if (logout != null) {
 			model.addAttribute("logout", "You have been logged out successfully.");
+			session.setAttribute("username", "");
+			session.setAttribute("user_id", "");
 		}
 
 		return "signin";
@@ -112,6 +114,7 @@ public class UserController {
 			String email = SecurityContextHolder.getContext().getAuthentication().getName();
 			User user = userService.findByEmail(email);
 			session.setAttribute("username", user.getUsername());
+			session.setAttribute("user_id", user.getId());
 		}
 		return "redirect:/dashboard";
 	}

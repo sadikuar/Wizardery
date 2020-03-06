@@ -4,13 +4,15 @@
 <body>
 
 	<nav th:insert="fragments/navbar.html :: navbar"></nav>
-	<form th:action="@{${T(com.example.demo.utils.Routes).USER_DELETE}}" th:method="post" onsubmit="return confirm('Are you sure?');" >
-		<div class="form-group">
-			<input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Delete Profile" name="submit">
-		</div>
-	</form>
-	<a th:href="@{${T(com.example.demo.utils.Routes).USER_UPDATE}}" class="btn btn-secondary">Edit</a>
 	
+	<div th:if="${session.user_id == user.id}">
+		<form th:action="@{${T(com.example.demo.utils.Routes).USER_DELETE}}" th:method="post" onsubmit="return confirm('Are you sure?');" >
+			<div class="form-group">
+				<input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Delete Profile" name="submit">
+			</div>
+		</form>
+		<a th:href="@{${T(com.example.demo.utils.Routes).USER_UPDATE}}" class="btn btn-secondary">Edit</a>
+	</div>
 	<img alt="profileImage" th:if="${#strings.isEmpty(user.imageUrl)}" th:src="@{/images/default.png}"/>
 	<img alt="profileImage" th:if="${!#strings.isEmpty(user.imageUrl)}" th:src="@{${'/profile/image/'+imageName+'/'+imageExt}}"/>
 	<h1 th:text="${user.username}"></h1>

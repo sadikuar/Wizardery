@@ -31,7 +31,7 @@
 				<div class="form-group">
 					<label for="avatar">Avatar</label>
 					<div class="custom-file">
-						<input type="file"  th:field="*{uploadedFile}" class="custom-file-input" id="avatar" enctype="multipart/form-data">
+						<input type="file"  th:field="*{uploadedFile}" class="custom-file-input" id="avatar" enctype="multipart/form-data" accept="image/*">
 						<label class="custom-file-label" for="avatar">Choose
 							image...</label>
 						<div class="invalid-feedback">File doesn't match formats</div>
