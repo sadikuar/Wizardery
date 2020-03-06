@@ -14,7 +14,7 @@ public final class Routes {
 	public static final String RPG_CREATE = "/rpgs/create";
 
 	// scenario
-	public static final String SCENARIO = "/rpg/scenario";
+	public static final String SCENARIO_DETAILS = "/rpg/scenario";
 	public static final String SCENARIO_CREATE = "/rpg/scenario/create";
 
 	// user
@@ -22,7 +22,7 @@ public final class Routes {
 	public static final String SIGNIN = "/signin";
 	public static final String SIGNIN_CONFIRM = "/signin/confirm";
 	public static final String SIGNOUT = "/signout";
-	public static final String USER_PROFILE = "/user/profile";
+	public static final String USER_DETAILS = "/users/";
 	public static final String USER_UPDATE = "/user/profile/update";
 	public static final String USER_DELETE = "/user/profile/delete";
 

@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import java.security.Principal;
+import java.util.Optional;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,9 +16,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.models.User;
+import com.example.demo.repositories.UserRepository;
 import com.example.demo.services.SecurityServiceInterface;
 import com.example.demo.services.UserServiceInterface;
 import com.example.demo.utils.Routes;
@@ -39,9 +42,20 @@ public class UserController {
 	@Autowired
 	private UserUpdateValidator userUpdateValidator;
 
-	@GetMapping(Routes.USER_PROFILE)
-	public String showProfile() {
-		return "user-profile";
+	@Autowired
+	private UserRepository userRepository;
+
+	@GetMapping(Routes.USER_DETAILS + "{id}")
+	public String showProfile(Model model, @PathVariable Long id) {
+		Optional<User> optionalUser = userRepository.findById(id);
+
+		if (optionalUser.isPresent()) {
+			model.addAttribute("user", optionalUser.get());
+
+			return "user-details";
+		}
+		
+		return "dashboard";
 	}
 
 	@GetMapping(Routes.SIGNUP)
@@ -112,20 +126,19 @@ public class UserController {
 		if (bindingResult.hasErrors()) {
 			return "user-update";
 		}
-		
+
 		userService.update(user);
 		session.setAttribute("username", user.getUsername());
 
 		return "redirect:/dashboard";
 	}
-	
+
 	@Transactional
 	@PostMapping(Routes.USER_DELETE)
-	public String delete(HttpServletRequest request) throws ServletException
-	{
+	public String delete(HttpServletRequest request) throws ServletException {
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		userService.deleteByEmail(email);
-		
+
 		request.logout();
 		return "redirect:/dashboard";
 	}

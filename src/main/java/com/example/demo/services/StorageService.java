@@ -1,11 +1,19 @@
 package com.example.demo.services;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 public class StorageService {
@@ -36,5 +44,16 @@ public class StorageService {
 			Logger.getAnonymousLogger().log(Level.SEVERE, e.getMessage());
 		}
 		return null;
+	}
+	
+	public static ResponseEntity<Resource> downloadFromDisk(File file, String filename){
+		try {
+			InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+			return ResponseEntity.ok().header("Content-Disposition", "attachment; filename=\"" + filename + "\"").contentLength(file.length())
+					.contentType(MediaType.parseMediaType("application/octet-stream")).body(resource);
+		} catch (FileNotFoundException e) {
+			return null;
+		}
+		
 	}
 }

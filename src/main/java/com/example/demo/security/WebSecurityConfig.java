@@ -15,6 +15,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.example.demo.utils.Routes;
 
 import com.example.demo.utils.RoleEnum;
+import com.example.demo.utils.Routes;
 
 @Configuration
 @EnableAutoConfiguration
@@ -50,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers(Routes.RPG_DETAILS).permitAll()
 			.antMatchers(Routes.SIGNIN).permitAll()
 			.antMatchers(Routes.SIGNUP).permitAll()
-			.antMatchers(Routes.USER_PROFILE).authenticated()
+			.antMatchers(Routes.USER_DETAILS).authenticated()
 			.antMatchers(Routes.USER_UPDATE).authenticated()
 			.antMatchers(Routes.RPG_CREATE).authenticated()
 			.antMatchers(Routes.USER_DELETE).authenticated()

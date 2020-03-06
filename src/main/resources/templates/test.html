@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org">
 <head th:insert="fragments/head.html" />
 <body>
 	<nav th:insert="fragments/navbar.html :: navbar"></nav>
-        <h2>Welcome</h2>
-        <p>Spring Security Thymeleaf tutorial</p>
-        <div sec:authorize="hasRole('USER')">Text visible to user.</div>
-        <div sec:authorize="hasRole('ADMIN')">Text visible to admin.</div>
-        <div sec:authorize="isAuthenticated()">
-        <div>Text visible only to authenticated users.</div>
-        Authenticated username:
-        <div sec:authentication="name"></div>
-        Authenticated user roles:
-        <div sec:authentication="principal.authorities"></div>
-        </div>
-        <div th:utext="${markdown}"></div>
-    </body>
+	<h2>Welcome</h2>
+	<p>Spring Security Thymeleaf tutorial</p>
+	<div sec:authorize="hasRole('USER')">Text visible to user.</div>
+	<div sec:authorize="hasRole('ADMIN')">Text visible to admin.</div>
+	<div sec:authorize="isAuthenticated()">
+		<div>Text visible only to authenticated users.</div>
+		Authenticated username:
+		<div sec:authentication="name"></div>
+		Authenticated user roles:
+		<div sec:authentication="principal.authorities"></div>
+	</div>
+	<div th:utext="${markdown}"></div>
+</body>
 </html>
