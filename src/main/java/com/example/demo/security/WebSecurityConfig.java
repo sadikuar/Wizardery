@@ -15,6 +15,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.example.demo.utils.Routes;
 
 import com.example.demo.utils.RoleEnum;
+import com.example.demo.utils.Routes;
 
 @Configuration
 @EnableAutoConfiguration
