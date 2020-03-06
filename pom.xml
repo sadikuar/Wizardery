@@ -21,6 +21,7 @@
 		<sonar.organization>sadikuar</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<sonar.login>5dedf5e444df70985e78029d278864122850397d</sonar.login>
+		<junit.jupiter.version>5.5.2</junit.jupiter.version>
 	</properties>
 
 	<dependencies>
@@ -65,10 +66,25 @@
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
-					<groupId>org.junit.vintage</groupId>
-					<artifactId>junit-vintage-engine</artifactId>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>${junit.jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
