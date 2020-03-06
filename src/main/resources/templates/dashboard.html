@@ -4,6 +4,7 @@
 <body>
 	<nav th:insert="fragments/navbar.html :: navbar"></nav>
 	<div class="container">
+		<h2 class="mb-3">Dashboard</h2>
 		<div th:if="${not #lists.isEmpty(rpgs)}">
 			<div class="rpg-card-holder" th:each="rpg : ${rpgs}">
 				<div

@@ -142,7 +142,7 @@ public class RpgController {
 		return "scenario-create";
 	}
 
-	@GetMapping(Routes.SCENARIO)
+	@GetMapping(Routes.SCENARIO_DETAILS)
 	public String showScenario() {
 		return "scenario-details";
 	}

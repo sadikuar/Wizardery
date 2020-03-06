@@ -2,7 +2,14 @@
 <html>
 <head th:insert="fragments/head.html"/>
 <body>
+
 	<nav th:insert="fragments/navbar.html :: navbar"></nav>
+	<form th:action="@{${T(com.example.demo.utils.Routes).USER_DELETE}}" th:method="post" onsubmit="return confirm('Are you sure?');" >
+		<div class="form-group">
+			<input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Delete Profile" name="submit">
+		</div>
+	</form>
+	
 	
 	<img alt="profileImage" src=""/>
 	<h1>Toto</h1>
@@ -15,6 +22,5 @@
 	<h1>Created games</h1>
 	<h2>Pathfinder</h2>
 	<p>Amet luctus venenatis lectus magna fringilla. Tristique senectus et netus et malesuada fames ac. A pellentesque sit amet porttitor eget dolor. Faucibus interdum posuere lorem ipsum dolor sit.</p>
-	
 </body>
 </html>

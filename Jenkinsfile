@@ -1,5 +1,5 @@
 pipeline {
-    agent { docker { image 'maven:3.3.3' } }
+    agent { docker { image 'maven:3.6.3-jdk-11-slim' } }
     
     environment {
         SPRING_DATASOURCE_USERNAME = credentials('SPRING_DATASOURCE_USERNAME')
@@ -18,6 +18,12 @@ pipeline {
             steps {
                 sh 'mvn -B -V -U -e -Dspring.profiles.active=prod clean package'
             }
+        }
+        
+        stage('Unit tests') {
+        	steps {
+        		sh 'mvn clean test -Dspring.profiles.active=prod'
+    		}
         }
         
         stage('Deploy') {
