@@ -6,33 +6,51 @@
 	<div class="container mb-3">
 		<div class="card p-4">
 			<h2>Signup</h2>
-			<form action="#" th:action="@{${T(com.example.demo.utils.Routes).SIGNUP}}" method="post" th:object="${userForm}">
+			<form action="#"
+				th:action="@{${T(com.example.demo.utils.Routes).SIGNUP}}"
+				method="post" th:object="${userForm}">
 
 				<div class="form-group">
-					<label for="email">Email address</label> 
-					<input type="email" th:field="*{email}" th:errorclass="is-invalid" class="form-control" id="email" aria-describedby="emailHelp" name="email" required>
+					<label for="email">Email address</label>
+					<input type="email" th:field="*{email}" th:errorclass="is-invalid"
+						class="form-control" id="email" aria-describedby="emailHelp"
+						name="email" required>
 					<small id="emailHelp" class="form-text text-muted">We'll
 						never share your email with anyone else.</small>
-					<div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback">Email Error</div>
+					<div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+						class="invalid-feedback">Email Error</div>
 				</div>
 				<div class="form-group">
-					<label for="username">Username</label> 
-					<input type="text" th:field="*{username}" th:errorclass="is-invalid" class="form-control" id="username" name="username" required>
-					<div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="invalid-feedback">Username Error</div>
+					<label for="username">Username</label>
+					<input type="text" th:field="*{username}"
+						th:errorclass="is-invalid" class="form-control" id="username"
+						name="username" required>
+					<div th:if="${#fields.hasErrors('username')}"
+						th:errors="*{username}" class="invalid-feedback">Username
+						Error</div>
 				</div>
 				<div class="form-group">
-					<label for="password">Password</label> 
-					<input type="password" th:field="*{password}" th:errorclass="is-invalid" class="form-control" id="password" name="password" required>
-                    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback">Password Error</div>
+					<label for="password">Password</label>
+					<input type="password" th:field="*{password}"
+						th:errorclass="is-invalid" class="form-control" id="password"
+						name="password" required>
+					<div th:if="${#fields.hasErrors('password')}"
+						th:errors="*{password}" class="invalid-feedback">Password
+						Error</div>
 				</div>
 				<div class="form-group">
 					<label for="password_confirm">Confirm password</label>
-					<input type="password" th:field="*{passwordConfirm}" th:errorclass="is-invalid" class="form-control" id="passwordConfirm" name="passwordConfirm" required>
-					<div th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}" class="invalid-feedback">PasswordConfirm Error</div>
+					<input type="password" th:field="*{passwordConfirm}"
+						th:errorclass="is-invalid" class="form-control"
+						id="passwordConfirm" name="passwordConfirm" required>
+					<div th:if="${#fields.hasErrors('passwordConfirm')}"
+						th:errors="*{passwordConfirm}" class="invalid-feedback">PasswordConfirm
+						Error</div>
 				</div>
 				<div class="form-group">
 					<label for="description">Description</label>
-					<textarea th:field="*{description}" class="form-control" id="description" rows="" cols="" name="description" required></textarea>
+					<textarea th:field="*{description}" class="form-control"
+						id="description" rows="" cols="" name="description" required></textarea>
 				</div>
 				<div class="form-group">
 					<label for="avatar">Avatar</label>
@@ -42,7 +60,8 @@
 							file...</label>
 						<div class="invalid-feedback">File doesn't match formats or
 							is too big</div>-->
-						<input type="text" th:field="*{imageUrl}" class="form-control" id="imageUrl" name="imageUrl">
+						<input type="text" th:field="*{imageUrl}" class="form-control"
+							id="imageUrl" name="imageUrl">
 					</div>
 				</div>
 				<div class="form-group">
