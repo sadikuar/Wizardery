@@ -47,4 +47,20 @@ public class UserService implements UserServiceInterface {
 		return userRepository.deleteByEmail(email);
 	}
 
+	@Override
+	public void update(User user) {
+		User oldUser = userRepository.findByEmail(user.getEmail());
+		if(user.getPassword().isBlank())
+		{
+			user.setPassword(oldUser.getPassword());
+		}
+		else
+		{
+			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		}
+		user.setRole(oldUser.getRole());
+		userRepository.save(user);
+		
+	}
+
 }

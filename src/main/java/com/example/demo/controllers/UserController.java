@@ -38,9 +38,9 @@ public class UserController {
 	@Autowired
 	private UserUpdateValidator userUpdateValidator;
 
-	@GetMapping(Routes.PROFILE)
+	@GetMapping(Routes.USER_PROFILE)
 	public String showProfile() {
-		return "profile";
+		return "user-profile";
 	}
 
 	@GetMapping(Routes.SIGNUP)
@@ -90,7 +90,7 @@ public class UserController {
 		return "redirect:/dashboard";
 	}
 
-	@GetMapping(Routes.PROFILE_UPDATE)
+	@GetMapping(Routes.USER_UPDATE)
 	public String update(Model model) {
 
 		if (SecurityContextHolder.getContext().getAuthentication() != null
@@ -101,24 +101,25 @@ public class UserController {
 			model.addAttribute("user", user);
 		}
 
-		return "profile-update";
+		return "user-update";
 	}
 
-	@PostMapping(Routes.PROFILE_UPDATE)
-	public String update(@ModelAttribute User user, BindingResult bindingResult) {
+	@PostMapping(Routes.USER_UPDATE)
+	public String update(@ModelAttribute User user, BindingResult bindingResult, HttpSession session) {
 		userUpdateValidator.validate(user, bindingResult);
 
 		if (bindingResult.hasErrors()) {
-			return "profile-update";
+			return "user-update";
 		}
-
-		userService.save(user);
+		
+		userService.update(user);
+		session.setAttribute("username", user.getUsername());
 
 		return "redirect:/dashboard";
 	}
 	
 	@Transactional
-	@PostMapping(Routes.PROFILE_DELETE)
+	@PostMapping(Routes.USER_DELETE)
 	public String delete(HttpServletRequest request) throws ServletException
 	{
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();

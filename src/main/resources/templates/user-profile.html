@@ -4,12 +4,12 @@
 <body>
 
 	<nav th:insert="fragments/navbar.html :: navbar"></nav>
-	<form th:action="@{${T(com.example.demo.utils.Routes).PROFILE_DELETE}}" th:method="post" onsubmit="return confirm('Are you sure?');" >
+	<form th:action="@{${T(com.example.demo.utils.Routes).USER_DELETE}}" th:method="post" onsubmit="return confirm('Are you sure?');" >
 		<div class="form-group">
-			<input type="submit" class="btn btn-secondary wiz-btn-secondary"
-					value="Submit" name="submit">
+			<input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Delete Profile" name="submit">
 		</div>
 	</form>
+	
 	
 	<img alt="profileImage" src=""/>
 	<h1>Toto</h1>
