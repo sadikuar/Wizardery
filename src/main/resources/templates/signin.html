@@ -6,7 +6,7 @@
 	<div class="container mb-3">
 		<div class="card p-4">
 			<h2>Signin</h2>
-			<form action="#" th:action="@{/signin}" method="post" th:object="${user}">
+			<form action="#" th:action="@{/user/signin}" method="post" th:object="${model}">
 				<div class="form-group">
 					<label for="email">Email address</label> 
 					<input type="email" class="form-control" aria-describedby="emailHelp" name="email">
@@ -21,7 +21,7 @@
 				<div class="form-group">
 					<small id="emailHelp" class="form-text text-muted">Don't
 						have an account ? Sign up <a class="text-primary"
-						th:href="@{/signup}">here</a>
+						th:href="@{/user/signup}">here</a>
 					</small>
 				</div>
 				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />

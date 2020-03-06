@@ -1,7 +1,5 @@
 package com.example.demo.security;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -13,53 +11,56 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.example.demo.utils.Role_E;
+import com.example.demo.utils.RoleEnum;
 
 @Configuration
 @EnableAutoConfiguration
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Qualifier("userDetailsServiceImpl")
-    @Autowired
-    private UserDetailsService userDetailsService;
-	
-	@Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-	
-	@Bean
-    public AuthenticationManager customAuthenticationManager() throws Exception {
-        return authenticationManager();
-    }
+	@Autowired
+	private UserDetailsService userDetailsService;
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
-    }
-	
+	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public AuthenticationManager customAuthenticationManager() throws Exception {
+		return authenticationManager();
+	}
+
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+	}
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		String admin=Role_E.ADMIN.toString();
-		String user=Role_E.USER.toString();
+		String admin = RoleEnum.ADMIN.toString();
+		String user = RoleEnum.USER.toString();
+
 		http
 		.authorizeRequests()
 			.antMatchers("/", "/dashboard").permitAll()
-			.antMatchers("/admin").hasRole(admin)
-			.antMatchers("/profile").permitAll()
+			.antMatchers("/admin").hasAuthority(admin)
+			.antMatchers("/user/profile").permitAll()
 			.antMatchers("/rpg").permitAll()
-			.antMatchers("/signin").permitAll()
-			.antMatchers("/creategame").hasAnyRole(user, admin)
+			.antMatchers("/user/signin").permitAll()
+			.antMatchers("/user/signup").permitAll()
+			.antMatchers("/creategame").hasAnyAuthority(user, admin)
 			.and()
-		.formLogin()
-			.loginPage("/signin").permitAll()
+		.formLogin() // par défaut, failure url est /user/signin?error
+			.loginPage("/user/signin").permitAll()
 			.usernameParameter("email")
+			.defaultSuccessUrl("/user/signin/confirm")
 			.and()
 		.logout()
-			.permitAll();
+			.logoutRequestMatcher(new AntPathRequestMatcher("/user/signout"));
 		
-		http.exceptionHandling().accessDeniedPage("/dashboard");
-		
+		http.exceptionHandling().accessDeniedPage("/test");
 	}
 }
