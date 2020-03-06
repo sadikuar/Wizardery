@@ -1,13 +1,22 @@
 package com.example.demo.controllers;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -81,9 +90,9 @@ public class RpgController {
 			for (MultipartFile multipartFile : multipartFiles) {
 				File file = new File();
 				String originalFileName = multipartFile.getOriginalFilename();
-				
+
 				String filePath = StorageService.saveToDisk(multipartFile, Directory.RPG_DIR);
-				
+
 				file.setName(originalFileName);
 				file.setRpg(rpg);
 				file.setFileLocation(filePath);
@@ -97,6 +106,22 @@ public class RpgController {
 		rpg.setFiles(files);
 		rpgRepository.save(rpg);
 		return "redirect:" + Routes.DASHBOARD;
+	}
+
+	@GetMapping(Routes.RPG_DETAILS + "{id}" + "/download/{fileId}")
+	public ResponseEntity<Resource> download(@PathVariable Long id, @PathVariable Long fileId) throws IOException {
+
+		Optional<Rpg> rpg = rpgRepository.findById(id);
+		if (rpg.isPresent()) {
+			for (File file : rpg.get().getFiles()) {
+				if (file.getId() == fileId) {
+					java.io.File f = new java.io.File(file.getFileLocation());
+					return StorageService.downloadFromDisk(f, file.getName());
+				}
+			}
+
+		}
+		return null;
 	}
 
 	@GetMapping(Routes.SCENARIO_CREATE)
