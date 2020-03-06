@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import com.example.demo.utils.Routes;
 
 import com.example.demo.utils.RoleEnum;
 
@@ -45,22 +46,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http
 		.authorizeRequests()
-			.antMatchers("/", "/dashboard").permitAll()
-			.antMatchers("/admin").hasAuthority(admin)
-			.antMatchers("/user/profile").permitAll()
-			.antMatchers("/rpg").permitAll()
-			.antMatchers("/user/signin").permitAll()
-			.antMatchers("/user/signup").permitAll()
-			.antMatchers("/creategame").hasAnyAuthority(user, admin)
+			.antMatchers(Routes.DASHBOARD, "/dashboard").permitAll()
+			.antMatchers(Routes.RPG_DETAILS).permitAll()
+			.antMatchers(Routes.SIGNIN).permitAll()
+			.antMatchers(Routes.SIGNUP).permitAll()
+			.antMatchers(Routes.PROFILE).authenticated()
+			.antMatchers(Routes.PROFILE_UPDATE).authenticated()
+			.antMatchers(Routes.RPG_CREATE).authenticated()
+			.antMatchers(Routes.PROFILE_DELETE).authenticated()
 			.and()
 		.formLogin() // par défaut, failure url est /user/signin?error
-			.loginPage("/user/signin").permitAll()
+			.loginPage(Routes.SIGNIN).permitAll()
 			.usernameParameter("email")
-			.defaultSuccessUrl("/user/signin/confirm")
+			.defaultSuccessUrl(Routes.SIGNIN_CONFIRM)
 			.and()
 		.logout()
-			.logoutRequestMatcher(new AntPathRequestMatcher("/user/signout"));
+			.logoutRequestMatcher(new AntPathRequestMatcher(Routes.SIGNOUT));
 		
-		http.exceptionHandling().accessDeniedPage("/test");
+		http.exceptionHandling().accessDeniedPage(Routes.TEST);
 	}
 }

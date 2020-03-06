@@ -6,4 +6,6 @@ public interface UserServiceInterface {
 	void save(User user);
 	
 	User findByEmail(String email);
+	
+	Long deleteByEmail(String email);
 }
