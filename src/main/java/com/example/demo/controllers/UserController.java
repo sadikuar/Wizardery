@@ -168,7 +168,7 @@ public class UserController {
 	}
 
 	@Transactional
-	@PostMapping(Routes.USER_DETAILS + "{id}" + "/details")
+	@PostMapping(Routes.USER_DETAILS + "{id}" + "/delete")
 	public String delete(HttpServletRequest request) throws ServletException {
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		userService.deleteByEmail(email);

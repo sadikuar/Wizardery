@@ -5,7 +5,7 @@
 	<nav th:insert="fragments/navbar.html :: navbar"></nav>
 
 	<div th:if="${session.user_id == user.id}">
-		<form th:action="@{${T(com.example.demo.utils.Routes).USER_DETAILS + user.id}}" th:method="post"
+		<form th:action="@{${T(com.example.demo.utils.Routes).USER_DETAILS + user.id + '/delete'}}" th:method="post"
 			id="formDeleteProfile">
 			<input type="hidden" id="email" name="email" th:value="${user.email}">
 		</form>

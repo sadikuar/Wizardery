@@ -25,7 +25,8 @@
 						<input type="hidden" th:field="*{id}" id="rpg" name="rpg" value="${rpg.id}">
 						<input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Update" name="submit">
 					</form>
-					<form th:action="@{${rpg.id + '/delete'}}" method="post" th:object="${rpg}" onsubmit="return confirm('Are you sure?');">
+					<form th:action="@{${rpg.id + '/delete'}}" method="post" th:object="${rpg}"
+						onsubmit="return confirm('Are you sure?');">
 						<input type="hidden" th:field="*{id}" id="rpg" name="rpg" value="${rpg.id}">
 						<input type="submit" class="btn btn-danger" value="Delete" name="submit">
 					</form>
