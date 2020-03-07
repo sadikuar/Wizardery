@@ -1,5 +1,6 @@
 
-<div th:fragment="rpg-card (title, creator, content, link)" class="card mb-4">
+<div th:fragment="rpg-card (title, creator, content, link)"
+	class="card mb-4">
 	<h5 class="card-header" th:text="${title}"></h5>
 	<div class="card-body">
 		<h5 class="card-title" th:text="'Created by ' + ${creator}"></h5>

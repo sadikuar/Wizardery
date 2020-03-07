@@ -1,27 +1,32 @@
-<nav th:fragment="navbar"
-	class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-	<a class="navbar-brand wiz-logo-font mr-5" th:href="@{/dashboard}"><i
-		class="fas fa-2x fa-hat-wizard"></i> Wizardery</a>
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+	<a class="navbar-brand wiz-logo-font mr-5"
+		th:href="@{${T(com.example.demo.utils.Routes).DASHBOARD}}">
+		<i class="fas fa-2x fa-hat-wizard"></i>
+		Wizardery
+	</a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse"
-		data-target="#navbarSupportedContent"
-		aria-controls="navbarSupportedContent" aria-expanded="false"
+		data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
 		aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<form class="form-inline my-2 my-lg-0">
-			<input class="form-control mr-sm-2" type="search"
-				placeholder="Search" aria-label="Search">
+			<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
 			<button class="btn btn-outline-success my-2 my-sm-0 sr-only" type="submit">Search</button>
 		</form>
 		<ul class="navbar-nav mr-auto">
-			<li class="nav-item"><a class="nav-link text-light" th:href="@{${T(com.example.demo.utils.Routes).RPG_CREATE}}">Create game</a></li>
+			<li class="nav-item">
+				<a class="nav-link text-light" th:href="@{${T(com.example.demo.utils.Routes).RPG_CREATE}}">Create
+					game</a>
+			</li>
 		</ul>
-		<form id="logoutForm" action="#" th:action="@{${T(com.example.demo.utils.Routes).SIGNOUT}}" method="post">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        </form>
+		<form id="logoutForm" action="#" th:action="@{${T(com.example.demo.utils.Routes).SIGNOUT}}"
+			method="post">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+		</form>
 		<div sec:authorize="isAuthenticated()">
-			<div th:text="${session.username}"></div>
+			<a th:text="${session.username}"
+				th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS + session.user_id}}"></a>
 			<a class="nav-link text-light" href="#" onclick="document.forms['logoutForm'].submit()">Logout</a>
 		</div>
 		<div sec:authorize="!isAuthenticated()">

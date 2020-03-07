@@ -22,8 +22,8 @@ public final class Routes {
 	public static final String SIGNIN = "/signin";
 	public static final String SIGNIN_CONFIRM = "/signin/confirm";
 	public static final String SIGNOUT = "/signout";
-	public static final String USER_DETAILS = "/user/";
-	public static final String USER_UPDATE = "/user/profile/update";
+	public static final String USER_DETAILS = "/users/";
+	public static final String USER_UPDATE = "/users/update/form";
 	public static final String USER_DELETE = "/user/profile/delete";
 
 }
