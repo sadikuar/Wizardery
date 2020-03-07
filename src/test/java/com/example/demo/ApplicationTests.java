@@ -17,7 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.example.demo.models.Rpg;
+import com.example.demo.models.User;
 import com.example.demo.repositories.RpgRepository;
+import com.example.demo.repositories.UserRepository;
 import com.example.demo.utils.Routes;
 
 @ExtendWith(SpringExtension.class)
@@ -29,6 +31,9 @@ public class ApplicationTests {
 
 	@MockBean
 	private RpgRepository rpgRepository;
+
+	@MockBean
+	private UserRepository userRepository;
 
 	@Autowired
 	private TestRestTemplate restTemplate;
@@ -53,10 +58,10 @@ public class ApplicationTests {
 	}
 
 	@Test
-	public void createGameShowTest() {
+	public void createGameShowNotSignedInTest() {
 		ResponseEntity<String> entity = this.restTemplate.getForEntity(Routes.RPG_CREATE, String.class);
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(entity.getBody()).contains("Create game");
+		assertThat(entity.getBody()).contains("Signin");
 	}
 
 	@Test
@@ -89,5 +94,25 @@ public class ApplicationTests {
 	public void scenarioDetailsShowTest() {
 		ResponseEntity<String> entity = this.restTemplate.getForEntity(Routes.SCENARIO_DETAILS, String.class);
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+	}
+
+	@Test
+	public void userDetailsShowTest() {
+		assertThat(userRepository).isNotNull();
+
+		if (userRepository.count() > 0) {
+			List<User> listUser = userRepository.findAll();
+			assertThat(listUser).isNotNull();
+
+			for (User user : listUser) {
+				assertThat(user).isNotNull();
+
+				ResponseEntity<String> entity = this.restTemplate.getForEntity(Routes.USER_DETAILS + user.getId(),
+						String.class);
+				assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+				assertThat(entity.getBody()).contains(user.getUsername());
+				assertThat(entity.getBody()).contains(user.getEmail());
+			}
+		}
 	}
 }
