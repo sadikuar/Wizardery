@@ -59,7 +59,7 @@ public class User {
 
 	@OneToMany(mappedBy = "creator", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Rpg> rpgs;
-	
+
 	transient MultipartFile uploadedFile;
 
 	public long getId() {
@@ -141,11 +141,16 @@ public class User {
 	public void setFavoriteRpgs(Set<Rpg> favoriteRpgs) {
 		this.favoriteRpgs = favoriteRpgs;
 	}
-	
-	public void addFavoriteRpg(Rpg rpg)
-	{
+
+	public void addFavoriteRpg(Rpg rpg) {
 		Set<Rpg> setRpgs = getFavoriteRpgs();
 		setRpgs.add(rpg);
+		setFavoriteRpgs(setRpgs);
+	}
+
+	public void removeFavoriteRPG(Rpg rpg) {
+		Set<Rpg> setRpgs = getFavoriteRpgs();
+		setRpgs.remove(rpg);
 		setFavoriteRpgs(setRpgs);
 	}
 

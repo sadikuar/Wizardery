@@ -8,16 +8,16 @@
 		<div class="col">
 			<h2 th:text="${rpg.name}"></h2>
 			<p class="text-muted">
-				Created by <a th:text="${rpg.creator.username}" th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS+rpg.creator.id}}"></a>
-				</p>
+				Created by
+				<a th:text="${rpg.creator.username}"
+					th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS+rpg.creator.id}}"></a>
+			</p>
 			<div sec:authorize="isAuthenticated()">
 				<div th:if="${!hasFavourite}">
-					<form th:action="@{${rpg.id + '/addToFavourite'}}"
-						th:object="${user}" method="post">
-						<input type="hidden" th:field="*{id}" id="user" name="user"
-							value="${user.id}">
-						<input type="submit" class="btn btn-secondary wiz-btn-secondary"
-							value="Add to favourites" name="submit">
+					<form th:action="@{${rpg.id + '/addToFavourite'}}" th:object="${user}" method="post">
+						<input type="hidden" th:field="*{id}" id="user" name="user" value="${user.id}">
+						<input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Add to favourites"
+							name="submit">
 					</form>
 				</div>
 				<div th:if="${rpg.creator.id == user.id}">
@@ -25,14 +25,17 @@
 						<input type="hidden" th:field="*{id}" id="rpg" name="rpg" value="${rpg.id}">
 						<input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Update" name="submit">
 					</form>
-					<form th:action="@{${rpg.id + '/delete'}}" method="post" th:object="${rpg}" onsubmit="return confirm('Are you sure?');">
+					<form th:action="@{${rpg.id + '/delete'}}" method="post" th:object="${rpg}"
+						onsubmit="return confirm('Are you sure?');">
 						<input type="hidden" th:field="*{id}" id="rpg" name="rpg" value="${rpg.id}">
 						<input type="submit" class="btn btn-danger" value="Delete" name="submit">
 					</form>
 				</div>
 				<div th:if="${hasFavourite}">
-					<form action="#" method="post">
-						<!-- todo -->
+					<form th:action="@{${rpg.id + '/removeFromFavourite'}}" th:object="${user}" method="post">
+						<input type="hidden" th:field="*{id}" id="user" name="user" value="${user.id}">
+						<input type="submit" class="btn btn-secondary wiz-btn-secondary"
+							value="Remove from favourites" name="submit">
 					</form>
 				</div>
 			</div>
@@ -50,8 +53,8 @@
 			<h4>Appendices</h4>
 			<div class="rpg-appendices mt-3">
 				<div class="card p-3" th:each="file : ${rpg.files}">
-					<a th:href="@{${'/rpgs/'+rpg.id+'/download/'+file.id}}"
-						class="text-primary" th:text="${file.name}"></a>
+					<a th:href="@{${'/rpgs/'+rpg.id+'/download/'+file.id}}" class="text-primary"
+						th:text="${file.name}"></a>
 				</div>
 			</div>
 			<h4 class="mt-3">Scenarios</h4>
