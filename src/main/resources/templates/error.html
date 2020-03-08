@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/head.html" />
+<body>
+	<nav th:insert="fragments/navbar.html :: navbar"></nav>
+
+	<div class="container">
+		<h2>Error - Unexpected</h2>
+		<p class="lead">An unexpected error has occured.</p>
+		<p class="lead">If this persists, please contact us through wizardery-support@wizardery.ch</p>
+		<p class="lead"> Click <a class="text-primary" th:href="@{${T(com.example.demo.utils.Routes).DASHBOARD}}">here</a> to return to the dashboard...</p>
+	</div>
+</body>
+</html>
