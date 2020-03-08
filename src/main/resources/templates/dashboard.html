@@ -5,7 +5,7 @@
 	<nav th:insert="fragments/navbar.html :: navbar"></nav>
 	<div class="container">
 		<h2 class="mb-3">Dashboard</h2>
-		<div th:if="${not #lists.isEmpty(rpgs)}">
+		<div th:if="${!#lists.isEmpty(rpgs)}">
 			<div class="rpg-card-holder" th:each="rpg : ${rpgs}">
 				<div
 					th:replace="fragments/rpg-card.html :: rpg-card(title=${rpg.name}, creator=${rpg.creator.username}, content=${rpg.description}, link=@{${T(com.example.demo.utils.Routes).RPG_DETAILS + rpg.id}})"></div>

@@ -100,6 +100,9 @@ public class UserController {
 			model.addAttribute("logout", "You have been logged out successfully.");
 			session.setAttribute("username", "");
 			session.setAttribute("user_id", "");
+			session.setAttribute("profile_img", "");
+			session.setAttribute("imageName", "");
+			session.setAttribute("imageExt", "");
 		}
 
 		return "signin";
@@ -113,12 +116,20 @@ public class UserController {
 			User user = userService.findByEmail(email);
 			session.setAttribute("username", user.getUsername());
 			session.setAttribute("user_id", user.getId());
+			if (!user.getImageUrl().isEmpty()) {
+				String[] tabFile = user.getImageUrl().split("\\.");
+				session.setAttribute("imageName", tabFile[0]);
+				session.setAttribute("imageExt", tabFile[1]);
+			} else {
+				session.setAttribute("imageName", "");
+				session.setAttribute("imageExt", "");
+			}
 		}
 		return "redirect:/dashboard";
 	}
 
 	@GetMapping(Routes.USER_UPDATE)
-	public String update(Model model, HttpSession session) {
+	public String showUserUpdate(Model model, HttpSession session) {
 
 		if (SecurityContextHolder.getContext().getAuthentication() != null
 				&& SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
@@ -133,7 +144,7 @@ public class UserController {
 	}
 
 	@PostMapping(Routes.USER_DETAILS + "{id}" + "/update")
-	public String update(@ModelAttribute User user, BindingResult bindingResult, HttpSession session) {
+	public String updateUser(@ModelAttribute User user, BindingResult bindingResult, HttpSession session) {
 		userUpdateValidator.validate(user, bindingResult);
 
 		if (bindingResult.hasErrors()) {
@@ -142,11 +153,13 @@ public class UserController {
 		}
 
 		MultipartFile multipartFile = user.getUploadedFile();
-		if (multipartFile != null) {
+		if (multipartFile != null && !multipartFile.getName().equals("uploadedFile")) {
 			String filePath = StorageService.saveToDisk(multipartFile, Directory.PROFILE_DIR);
 			String[] tab = filePath.split("/");
 
 			user.setImageUrl(tab[tab.length - 1]);
+		} else {
+			user.setImageUrl("");
 		}
 
 		userService.update(user);
