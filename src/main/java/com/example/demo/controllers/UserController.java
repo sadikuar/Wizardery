@@ -155,9 +155,7 @@ public class UserController {
 		}
 		MultipartFile multipartFile = user.getUploadedFile();
 		if (multipartFile != null && !multipartFile.getOriginalFilename().equals("")) {
-			System.out.println("storing");
 			String filePath = StorageService.saveToDisk(multipartFile, Directory.PROFILE_DIR);
-			System.out.println(filePath);
 			String[] tab = filePath.split("/");
 
 			user.setImageUrl(tab[tab.length - 1]);

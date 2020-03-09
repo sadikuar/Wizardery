@@ -34,13 +34,11 @@ public class StorageService {
 		String originalFileName = multipartFile.getOriginalFilename();
 		String[] decomposedFileName = originalFileName.split("\\.");
 		String fileExt = "." + decomposedFileName[decomposedFileName.length - 1];
-		System.out.println(fileExt);
 		try {
 			MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
 			String filePath = pathOfDirectory + toHex(messageDigest.digest(multipartFile.getBytes())) + fileExt;
 			messageDigest.reset();
 			multipartFile.transferTo(new java.io.File(filePath));
-			System.out.println(filePath);
 			return filePath;
 		} catch (IllegalStateException | IOException | NoSuchAlgorithmException e) {
 			Logger.getAnonymousLogger().log(Level.SEVERE, e.getMessage());
