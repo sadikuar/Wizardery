@@ -136,7 +136,6 @@ public class UserController {
 				&& !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
 			String email = SecurityContextHolder.getContext().getAuthentication().getName();
 			User user = userService.findByEmail(email);
-			System.out.println(user.getImageUrl());
 			session.setAttribute("user_id", user.getId());
 			model.addAttribute("user", user);
 		}
