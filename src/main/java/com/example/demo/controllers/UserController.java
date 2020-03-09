@@ -153,7 +153,7 @@ public class UserController {
 			return "user-update";
 		}
 		MultipartFile multipartFile = user.getUploadedFile();
-		if (multipartFile != null && !multipartFile.getOriginalFilename().equals("")) {
+		if (multipartFile != null && !multipartFile.getOriginalFilename().isBlank()) {
 			String filePath = StorageService.saveToDisk(multipartFile, Directory.PROFILE_DIR);
 			String[] tab = filePath.split("/");
 
