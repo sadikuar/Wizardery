@@ -136,6 +136,7 @@ public class UserController {
 				&& !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
 			String email = SecurityContextHolder.getContext().getAuthentication().getName();
 			User user = userService.findByEmail(email);
+			System.out.println(user.getImageUrl());
 			session.setAttribute("user_id", user.getId());
 			model.addAttribute("user", user);
 		}
@@ -144,20 +145,24 @@ public class UserController {
 	}
 
 	@PostMapping(Routes.USER_DETAILS + "{id}" + "/update")
-	public String updateUser(@ModelAttribute User user, BindingResult bindingResult, HttpSession session) {
+	public String updateUser(@ModelAttribute User user, BindingResult bindingResult, HttpSession session,
+			@PathVariable Long id) {
 		userUpdateValidator.validate(user, bindingResult);
-
+		Optional<User> oldUser = userRepository.findById(id);
 		if (bindingResult.hasErrors()) {
 			System.out.println(bindingResult.getAllErrors());
 			return "user-update";
 		}
-
 		MultipartFile multipartFile = user.getUploadedFile();
-		if (multipartFile != null && !multipartFile.getName().equals("uploadedFile")) {
+		if (multipartFile != null && !multipartFile.getOriginalFilename().equals("")) {
+			System.out.println("storing");
 			String filePath = StorageService.saveToDisk(multipartFile, Directory.PROFILE_DIR);
+			System.out.println(filePath);
 			String[] tab = filePath.split("/");
 
 			user.setImageUrl(tab[tab.length - 1]);
+		} else if (oldUser.isPresent()) {
+			user.setImageUrl(oldUser.get().getImageUrl());
 		} else {
 			user.setImageUrl("");
 		}
