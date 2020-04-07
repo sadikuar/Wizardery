@@ -163,7 +163,6 @@ public class UserController {
 		} else {
 			user.setImageUrl("");
 		}
-
 		userService.update(user);
 		session.setAttribute("username", user.getUsername());
 
