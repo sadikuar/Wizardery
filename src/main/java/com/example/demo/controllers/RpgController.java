@@ -57,7 +57,7 @@ public class RpgController {
 		optionalRpg.ifPresent(rpg -> {
 			MarkdownParsingService.parse(rpg);
 			model.addAttribute("rpg", rpg);
-			});
+		});
 
 		if (principal != null) {
 			User authUser = userRepository.findByEmail(principal.getName());
@@ -197,5 +197,4 @@ public class RpgController {
 		return "forward:" + Routes.DASHBOARD;
 	}
 
-	
 }

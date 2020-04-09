@@ -6,66 +6,65 @@
 	<div class="container mb-3">
 		<div class="card p-4">
 			<h2>Create scenario</h2>
-			<form action="#" method="post">
+			<form th:action="@{${T(com.example.demo.utils.Routes).SCENARIO_CREATE}}" th:object="${scenario}"
+				method="post" enctype="multipart/form-data">
 				<div class="form-group">
 					<label for="name">Name</label>
-					<input type="text" class="form-control" id="name" name="name">
+					<input type="text" th:field="*{name}" class="form-control" id="name" name="name">
+					<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="invalid-feedback">Name error</div>
 				</div>
 				<div class="form-group">
 					<label for="description">Description</label>
-					<textarea class="form-control" id="description" rows="" cols=""
+					<textarea class="form-control" th:field="*{description}" id="description" rows="" cols=""
 						name="description"></textarea>
 				</div>
 				<div class="form-group">
 					<label>Number of players (min, advised and max)</label>
 					<div class="row">
 						<div class="col">
-							<input type="number" class="form-control" id="nbplayermin"
+							<input type="number" th:field="*{minPlayers}" class="form-control" id="nbplayermin"
 								name="nbplayermin" placeholder="min..">
 						</div>
 						<div class="col">
-							<input type="number" class="form-control" id="nbplayeradvised"
+							<input type="number" th:field="*{maxPlayers}" class="form-control" id="nbplayeradvised"
 								name="nbplayeradvised" placeholder="advised..">
 						</div>
 						<div class="col">
-							<input type="number" class="form-control" id="nbplayermax"
+							<input type="number" th:field="*{advisedPlayers}" class="form-control" id="nbplayermax"
 								name="nbplayermax" placeholder="max..">
 						</div>
 					</div>
-
 				</div>
 				<div class="form-group">
 					<label for="difficulty">Difficulty</label>
-					<select class="form-control" id="difficulty">
-						<option>Easy</option>
-						<option>Medium</option>
-						<option>Difficult</option>
-						<option>Impossible</option>
+					<select class="form-control" th:field="*{difficulty}" id="difficulty">
+						<option th:value="easy">Easy</option>
+						<option th:value="medium">Medium</option>
+						<option th:value="difficult">Difficult</option>
+						<option th:value="impossible">Impossible</option>
 					</select>
 				</div>
 				<div class="form-group">
 					<label for="timeapprox">Time to complete (in minutes)</label>
-					<input type="number" class="form-control" id="timeapprox"
+					<input type="number" th:field="*{timeApproximation}" class="form-control" id="timeapprox"
 						name="timeapprox">
 				</div>
 				<div class="form-group">
 					<label for="quests">Quests</label>
-					<textarea class="form-control" id="quests" rows="" cols=""
-						name="quests"></textarea>
+					<textarea class="form-control" th:field="*{quests}" id="quests" rows="" cols="" name="quests"></textarea>
 				</div>
 				<div class="form-group">
 					<label for="appendices">Appendices</label>
 					<div class="custom-file">
-						<input type="file" class="custom-file-input" id="appendices"
-							required>
-						<label class="custom-file-label" for="avatar" name="appendices">Choose
-							file...</label>
+						<input type="file" th:field="*{uploadedFiles}" class="custom-file-input" id="appendices">
+						<label class="custom-file-label" for="avatar" id="appendices" enctype="multipart/form-data"
+							multiple>Choose file...</label>
 						<div class="invalid-feedback">File doesn't match formats</div>
 					</div>
 				</div>
 				<div class="form-group">
-					<input type="submit" class="btn btn-secondary wiz-btn-secondary"
-						value="Submit" name="submit">
+					<input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Submit" name="submit">
+					<input type="hidden" th:value="${rpgId}" name="rpgId" >
 				</div>
 			</form>
 		</div>
