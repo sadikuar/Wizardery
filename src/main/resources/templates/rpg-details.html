@@ -13,25 +13,25 @@
 					th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS+rpg.creator.id}}"></a>
 			</p>
 			<div sec:authorize="isAuthenticated()">
-				<div th:if="${!hasFavourite}">
-					<form th:action="@{${rpg.id + '/addToFavourite'}}" th:object="${user}" method="post">
+				<div class="d-inline" th:if="${!hasFavourite}">
+					<form class="d-inline" th:action="@{${rpg.id + '/addToFavourite'}}" th:object="${user}" method="post">
 						<input type="hidden" th:field="*{id}" id="user" name="user" value="${user.id}">
 						<input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Add to favourites"
 							name="submit">
 					</form>
 				</div>
-				<div th:if="${rpg.creator.id == user.id}">
-					<form th:action="@{${rpg.id + '/update/form'}}" method="post" th:object="${rpg}">
+				<div class="d-inline" th:if="${rpg.creator.id == user.id}">
+					<form class="d-inline" th:action="@{${rpg.id + '/update/form'}}" method="post" th:object="${rpg}">
 						<input type="hidden" th:field="*{id}" id="rpg" name="rpg" value="${rpg.id}">
 						<input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Update" name="submit">
 					</form>
-					<form th:action="@{${rpg.id + '/delete'}}" method="post" th:object="${rpg}"
+					<form class="d-inline" th:action="@{${rpg.id + '/delete'}}" method="post" th:object="${rpg}"
 						onsubmit="return confirm('Are you sure?');">
 						<input type="hidden" th:field="*{id}" id="rpg" name="rpg" value="${rpg.id}">
 						<input type="submit" class="btn btn-danger" value="Delete" name="submit">
 					</form>
 				</div>
-				<div th:if="${hasFavourite}">
+				<div class="col" th:if="${hasFavourite}">
 					<form th:action="@{${rpg.id + '/removeFromFavourite'}}" th:object="${user}" method="post">
 						<input type="hidden" th:field="*{id}" id="user" name="user" value="${user.id}">
 						<input type="submit" class="btn btn-secondary wiz-btn-secondary"
@@ -43,12 +43,12 @@
 				<a th:href="@{${T(com.example.demo.utils.Routes).SIGNIN}}"
 					class="btn btn-secondary wiz-btn-secondary">Add to favourites</a>
 			</div>
-			<div class="rpg-description mt-3">
-				<p class="lead" th:utext="${rpg.description}"></p>
+			<div class="rpg-description lead mt-3">
+				<p th:utext="${rpg.description}"></p>
 			</div>
 			<h4>Rules</h4>
-			<div class="rpg-rules mt-3">
-				<p class="lead" th:utext="${rpg.rules}"></p>
+			<div class="rpg-rules lead mt-3">
+				<p th:utext="${rpg.rules}"></p>
 			</div>
 			<h4>Appendices</h4>
 			<div class="rpg-appendices mt-3">

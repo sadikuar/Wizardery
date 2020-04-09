@@ -10,7 +10,7 @@
 			<img class="img-thumbnail" alt="profileImage" th:if="${!#strings.isEmpty(user.imageUrl)}"
 				th:src="@{${'/profile/image/'+imageName+'/'+imageExt}}" />
 		</div>
-		<h2 class="text-center py-3 text-light" th:text="${user.username + ' profile'}"></h2>
+		<h2 class="text-center py-3 text-light" th:text="${user.username}"></h2>
 	</div>
 	<div class="container">
 		<div th:if="${session.user_id == user.id}">
