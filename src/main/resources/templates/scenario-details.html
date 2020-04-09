@@ -6,7 +6,7 @@
 	<div class="container">
 		<div class="col">
 			<h2 th:text="${scenario.name}"></h2>
-			<p class="text-muted">Created by <a th:text="${scenario.creator.username}" th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS+scenario.creator.id}}"></a></p>
+			<p class="text-muted">Created by <a th:text="${scenario.creator.username}" th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS + scenario.creator.id}}"></a></p>
 			<div sec:authorize="isAuthenticated()">
 				<div class="d-inline" th:if="${scenario.creator.id == user.id}">
 					<form class="d-inline" th:action="@{${scenario.id + '/update/form'}}" method="post" th:object="${scenario}">
@@ -46,7 +46,7 @@
 			<h4>Appendices</h4>
 			<div class="scenario-appendices mt-3">
 				<div class="card p-3" th:each="file : ${scenario.files}">
-					<a th:href="@{${'/rpgs/scenario/' + scenario.id + '/download/' + file.id}}" class="text-primary" th:text="${file.name}"></a>
+					<a th:href="@{${T(com.example.demo.utils.Routes).SCENARIO_DETAILS + scenario.id + '/download/' + file.id}}" class="text-primary" th:text="${file.name}"></a>
 				</div>
 			</div>
 		</div>

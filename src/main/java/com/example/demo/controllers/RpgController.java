@@ -206,5 +206,4 @@ public class RpgController {
 	public String handleNotFound(DataAccessResourceFailureException ex, RedirectAttributes redirectAttrs) {
 		return "forward:" + Routes.DASHBOARD;
 	}
-
 }

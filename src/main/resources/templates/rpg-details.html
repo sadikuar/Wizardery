@@ -49,7 +49,7 @@
 			<h4>Appendices</h4>
 			<div class="rpg-appendices mt-3">
 				<div class="card p-3" th:each="file : ${rpg.files}">
-					<a th:href="@{${'/rpgs/'+rpg.id+'/download/'+file.id}}" class="text-primary"
+					<a th:href="@{${T(com.example.demo.utils.Routes).RPG_DETAILS + rpg.id + '/download/' + file.id}}" class="text-primary"
 						th:text="${file.name}"></a>
 				</div>
 			</div>
