@@ -22,6 +22,9 @@ public class DashboardController {
 	@GetMapping(value = { Routes.DASHBOARD, "/dashboard" })
 	public String showDashboard(Model model) {
 		List<Rpg> listRpg = rpgRepository.findAll(PageRequest.of(0, 5)).getContent();
+		for (Rpg rpg : listRpg) {
+			MarkdownParsingService.parse(rpg);
+		}
 		model.addAttribute("rpgs", listRpg);
 		
 		return "dashboard";
@@ -30,8 +33,7 @@ public class DashboardController {
 
 	@GetMapping(Routes.TEST)
 	public String showTest(Model model) {
-
-		model.addAttribute("markdown", MarkdownParsingService.parse("This is **SPARTA**"));
+		model.addAttribute("markdown", MarkdownParsingService.parse("This is **SPARTA**\n\nTest"));
 		return "test";
 	}
 }
