@@ -105,7 +105,7 @@ public class ScenarioController {
 				File file = new File();
 				String originalFileName = multipartFile.getOriginalFilename();
 
-				String filePath = StorageService.saveToDisk(multipartFile, Directory.RPG_DIR);
+				String filePath = StorageService.saveToDisk(multipartFile, Directory.SCENARIO_DIR);
 
 				file.setName(originalFileName);
 				file.setScenario(scenario);

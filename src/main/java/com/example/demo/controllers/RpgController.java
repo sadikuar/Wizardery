@@ -5,6 +5,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -62,7 +63,7 @@ public class RpgController {
 		optionalRpg.ifPresent(rpg -> {
 			MarkdownParsingService.parse(rpg);
 			
-			List<Scenario> listScenario = scenarioRepository.findByRpg(rpg);
+			Set<Scenario> listScenario = rpg.getScenarios();
 			
 			model.addAttribute("rpg", rpg);
 			model.addAttribute("scenarios", listScenario);
