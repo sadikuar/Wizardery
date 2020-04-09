@@ -29,12 +29,14 @@ import com.example.demo.models.Scenario;
 import com.example.demo.models.User;
 import com.example.demo.repositories.FileRepository;
 import com.example.demo.repositories.RpgRepository;
+import com.example.demo.repositories.ScenarioRepository;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.services.MarkdownParsingService;
 import com.example.demo.services.StorageService;
 import com.example.demo.utils.Directory;
 import com.example.demo.utils.Routes;
 import com.example.demo.validators.RpgValidator;
+import com.example.demo.validators.ScenarioValidator;
 
 @Controller
 public class RpgController {
@@ -50,13 +52,20 @@ public class RpgController {
 
 	@Autowired
 	private FileRepository fileRepository;
+	
+	@Autowired
+	private ScenarioRepository scenarioRepository;
 
 	@GetMapping(Routes.RPG_DETAILS + "{id}")
 	public String showRpg(Model model, @PathVariable Long id, Principal principal) {
 		Optional<Rpg> optionalRpg = rpgRepository.findById(id);
 		optionalRpg.ifPresent(rpg -> {
 			MarkdownParsingService.parse(rpg);
+			
+			List<Scenario> listScenario = scenarioRepository.findByRpg(rpg);
+			
 			model.addAttribute("rpg", rpg);
+			model.addAttribute("scenarios", listScenario);
 		});
 
 		if (principal != null) {
@@ -68,6 +77,7 @@ public class RpgController {
 				model.addAttribute("hasFavourite", hasFavourite);
 			}
 		}
+		
 		return "rpg-details";
 	}
 
@@ -153,7 +163,7 @@ public class RpgController {
 			return "rpg-update";
 		}
 
-		return "redirect:" + Routes.TEST; // a changer par page d'erreur
+		return "redirect:error";
 	}
 
 	@PostMapping(Routes.RPG_DETAILS + "{id}" + "/update")

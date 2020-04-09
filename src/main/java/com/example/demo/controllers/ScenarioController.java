@@ -44,11 +44,14 @@ public class ScenarioController {
 	@Autowired
 	private ScenarioValidator scenarioValidator;
 
-	@GetMapping(Routes.RPG_DETAILS + "{id}" + Routes.SCENARIO_CREATE)
-	public String showScenarioCreate(Model model, @PathVariable Long id) {
-		model.addAttribute("scenario", new Scenario());
-		model.addAttribute("rpgId", id);
-		return "scenario-create";
+	@GetMapping(Routes.SCENARIO_CREATE)
+	public String showScenarioCreate(Model model, @RequestParam(defaultValue = "-1") Long rpgId) {
+		if (rpgId != -1) {
+			model.addAttribute("scenario", new Scenario());
+			model.addAttribute("rpgId", rpgId);
+			return "scenario-create";
+		}
+		return "redirect:error";
 	}
 
 	@GetMapping(Routes.SCENARIO_DETAILS + "{id}")
@@ -68,6 +71,7 @@ public class ScenarioController {
 				model.addAttribute("hasFavourite", hasFavourite);
 			}
 		}
+		
 		return "scenario-details";
 	}
 
@@ -111,4 +115,32 @@ public class ScenarioController {
 		
 		return "redirect:" + Routes.RPG_DETAILS + id;
 	}
+	
+	@PostMapping(Routes.SCENARIO_DETAILS + "{id}" + "/update/form")
+	public String updateScenarioForm(@ModelAttribute Scenario scenario, Model model) {
+		Optional<Scenario> optionalScenario = scenarioRepository.findById(scenario.getId());
+		if (optionalScenario.isPresent()) {
+			model.addAttribute("scenario", optionalScenario.get());
+
+			return "scenario-update";
+		}
+
+		return "redirect:error";
+	}
+	
+	@PostMapping(Routes.SCENARIO_DETAILS + "{id}" + "/update")
+	public String updateRpg(@ModelAttribute Scenario scenario, BindingResult bindingResult) {
+
+		scenarioValidator.validate(scenario, bindingResult);
+		
+		if (bindingResult.hasErrors()) {
+			System.out.println(bindingResult.getAllErrors());
+			return "scenario-update";
+		}
+
+		scenarioRepository.save(scenario);
+
+		return "redirect:" + Routes.SCENARIO_DETAILS + scenario.getId();
+	}
+	
 }
