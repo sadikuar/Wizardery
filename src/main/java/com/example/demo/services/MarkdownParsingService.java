@@ -4,6 +4,9 @@ import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 
+import com.example.demo.models.Rpg;
+import com.example.demo.models.Scenario;
+
 public class MarkdownParsingService {
 	
 	private MarkdownParsingService() {
@@ -16,5 +19,18 @@ public class MarkdownParsingService {
 		Node node = parser.parse(markdown);
 		
 		return htmlRenderer.render(node);
+	}
+	
+	public static void parse(Rpg rpg) {
+		rpg.setDescription(parse(rpg.getDescription()));
+		rpg.setRules(parse(rpg.getRules()));
+		for (Scenario scenario : rpg.getScenarios()) {
+			parse(scenario);
+		}
+	}
+	
+	public static void parse(Scenario scenario) {
+		scenario.setDescription(parse(scenario.getDescription()));
+		scenario.setQuests(parse(scenario.getQuests()));
 	}
 }

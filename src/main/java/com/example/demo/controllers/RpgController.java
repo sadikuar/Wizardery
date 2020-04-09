@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.models.File;
 import com.example.demo.models.Rpg;
+import com.example.demo.models.Scenario;
 import com.example.demo.models.User;
 import com.example.demo.repositories.FileRepository;
 import com.example.demo.repositories.RpgRepository;
@@ -54,8 +55,7 @@ public class RpgController {
 	public String showRpg(Model model, @PathVariable Long id, Principal principal) {
 		Optional<Rpg> optionalRpg = rpgRepository.findById(id);
 		optionalRpg.ifPresent(rpg -> {
-			rpg.setDescription(MarkdownParsingService.parse(rpg.getDescription()));
-			rpg.setRules(MarkdownParsingService.parse(rpg.getRules()));
+			MarkdownParsingService.parse(rpg);
 			model.addAttribute("rpg", rpg);
 			});
 

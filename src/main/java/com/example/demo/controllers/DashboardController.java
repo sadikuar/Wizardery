@@ -23,7 +23,7 @@ public class DashboardController {
 	public String showDashboard(Model model) {
 		List<Rpg> listRpg = rpgRepository.findAll(PageRequest.of(0, 5)).getContent();
 		for (Rpg rpg : listRpg) {
-			rpg.setDescription(MarkdownParsingService.parse(rpg.getDescription()));
+			MarkdownParsingService.parse(rpg);
 		}
 		model.addAttribute("rpgs", listRpg);
 		
