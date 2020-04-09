@@ -56,6 +56,12 @@ public class User {
 			@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, updatable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "rpg_id", referencedColumnName = "id", nullable = false, updatable = false) })
 	private Set<Rpg> favoriteRpgs = new HashSet<>();
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@JoinTable(name = "favorites", joinColumns = {
+			@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "scenario_id", referencedColumnName = "id", nullable = false, updatable = false) })
+	private Set<Scenario> favoriteScenarios = new HashSet<>();
 
 	@OneToMany(mappedBy = "creator", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Rpg> rpgs;
