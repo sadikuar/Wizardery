@@ -197,13 +197,5 @@ public class RpgController {
 		return "forward:" + Routes.DASHBOARD;
 	}
 
-	@GetMapping(Routes.SCENARIO_CREATE)
-	public String showScenarioCreate() {
-		return "scenario-create";
-	}
-
-	@GetMapping(Routes.SCENARIO_DETAILS)
-	public String showScenario() {
-		return "scenario-details";
-	}
+	
 }
