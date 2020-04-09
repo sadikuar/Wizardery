@@ -29,6 +29,7 @@ import com.example.demo.models.User;
 import com.example.demo.repositories.FileRepository;
 import com.example.demo.repositories.RpgRepository;
 import com.example.demo.repositories.UserRepository;
+import com.example.demo.services.MarkdownParsingService;
 import com.example.demo.services.StorageService;
 import com.example.demo.utils.Directory;
 import com.example.demo.utils.Routes;
@@ -52,7 +53,11 @@ public class RpgController {
 	@GetMapping(Routes.RPG_DETAILS + "{id}")
 	public String showRpg(Model model, @PathVariable Long id, Principal principal) {
 		Optional<Rpg> optionalRpg = rpgRepository.findById(id);
-		optionalRpg.ifPresent(rpg -> model.addAttribute("rpg", rpg));
+		optionalRpg.ifPresent(rpg -> {
+			rpg.setDescription(MarkdownParsingService.parse(rpg.getDescription()));
+			rpg.setRules(MarkdownParsingService.parse(rpg.getRules()));
+			model.addAttribute("rpg", rpg);
+			});
 
 		if (principal != null) {
 			User authUser = userRepository.findByEmail(principal.getName());
@@ -63,7 +68,6 @@ public class RpgController {
 				model.addAttribute("hasFavourite", hasFavourite);
 			}
 		}
-
 		return "rpg-details";
 	}
 

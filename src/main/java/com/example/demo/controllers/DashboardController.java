@@ -22,6 +22,9 @@ public class DashboardController {
 	@GetMapping(value = { Routes.DASHBOARD, "/dashboard" })
 	public String showDashboard(Model model) {
 		List<Rpg> listRpg = rpgRepository.findAll(PageRequest.of(0, 5)).getContent();
+		for (Rpg rpg : listRpg) {
+			rpg.setDescription(MarkdownParsingService.parse(rpg.getDescription()));
+		}
 		model.addAttribute("rpgs", listRpg);
 		
 		return "dashboard";
