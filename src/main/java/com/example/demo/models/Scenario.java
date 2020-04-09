@@ -172,6 +172,14 @@ public class Scenario {
 	public void setUploadedFiles(MultipartFile[] uploadedFiles) {
 		this.uploadedFiles = uploadedFiles;
 	}
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
 	
 	
 }

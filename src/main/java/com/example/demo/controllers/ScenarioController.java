@@ -41,11 +41,11 @@ public class ScenarioController {
 		if (principal != null) {
 			User authUser = userRepository.findByEmail(principal.getName());
 			model.addAttribute("user", authUser);
-//			if (optionalScenario.isPresent()) {
-//				boolean hasFavourite = optionalScenario.get().getUsers().stream()
-//						.anyMatch(u -> u.getId() == authUser.getId());
-//				model.addAttribute("hasFavourite", hasFavourite);
-//			}
+			if (optionalScenario.isPresent()) {
+				boolean hasFavourite = optionalScenario.get().getUsers().stream()
+						.anyMatch(u -> u.getId() == authUser.getId());
+				model.addAttribute("hasFavourite", hasFavourite);
+			}
 		}
 		return "scenario-details";
 	}
