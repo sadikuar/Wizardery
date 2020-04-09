@@ -118,7 +118,7 @@ public class User {
 		this.imageUrl = imageUrl;
 	}
 
-	public boolean isPublic() {
+	public boolean getIsPublic() {
 		return isPublic;
 	}
 
