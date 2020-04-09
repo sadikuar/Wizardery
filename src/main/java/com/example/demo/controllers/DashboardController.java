@@ -30,8 +30,7 @@ public class DashboardController {
 
 	@GetMapping(Routes.TEST)
 	public String showTest(Model model) {
-
-		model.addAttribute("markdown", MarkdownParsingService.parse("This is **SPARTA**"));
+		model.addAttribute("markdown", MarkdownParsingService.parse("This is **SPARTA**\n\nTest"));
 		return "test";
 	}
 }

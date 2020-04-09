@@ -10,10 +10,11 @@ public class MarkdownParsingService {
 	}
 
 	private static Parser parser = Parser.builder().build();
-	private static HtmlRenderer htmlRenderer = HtmlRenderer.builder().build();
+	private static HtmlRenderer htmlRenderer = HtmlRenderer.builder().escapeHtml(true).build();
 
 	public static String parse(String markdown) {
 		Node node = parser.parse(markdown);
+		
 		return htmlRenderer.render(node);
 	}
 }
