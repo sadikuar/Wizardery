@@ -14,8 +14,8 @@ public final class Routes {
 	public static final String RPG_CREATE = "/rpgs/create";
 
 	// scenario
-	public static final String SCENARIO_DETAILS = "/rpg/scenario/";
-	public static final String SCENARIO_CREATE = "/rpg/scenario/create";
+	public static final String SCENARIO_DETAILS = "/scenarios/";
+	public static final String SCENARIO_CREATE = "/scenarios/create";
 
 	// user
 	public static final String SIGNUP = "/signup";

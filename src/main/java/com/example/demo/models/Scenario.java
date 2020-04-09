@@ -24,42 +24,75 @@ public class Scenario {
 	@Id
 	@GeneratedValue
 	private long id;
-	
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Scenario [id=");
+		builder.append(id);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", creator=");
+		builder.append(creator);
+		builder.append(", description=");
+		builder.append(description);
+		builder.append(", quests=");
+		builder.append(quests);
+		builder.append(", difficulty=");
+		builder.append(difficulty);
+		builder.append(", minPlayers=");
+		builder.append(minPlayers);
+		builder.append(", maxPlayers=");
+		builder.append(maxPlayers);
+		builder.append(", advisedPlayers=");
+		builder.append(advisedPlayers);
+		builder.append(", timeApproximation=");
+		builder.append(timeApproximation);
+		builder.append(", users=");
+		builder.append(users);
+		builder.append(", rpg=");
+		builder.append(rpg);
+		builder.append(", files=");
+		builder.append(files);
+		builder.append("]");
+		return builder.toString();
+	}
+
 	@Column
 	private String name;
-	
+
 	@ManyToOne
 	@JoinColumn
 	private User creator;
-	
+
 	@Column
 	private String description;
-	
+
 	@Column
 	private String quests;
-	
+
 	@Column
 	private String difficulty;
-	
+
 	@Column
 	private int minPlayers;
-	
+
 	@Column
 	private int maxPlayers;
-	
+
 	@Column
-	private int advicedPlayers;
-	
+	private int advisedPlayers;
+
 	@Column
 	private double timeApproximation;
-	
+
 	@ManyToMany(mappedBy = "favoriteScenarios", fetch = FetchType.LAZY)
 	private Set<User> users = new HashSet<>();
-	
+
 	@ManyToOne
 	@JoinColumn
 	private Rpg rpg;
-	
+
 	@OneToMany(mappedBy = "scenario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<File> files;
 
@@ -121,12 +154,12 @@ public class Scenario {
 		this.maxPlayers = maxPlayers;
 	}
 
-	public int getAdvicedPlayers() {
-		return advicedPlayers;
+	public int getAdvisedPlayers() {
+		return advisedPlayers;
 	}
 
-	public void setAdvicedPlayers(int advicedPlayers) {
-		this.advicedPlayers = advicedPlayers;
+	public void setAdvisedPlayers(int advicedPlayers) {
+		this.advisedPlayers = advicedPlayers;
 	}
 
 	public double getTimeApproximation() {
@@ -136,7 +169,7 @@ public class Scenario {
 	public void setTimeApproximation(double timeApproximation) {
 		this.timeApproximation = timeApproximation;
 	}
-	
+
 	public Rpg getRpg() {
 		return rpg;
 	}
@@ -180,6 +213,5 @@ public class Scenario {
 	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
-	
-	
+
 }

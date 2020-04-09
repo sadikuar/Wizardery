@@ -6,13 +6,17 @@
 	<div class="container">
 		<div class="col">
 			<h2 th:text="${scenario.name}"></h2>
-			<p class="text-muted">
-				Created by
-				<a th:text="${scenario.creator.username}"
-					th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS+scenario.creator.id}}"></a>
-			</p>
-			<div class="scenario-description mt-3">
-				<p class="lead" th:utext="${scenario.description}"></p>
+			<p class="text-muted">Created by <a th:text="${scenario.creator.username}" th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS + scenario.creator.id}}"></a></p>
+			<div sec:authorize="isAuthenticated()">
+				<div class="d-inline" th:if="${scenario.creator.id == user.id}">
+					<form class="d-inline" th:action="@{${scenario.id + '/update/form'}}" method="post" th:object="${scenario}">
+						<input type="hidden" th:field="*{id}" id="scenario" name="scenario" value="${scenario.id}">
+						<input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Update" name="submit">
+					</form>
+				</div>
+			</div>
+			<div class="scenario-description lead mt-3">
+				<p th:utext="${scenario.description}"></p>
 			</div>
 			<h4>Number of players</h4>
 			<div class="scenario-nbplayer mt-3">
@@ -21,7 +25,7 @@
 						<p class="lead">Min. : <span th:text="${scenario.minPlayers}"></span> players</p>
 					</div>
 					<div class="col-sm">
-						<p class="lead">Advised : <span th:text="${scenario.advicedPlayers}"></span> players</p>
+						<p class="lead">Advised : <span th:text="${scenario.advisedPlayers}"></span> players</p>
 					</div>
 					<div class="col-sm">
 						<p class="lead">Max. : <span th:text="${scenario.maxPlayers}"></span> players</p>
@@ -40,10 +44,9 @@
 			<div class="scenario-quests mt-3" th:utext="${scenario.quests}">
 			</div>
 			<h4>Appendices</h4>
-			<div class="rpg-appendices mt-3">
+			<div class="scenario-appendices mt-3">
 				<div class="card p-3" th:each="file : ${scenario.files}">
-					<a th:href="@{${'/rpgs/scenario/'+scenario.id+'/download/'+file.id}}" class="text-primary"
-						th:text="${file.name}"></a>
+					<a th:href="@{${T(com.example.demo.utils.Routes).SCENARIO_DETAILS + scenario.id + '/download/' + file.id}}" class="text-primary" th:text="${file.name}"></a>
 				</div>
 			</div>
 		</div>
