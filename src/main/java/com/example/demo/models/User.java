@@ -54,8 +54,14 @@ public class User {
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinTable(name = "favorites", joinColumns = {
 			@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "rpg_id", referencedColumnName = "id", nullable = false, updatable = false) })
+					@JoinColumn(name = "rpg_id", referencedColumnName = "id", nullable = true, updatable = false, columnDefinition = "bigint(1) default 0") })
 	private Set<Rpg> favoriteRpgs = new HashSet<>();
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@JoinTable(name = "favorites", joinColumns = {
+			@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "scenario_id", referencedColumnName = "id", nullable = true, updatable = false, columnDefinition = "bigint(1) default 0") })
+	private Set<Scenario> favoriteScenarios = new HashSet<>();
 
 	@OneToMany(mappedBy = "creator", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Rpg> rpgs;
