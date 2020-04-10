@@ -8,10 +8,28 @@
 			<h2 th:text="${scenario.name}"></h2>
 			<p class="text-muted">Created by <a th:text="${scenario.creator.username}" th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS + scenario.creator.id}}"></a></p>
 			<div sec:authorize="isAuthenticated()">
+				<div class="d-inline" th:if="${!hasFavourite}">
+					<form class="d-inline" th:action="@{${scenario.id + '/addToFavourite'}}" th:object="${user}" method="post">
+						<input type="hidden" th:field="*{id}">
+						<input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Add to favourites" name="submit">
+					</form>
+				</div>
+				<div class="d-inline" th:if="${hasFavourite}">
+					<form class="d-inline" th:action="@{${scenario.id + '/removeFromFavourite'}}" th:object="${user}" method="post">
+						<input type="hidden" th:field="*{id}">
+						<input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Remove from favourites" name="submit">
+					</form>
+				</div>
 				<div class="d-inline" th:if="${scenario.creator.id == user.id}">
 					<form class="d-inline" th:action="@{${scenario.id + '/update/form'}}" method="post" th:object="${scenario}">
 						<input type="hidden" th:field="*{id}" id="scenario" name="scenario" value="${scenario.id}">
 						<input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Update" name="submit">
+					</form>
+					<form class="d-inline" th:action="@{${scenario.id + '/delete'}}" method="post" th:object="${scenario}"
+						onsubmit="return confirm('Are you sure?');">
+						<input type="hidden" th:field="*{id}">
+						<input type="hidden" th:field="*{rpg}">
+						<input type="submit" class="btn btn-danger" value="Delete" name="submit">
 					</form>
 				</div>
 			</div>

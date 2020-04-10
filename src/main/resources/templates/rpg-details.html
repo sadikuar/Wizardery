@@ -16,6 +16,13 @@
 							name="submit">
 					</form>
 				</div>
+				<div class="d-inline" th:if="${hasFavourite}">
+					<form class="d-inline" th:action="@{${rpg.id + '/removeFromFavourite'}}" th:object="${user}" method="post">
+						<input type="hidden" th:field="*{id}" id="user" name="user" value="${user.id}">
+						<input type="submit" class="btn btn-secondary wiz-btn-secondary"
+							value="Remove from favourites" name="submit">
+					</form>
+				</div>
 				<div class="d-inline" th:if="${rpg.creator.id == user.id}">
 					<form class="d-inline" th:action="@{${rpg.id + '/update/form'}}" method="post" th:object="${rpg}">
 						<input type="hidden" th:field="*{id}" id="rpg" name="rpg" value="${rpg.id}">
@@ -25,13 +32,6 @@
 						onsubmit="return confirm('Are you sure?');">
 						<input type="hidden" th:field="*{id}" id="rpg" name="rpg" value="${rpg.id}">
 						<input type="submit" class="btn btn-danger" value="Delete" name="submit">
-					</form>
-				</div>
-				<div class="col" th:if="${hasFavourite}">
-					<form th:action="@{${rpg.id + '/removeFromFavourite'}}" th:object="${user}" method="post">
-						<input type="hidden" th:field="*{id}" id="user" name="user" value="${user.id}">
-						<input type="submit" class="btn btn-secondary wiz-btn-secondary"
-							value="Remove from favourites" name="submit">
 					</form>
 				</div>
 			</div>

@@ -6,12 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -153,6 +158,47 @@ public class ScenarioController {
 		scenarioRepository.save(scenario);
 
 		return "redirect:" + Routes.SCENARIO_DETAILS + scenario.getId();
+	}
+	
+	@PostMapping(Routes.SCENARIO_DETAILS + "{id}" + "/delete")
+	public String deleteScenario(@ModelAttribute Scenario scenario) {
+		Rpg rpg = scenario.getRpg();
+		scenarioRepository.deleteById(scenario.getId());
+
+		return "redirect:" + Routes.RPG_DETAILS + rpg.getId();
+	}
+	
+	@PostMapping(Routes.SCENARIO_DETAILS + "{id}" + "/addToFavourite")
+	public String addToFavourite(@ModelAttribute User user, Model model, @PathVariable Long id) {
+		Optional<User> optionalUser = userRepository.findById(user.getId());
+		Optional<Scenario> optionalScenario = scenarioRepository.findById(id);
+		optionalUser.ifPresent(u -> u.addFavoriteScenario(optionalScenario.get()));
+
+		if (optionalUser.isPresent()) {
+			userRepository.save(optionalUser.get());
+		}
+
+		System.out.println("HAS FAVOURITE");
+		boolean hasFavourite = true;
+		model.addAttribute("hasFavourite", hasFavourite);
+
+		return "redirect:" + Routes.SCENARIO_DETAILS + id;
+	}
+
+	@PostMapping(Routes.SCENARIO_DETAILS + "{id}" + "/removeFromFavourite")
+	public String removeFromFavourite(@ModelAttribute User user, Model model, @PathVariable Long id) {
+		Optional<User> optionalUser = userRepository.findById(user.getId());
+		Optional<Scenario> optionalScenario = scenarioRepository.findById(id);
+		optionalUser.ifPresent(u -> u.removeFavoriteScenario(optionalScenario.get()));
+
+		if (optionalUser.isPresent()) {
+			userRepository.save(optionalUser.get());
+		}
+
+		boolean hasFavourite = false;
+		model.addAttribute("hasFavourite", hasFavourite);
+
+		return "redirect:" + Routes.SCENARIO_DETAILS + id;
 	}
 	
 	@GetMapping(Routes.SCENARIO_DETAILS + "{id}" + "/download/{fileId}")
