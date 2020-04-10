@@ -173,9 +173,7 @@ public class User {
 	}
 
 	public void setFavoriteScenarios(Set<Scenario> favoriteScenarios) {
-		System.out.println("SET FAV");
 		this.favoriteScenarios = favoriteScenarios;
-		System.out.println("OKKKK");
 	}
 
 	public void addFavoriteScenario(Scenario scenario) {
