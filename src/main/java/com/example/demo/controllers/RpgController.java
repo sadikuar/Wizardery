@@ -62,7 +62,6 @@ public class RpgController {
 		Optional<Rpg> optionalRpg = rpgRepository.findById(id);
 		optionalRpg.ifPresent(rpg -> {
 			MarkdownParsingService.parse(rpg);
-			
 			Set<Scenario> listScenario = rpg.getScenarios();
 			
 			model.addAttribute("rpg", rpg);
