@@ -178,7 +178,6 @@ public class ScenarioController {
 			userRepository.save(optionalUser.get());
 		}
 
-		System.out.println("HAS FAVOURITE");
 		boolean hasFavourite = true;
 		model.addAttribute("hasFavourite", hasFavourite);
 
