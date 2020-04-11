@@ -52,13 +52,13 @@ public class User {
 	private Role role;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-	@JoinTable(name = "favorites", joinColumns = {
+	@JoinTable(name = "favorite_rpgs", joinColumns = {
 			@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, updatable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "rpg_id", referencedColumnName = "id", nullable = true, updatable = false, columnDefinition = "bigint(1) default 0") })
 	private Set<Rpg> favoriteRpgs = new HashSet<>();
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-	@JoinTable(name = "favorites", joinColumns = {
+	@JoinTable(name = "favorite_scenarios", joinColumns = {
 			@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, updatable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "scenario_id", referencedColumnName = "id", nullable = true, updatable = false, columnDefinition = "bigint(1) default 0") })
 	private Set<Scenario> favoriteScenarios = new HashSet<>();
@@ -166,6 +166,26 @@ public class User {
 
 	public void setRpgs(Set<Rpg> rpgs) {
 		this.rpgs = rpgs;
+	}
+	
+	public Set<Scenario> getFavoriteScenarios() {
+		return favoriteScenarios;
+	}
+
+	public void setFavoriteScenarios(Set<Scenario> favoriteScenarios) {
+		this.favoriteScenarios = favoriteScenarios;
+	}
+
+	public void addFavoriteScenario(Scenario scenario) {
+		Set<Scenario> setScenarios = getFavoriteScenarios();
+		setScenarios.add(scenario);
+		setFavoriteScenarios(setScenarios);
+	}
+
+	public void removeFavoriteScenario(Scenario scenario) {
+		Set<Scenario> setScenarios = getFavoriteScenarios();
+		setScenarios.remove(scenario);
+		setFavoriteScenarios(setScenarios);
 	}
 
 	public MultipartFile getUploadedFile() {

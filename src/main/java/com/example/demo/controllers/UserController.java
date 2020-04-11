@@ -62,6 +62,12 @@ public class UserController {
 				model.addAttribute("imageName", tabFile[0]);
 				model.addAttribute("imageExt", tabFile[1]);
 			}
+			if(!user.getFavoriteRpgs().isEmpty()) {
+				model.addAttribute("rpgs", user.getFavoriteRpgs());
+			}
+			if(!user.getFavoriteScenarios().isEmpty()) {
+				model.addAttribute("scenarios", user.getFavoriteScenarios());
+			}
 			return "user-details";
 		}
 
