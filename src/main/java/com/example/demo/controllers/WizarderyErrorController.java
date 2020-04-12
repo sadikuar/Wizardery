@@ -8,10 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.demo.utils.Routes;
+
 @Controller
 public class WizarderyErrorController implements ErrorController {
 
-	@RequestMapping("/error")
+	@RequestMapping(Routes.ERROR)
 	public String handlError(HttpServletRequest httpServletRequest) {
 		Object status = httpServletRequest.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
@@ -31,7 +33,7 @@ public class WizarderyErrorController implements ErrorController {
 
 	@Override
 	public String getErrorPath() {
-		return "/error";
+		return Routes.ERROR;
 	}
 
 }

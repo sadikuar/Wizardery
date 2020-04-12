@@ -197,6 +197,7 @@ public class RpgController {
 			if (response == null) {
 				throw new DataAccessResourceFailureException("not found");
 			}
+			return response;
 		}
 		throw new DataAccessResourceFailureException("not found");
 	}
@@ -204,6 +205,6 @@ public class RpgController {
 	@ResponseStatus(HttpStatus.NOT_FOUND) // Or @ResponseStatus(HttpStatus.NO_CONTENT)
 	@ExceptionHandler(DataAccessResourceFailureException.class)
 	public String handleNotFound(DataAccessResourceFailureException ex, RedirectAttributes redirectAttrs) {
-		return "forward:" + Routes.DASHBOARD;
+		return "forward:" + Routes.ERROR;
 	}
 }

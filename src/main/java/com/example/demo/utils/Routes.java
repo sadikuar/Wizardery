@@ -8,6 +8,7 @@ public final class Routes {
 	// Dashboard
 	public static final String DASHBOARD = "/";
 	public static final String TEST = "/test";
+	
 
 	// rpg
 	public static final String RPG_DETAILS = "/rpgs/";
@@ -25,5 +26,8 @@ public final class Routes {
 	public static final String USER_DETAILS = "/users/";
 	public static final String USER_UPDATE = "/users/update/form";
 	public static final String USER_DELETE = "/user/profile/delete";
+	
+	// error
+	public static final String ERROR = "/error";
 
 }

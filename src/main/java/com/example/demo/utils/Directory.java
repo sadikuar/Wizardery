@@ -7,4 +7,5 @@ public class Directory {
 	public static final String RPG_DIR = FILE_DIR + "/rpg/";
 	public static final String SCENARIO_DIR = FILE_DIR + "/scenario/";
 	public static final String PROFILE_DIR = FILE_DIR + "/profile/";
+	public static final String SEEDER_DIR = FILE_DIR + "/seeder/";
 }

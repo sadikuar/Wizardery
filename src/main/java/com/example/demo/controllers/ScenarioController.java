@@ -205,6 +205,7 @@ public class ScenarioController {
 			if (response == null) {
 				throw new DataAccessResourceFailureException("not found");
 			}
+			return response;
 		}
 		throw new DataAccessResourceFailureException("not found");
 	}
