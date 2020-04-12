@@ -32,5 +32,7 @@ build/
 
 .metadata
 
-public/
-uploads/
+# Uploaded files
+uploads/profile/
+uploads/rpg/
+uploads/scenario/

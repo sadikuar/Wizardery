@@ -15,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity
@@ -27,10 +29,12 @@ public class Rpg {
 	@Column
 	private String name;
 
-	@Column
+	@Column(length = 10000)
+	@Length(min = 0,max = 10000)
 	private String description;
 
-	@Column
+	@Column(length = 10000)
+	@Length(min = 0,max = 10000)
 	private String rules;
 
 	@ManyToOne
