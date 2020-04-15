@@ -4,7 +4,9 @@
 	<h5 class="card-header" th:text="${title}"></h5>
 	<div class="card-body">
 		<h5 class="card-title" th:text="'Created by ' + ${creator}"></h5>
-		<p class="card-text text-truncate" th:utext="${content}"></p>
+		<div class="wiz-markdown">
+			<p class="card-text text-truncate" th:utext="${content}"></p>
+		</div>
 		<a th:href="${link}" class="btn btn-secondary">Learn more</a>
 	</div>
 </div>

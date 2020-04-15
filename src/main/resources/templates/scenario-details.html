@@ -33,11 +33,13 @@
 					</form>
 				</div>
 			</div>
-			<div class="scenario-description lead mt-3">
-				<p th:utext="${scenario.description}"></p>
+			<div class="scenario-description border rounded p-3">
+				<div class="wiz-markdown">
+					<p th:utext="${scenario.description}"></p>
+				</div>
 			</div>
-			<h4>Number of players</h4>
-			<div class="scenario-nbplayer mt-3">
+			<h4 class="mt-3">Number of players</h4>
+			<div class="scenario-nbplayer">
 				<div class="row">
 					<div class="col-sm">
 						<p class="lead">Min. : <span th:text="${scenario.minPlayers}"></span> players</p>
@@ -51,20 +53,26 @@
 				</div>
 			</div>
 			<h4>Difficulty</h4>
-			<div class="scenario-difficulty mt-3">
+			<div class="scenario-difficulty">
 				<p class="lead" th:text="${scenario.difficulty}"></p>
 			</div>
 			<h4>Time to complete</h4>
-			<div class="scenario-timeapprox mt-3">
+			<div class="scenario-timeapprox">
 				<p class="lead">About <span th:text="${scenario.timeApproximation}"></span> min.</p>
 			</div>
 			<h4 class="mt-3">Quests</h4>
-			<div class="scenario-quests mt-3" th:utext="${scenario.quests}">
+			<div class="scenario-quests border rounded p-3">
+				<div class="wiz-markdown">
+					<div class="scenario-quests" th:utext="${scenario.quests}"></div>
+				</div>
 			</div>
-			<h4>Appendices</h4>
-			<div class="scenario-appendices mt-3">
+			<h4 class="mt-3">Appendices</h4>
+			<div class="scenario-appendices">
 				<div class="card p-3" th:each="file : ${scenario.files}">
 					<a th:href="@{${T(com.example.demo.utils.Routes).SCENARIO_DETAILS + scenario.id + '/download/' + file.id}}" class="text-primary" th:text="${file.name}"></a>
+				</div>
+				<div th:if="${#lists.isEmpty(scenario.files)}">
+					<p class="lead">No appendices found...</p>
 				</div>
 			</div>
 		</div>
