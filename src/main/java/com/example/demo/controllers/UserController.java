@@ -3,7 +3,9 @@ package com.example.demo.controllers;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +25,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.models.Rpg;
+import com.example.demo.models.Scenario;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
+import com.example.demo.services.MarkdownParsingService;
 import com.example.demo.services.SecurityServiceInterface;
 import com.example.demo.services.StorageService;
 import com.example.demo.services.UserServiceInterface;
@@ -63,11 +68,16 @@ public class UserController {
 				model.addAttribute("imageExt", tabFile[1]);
 			}
 			if(!user.getFavoriteRpgs().isEmpty()) {
+				user.getFavoriteRpgs().forEach(MarkdownParsingService::parse);
+				
 				model.addAttribute("rpgs", user.getFavoriteRpgs());
 			}
 			if(!user.getFavoriteScenarios().isEmpty()) {
+				user.getFavoriteScenarios().forEach(MarkdownParsingService::parse);
+				
 				model.addAttribute("scenarios", user.getFavoriteScenarios());
 			}
+			
 			return "user-details";
 		}
 
@@ -150,8 +160,7 @@ public class UserController {
 	}
 
 	@PostMapping(Routes.USER_DETAILS + "{id}" + "/update")
-	public String updateUser(@ModelAttribute User user, BindingResult bindingResult, HttpSession session,
-			@PathVariable Long id) {
+	public String updateUser(@ModelAttribute User user, BindingResult bindingResult, HttpSession session, @PathVariable Long id) {
 		userUpdateValidator.validate(user, bindingResult);
 		Optional<User> oldUser = userRepository.findById(id);
 		if (bindingResult.hasErrors()) {
