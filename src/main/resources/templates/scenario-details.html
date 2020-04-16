@@ -75,6 +75,15 @@
 					<p class="lead">No appendices found...</p>
 				</div>
 			</div>
+			<h4 class="mt-3">Updates</h4>
+			<div class="scenario-patchnote">
+				<div class="wiz-markdown border rounded p-3" th:if="${!#strings.isEmpty(scenario.patchNote)}">
+					<p th:utext="${scenario.patchNote}"></p>
+				</div>
+				<div th:if="${#strings.isEmpty(scenario.patchNote)}">
+					<p class="lead">No patch notes.</p>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

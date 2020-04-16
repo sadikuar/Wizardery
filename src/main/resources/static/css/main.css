@@ -21,6 +21,11 @@
 	height: 32px !important;
 }
 
+.wiz-avatar-profil {
+	width: 250px !important;
+	height: 250px !important;
+}
+
 .wiz-markdown h1 {
 	font-size: 1.25rem;
 }
