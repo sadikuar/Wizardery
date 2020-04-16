@@ -61,8 +61,10 @@ public class ScenarioController {
 		if (rpgId != -1) {
 			model.addAttribute("scenario", new Scenario());
 			model.addAttribute("rpgId", rpgId);
+			
 			return "scenario-create";
 		}
+		
 		return "redirect:error";
 	}
 
@@ -120,6 +122,8 @@ public class ScenarioController {
 		if (optionalRpg.isPresent()) {
 			scenario.setRpg(optionalRpg.get());
 		}
+		
+		scenario.setPatchNote("");
 		
 		scenario.setCreator(creator);
 		

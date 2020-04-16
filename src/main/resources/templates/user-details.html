@@ -5,10 +5,8 @@
 	<div class="bg-secondary">
 		<nav th:insert="fragments/navbar.html :: navbar"></nav>
 		<div class="text-center">
-			<img class="img-thumbnail" alt="profileImage" th:if="${#strings.isEmpty(user.imageUrl)}"
-				th:src="@{/images/default.png}" />
-			<img class="img-thumbnail" alt="profileImage" th:if="${!#strings.isEmpty(user.imageUrl)}"
-				th:src="@{${'/profile/image/'+imageName+'/'+imageExt}}" />
+			<img class="img-thumbnail wiz-avatar-profil" alt="profileImage" th:if="${#strings.isEmpty(user.imageUrl)}" th:src="@{/images/default.png}" />
+			<img class="img-thumbnail wiz-avatar-profil img-fluid" alt="profileImage" th:if="${!#strings.isEmpty(user.imageUrl)}" th:src="@{${'/profile/image/'+imageName+'/'+imageExt}}" />
 		</div>
 		<h2 class="text-center py-3 text-light" th:text="${user.username}"></h2>
 	</div>
@@ -28,14 +26,11 @@
 				</tbody>
 			</table>
 			<h3>Actions</h3>
-			<form th:action="@{${T(com.example.demo.utils.Routes).USER_DETAILS + user.id + '/delete'}}"
-				th:method="post" id="formDeleteProfile">
+			<form th:action="@{${T(com.example.demo.utils.Routes).USER_DETAILS + user.id + '/delete'}}" th:method="post" id="formDeleteProfile">
 				<input type="hidden" id="email" name="email" th:value="${user.email}">
 			</form>
-			<button type="button" class="btn btn-secondary wiz-btn-secondary" data-toggle="modal"
-				data-target="#confirmModal">Delete Profile</button>
-			<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog"
-				aria-labelledby="confirmModalLabel" aria-hidden="true">
+			<button type="button" class="btn btn-danger wiz-btn-secondary" data-toggle="modal" data-target="#confirmModal">Delete Profile</button>
+			<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -49,8 +44,7 @@
 							<p>
 								Bear in mind that this process is <strong>irreversible</strong> !
 							</p>
-							<p>If you are sure you want to delete your profile then please type your email down below
-								to confirm this action.</p>
+							<p>If you are sure you want to delete your profile then please type your email down below to confirm this action.</p>
 							<label for="confirmEmail">Confirm your email</label>
 							<input type="text" class="form-control" id="confirmEmail" placeholder="myemail@domain.com">
 						</div>

@@ -14,24 +14,20 @@
 				</div>
 				<div class="form-group">
 					<label for="description">Description</label>
-					<textarea class="form-control" th:field="*{description}" id="description" rows="" cols=""
-						name="description"></textarea>
-					<small class="form-text text-muted">Supports <a href="https://guides.github.com/features/mastering-markdown/">Markdown</a> syntax !</small>
+					<textarea class="form-control" th:field="*{description}" id="description" rows="" cols="" name="description"></textarea>
+					<small class="form-text text-muted"> Supports <a href="https://guides.github.com/features/mastering-markdown/">Markdown</a> syntax !</small>
 				</div>
 				<div class="form-group">
 					<label>Number of players (min, advised and max)</label>
 					<div class="row">
 						<div class="col">
-							<input type="number" th:field="*{minPlayers}" class="form-control" id="nbplayermin"
-								name="nbplayermin" placeholder="min..">
+							<input type="number" th:field="*{minPlayers}" class="form-control" id="nbplayermin" name="nbplayermin" placeholder="min..">
 						</div>
 						<div class="col">
-							<input type="number" th:field="*{maxPlayers}" class="form-control" id="nbplayeradvised"
-								name="nbplayeradvised" placeholder="advised..">
+							<input type="number" th:field="*{maxPlayers}" class="form-control" id="nbplayeradvised" name="nbplayeradvised" placeholder="advised..">
 						</div>
 						<div class="col">
-							<input type="number" th:field="*{advisedPlayers}" class="form-control" id="nbplayermax"
-								name="nbplayermax" placeholder="max..">
+							<input type="number" th:field="*{advisedPlayers}" class="form-control" id="nbplayermax" name="nbplayermax" placeholder="max..">
 						</div>
 					</div>
 				</div>
@@ -46,22 +42,25 @@
 				</div>
 				<div class="form-group">
 					<label for="timeapprox">Time to complete (in minutes)</label>
-					<input type="number" th:field="*{timeApproximation}" class="form-control" id="timeapprox"
-						name="timeapprox">
+					<input type="number" th:field="*{timeApproximation}" class="form-control" id="timeapprox" name="timeapprox">
 				</div>
 				<div class="form-group">
 					<label for="quests">Quests</label>
 					<textarea class="form-control" th:field="*{quests}" id="quests" rows="" cols="" name="quests"></textarea>
-					<small class="form-text text-muted">Supports <a href="https://guides.github.com/features/mastering-markdown/">Markdown</a> syntax !</small>
+					<small class="form-text text-muted"> Supports <a href="https://guides.github.com/features/mastering-markdown/">Markdown</a> syntax !</small>
 				</div>
 				<div class="form-group">
 					<label for="appendices">Appendices</label>
 					<div class="custom-file">
 						<input type="file" th:field="*{uploadedFiles}" class="custom-file-input" id="appendices">
-						<label class="custom-file-label" for="avatar" id="appendices" enctype="multipart/form-data"
-							multiple>Choose file...</label>
+						<label class="custom-file-label" for="avatar" id="appendices" enctype="multipart/form-data" multiple>Choose file...</label>
 						<div class="invalid-feedback">File doesn't match formats</div>
 					</div>
+				</div>
+				<div class="form-group">
+					<label for="patchNote">Patch note</label>
+					<textarea class="form-control" th:field="*{patchNote}" id="patchNote" rows="" cols="" name="patchNote" placeholder="Write down your modifications here for others to see or leave blank..."></textarea>
+					<small class="form-text text-muted"> Supports <a href="https://guides.github.com/features/mastering-markdown/">Markdown</a> syntax !</small>
 				</div>
 				<input type="hidden" th:field="*{id}">
 				<input type="hidden" th:field="*{creator.id}">
