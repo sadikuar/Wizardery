@@ -14,35 +14,27 @@
 
 				<div class="form-group">
 					<label for="username">Username</label>
-					<input type="text" th:field="*{username}" class="form-control" th:errorclass="is-invalid"
-						id="username" name="username">
-					<label th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
-						class="invalid-feedback">Name Error</label>
+					<input type="text" th:field="*{username}" class="form-control" th:errorclass="is-invalid" id="username" name="username">
+					<label th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="invalid-feedback">Name Error</label>
 				</div>
 				<div class="form-group">
 					<label for="password">Password</label>
-					<input type="password" th:field="*{password}" class="form-control" th:errorclass="is-invalid"
-						id="password" name="password">
-					<label th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
-						class="invalid-feedback">Password Error</label>
+					<input type="password" th:field="*{password}" class="form-control" th:errorclass="is-invalid" id="password" name="password">
+					<label th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback">Password Error</label>
 				</div>
 				<div class="form-group">
 					<label for="password_confirm">Confirm password</label>
-					<input type="password" th:field="*{passwordConfirm}" class="form-control"
-						th:errorclass="is-invalid" id="passwordConfirm" name="passwordConfirm">
-					<label th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}"
-						class="invalid-feedback">PasswordConfirm Error</label>
+					<input type="password" th:field="*{passwordConfirm}" class="form-control" th:errorclass="is-invalid" id="passwordConfirm" name="passwordConfirm">
+					<label th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}" class="invalid-feedback">PasswordConfirm Error</label>
 				</div>
 				<div class="form-group">
 					<label for="description">Description</label>
-					<textarea th:field="*{description}" class="form-control" id="description" rows="" cols=""
-						name="description"></textarea>
+					<textarea th:field="*{description}" class="form-control" id="description" rows="" cols="" name="description"></textarea>
 				</div>
 				<div class="form-group">
 					<label for="avatar">Avatar</label>
 					<div class="custom-file">
-						<input type="file" th:field="*{uploadedFile}" class="custom-file-input" id="avatar"
-							enctype="multipart/form-data" accept="image/*">
+						<input type="file" th:field="*{uploadedFile}" class="custom-file-input" id="avatar" enctype="multipart/form-data" accept="image/*">
 						<label class="custom-file-label" for="avatar">Choose image...</label>
 						<div class="invalid-feedback">File doesn't match formats</div>
 					</div>
@@ -54,7 +46,7 @@
 				<div class="form-group">
 					<input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Submit" name="submit">
 				</div>
-				
+
 			</form>
 		</div>
 	</div>

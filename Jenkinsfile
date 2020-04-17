@@ -14,9 +14,9 @@ pipeline {
     		}
     	}
     	
-        stage('Build') {
+    	stage('Build && SonarCloud analysis') {
             steps {
-                sh 'mvn -B -V -U -e -Dspring.profiles.active=prod clean package'
+                sh 'mvn clean package sonar:sonar -Dspring.profiles.active=prod'
             }
         }
         
@@ -24,12 +24,6 @@ pipeline {
         	steps {
         		sh 'mvn clean test -Dspring.profiles.active=prod'
     		}
-        }
-        
-        stage('Deploy') {
-        	steps {
-        		sh 'echo deploying'
-        	}
         }
     }
 }
