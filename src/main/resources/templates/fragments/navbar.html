@@ -31,8 +31,8 @@
 			</li>
 			<li class="nav-item">
 				<div sec:authorize="isAuthenticated()">
-					<a class="nav-link" th:if="${#strings.isEmpty(session.profile_img)}" th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS + session.user_id}}"><img class="img-thumbnail wiz-avatar" alt="profileImage" th:src="@{/images/default.png}" /></a>
-					<a class="nav-link" th:if="${!#strings.isEmpty(session.profile_img)}" th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS + session.user_id}}"><img class="wiz-avatar" alt="profileImage" th:src="@{${'/profile/image/'+session.imageName+'/'+session.imageExt}}" /></a>
+					<a class="nav-link" th:if="${#strings.isEmpty(session.profile_img)}" th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS + session.userId}}"><img class="img-thumbnail wiz-avatar" alt="profileImage" th:src="@{/images/default.png}" /></a>
+					<a class="nav-link" th:if="${!#strings.isEmpty(session.profile_img)}" th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS + session.userId}}"><img class="wiz-avatar" alt="profileImage" th:src="@{${'/profile/image/'+session.imageName+'/'+session.imageExt}}" /></a>
 				</div>
 			</li>
 		</ul>

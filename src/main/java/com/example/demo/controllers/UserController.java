@@ -105,10 +105,11 @@ public class UserController {
 		if (logout != null) {
 			model.addAttribute("logout", "You have been logged out successfully.");
 			session.setAttribute("username", "");
-			session.setAttribute("user_id", "");
-			session.setAttribute("profile_img", "");
+			session.setAttribute("userId", "");
+			session.setAttribute("profileImg", "");
 			session.setAttribute("imageName", "");
 			session.setAttribute("imageExt", "");
+			session.setAttribute("userRole", "");
 		}
 
 		return "signin";
@@ -121,7 +122,8 @@ public class UserController {
 			String email = principal.getName();
 			User user = userService.findByEmail(email);
 			session.setAttribute("username", user.getUsername());
-			session.setAttribute("user_id", user.getId());
+			session.setAttribute("userId", user.getId());
+			session.setAttribute("userRole", user.getRole().getName());
 			if (!user.getImageUrl().isEmpty()) {
 				String[] tabFile = user.getImageUrl().split("\\.");
 				session.setAttribute("imageName", tabFile[0]);
@@ -142,7 +144,7 @@ public class UserController {
 				&& !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
 			String email = SecurityContextHolder.getContext().getAuthentication().getName();
 			User user = userService.findByEmail(email);
-			session.setAttribute("user_id", user.getId());
+			session.setAttribute("userId", user.getId());
 			model.addAttribute("user", user);
 		}
 
