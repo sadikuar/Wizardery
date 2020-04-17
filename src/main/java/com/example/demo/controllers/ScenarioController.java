@@ -74,7 +74,23 @@ public class ScenarioController {
 		optionalScenario.ifPresent(scenario -> {
 			MarkdownParsingService.parse(scenario);
 			model.addAttribute("scenario", scenario);
+			int time = scenario.getTimeApproximation();
+			int h = time/60;
+			int m = time%60;
+			StringBuilder sb = new StringBuilder();
+			if(h>0) {
+				sb.append(h);
+				sb.append("h");
+				if(m>0) {
+					sb.append(String.format("%02d", m));
+				}
+			}else {
+				sb.append(m);
+				sb.append("m");
+			}
+			model.addAttribute("parsedTime", sb.toString());
 		});
+		
 
 		if (principal != null) {
 			User authUser = userRepository.findByEmail(principal.getName());

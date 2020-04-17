@@ -34,6 +34,13 @@
 						<input type="submit" class="btn btn-danger" value="Delete" name="submit">
 					</form>
 				</div>
+				<div class="d-inline" th:if="${rpg.creator.id != user.id && user.getRole().getName() == T(com.example.demo.utils.RoleEnum).ADMIN.toString()}">
+					<form class="d-inline" th:action="@{${rpg.id + '/delete'}}" method="post" th:object="${rpg}"
+						onsubmit="return confirm('Are you sure?');">
+						<input type="hidden" th:field="*{id}" id="rpg" name="rpg" value="${rpg.id}">
+						<input type="submit" class="btn btn-danger" value="Delete" name="submit">
+					</form>
+				</div>
 			</div>
 			<div sec:authorize="!isAuthenticated()">
 				<a th:href="@{${T(com.example.demo.utils.Routes).SIGNIN}}"

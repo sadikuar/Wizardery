@@ -31,7 +31,7 @@ public class ScenarioSeeder implements TableSeeder {
 	private static final int[] tabMinPlayers = { 3 , 4 };
 	private static final int[] tabMaxPlayers = { 4, 5 };
 	private static final int[] tabAdvisedPlayers = { 6, 4 };
-	private static final double[] tabTimeApprox = { 140.0, 240.0 };
+	private static final int[] tabTimeApprox = { 140, 240 };
 
 	private ScenarioRepository scenarioRepository;
 	private RpgRepository rpgRepository;
@@ -71,7 +71,7 @@ public class ScenarioSeeder implements TableSeeder {
 	}
 
 	private Scenario createScenario(String name, String description, String quests, String difficulty, int minPlayers,
-			int advisedPlayers, int maxPlayers, double timeApprox, Rpg rpg, User creator) {
+			int advisedPlayers, int maxPlayers, int timeApprox, Rpg rpg, User creator) {
 		Scenario scenario = new Scenario();
 		scenario.setName(name);
 		scenario.setDescription(description);
