@@ -27,7 +27,11 @@ public final class Routes {
 	public static final String USER_UPDATE = "/users/update/form";
 	public static final String USER_DELETE = "/user/profile/delete";
 	
+	// admin
+	public static final String ADMIN = "/wizadmin";
+	
 	// error
 	public static final String ERROR = "/error";
+	public static final String ERROR_FORBIDDEN = "/forbiddenAccess";
 
 }

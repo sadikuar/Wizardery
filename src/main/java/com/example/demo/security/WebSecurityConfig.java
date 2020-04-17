@@ -55,6 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers(Routes.USER_DETAILS + "/*/update").authenticated()
 			.antMatchers(Routes.RPG_CREATE).authenticated()
 			.antMatchers(Routes.USER_DELETE).authenticated()
+			.antMatchers(Routes.ADMIN).hasAuthority(admin)
 			.and()
 		.formLogin() // par défaut, failure url est /user/signin?error
 			.loginPage(Routes.SIGNIN).permitAll()
@@ -64,6 +65,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.logout()
 			.logoutRequestMatcher(new AntPathRequestMatcher(Routes.SIGNOUT));
 		
-		http.exceptionHandling().accessDeniedPage(Routes.TEST);
+		http.exceptionHandling().accessDeniedPage(Routes.ERROR_FORBIDDEN);
 	}
 }
