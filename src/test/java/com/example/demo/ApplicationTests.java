@@ -17,8 +17,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.example.demo.models.Rpg;
+import com.example.demo.models.Scenario;
 import com.example.demo.models.User;
 import com.example.demo.repositories.RpgRepository;
+import com.example.demo.repositories.ScenarioRepository;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.utils.Routes;
 
@@ -34,6 +36,9 @@ public class ApplicationTests {
 
 	@MockBean
 	private UserRepository userRepository;
+	
+	@MockBean
+	private ScenarioRepository scenarioRepository;
 
 	@Autowired
 	private TestRestTemplate restTemplate;
@@ -79,21 +84,45 @@ public class ApplicationTests {
 						String.class);
 				assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 				assertThat(entity.getBody()).contains(rpg.getName());
+				assertThat(entity.getBody()).contains(rpg.getCreator().getUsername());
+				assertThat(entity.getBody()).contains(rpg.getDescription());
+				assertThat(entity.getBody()).contains(rpg.getRules());
 			}
 		}
 	}
 
 	@Test
 	public void scenarioCreateShowTest() {
-		ResponseEntity<String> entity = this.restTemplate.getForEntity(Routes.SCENARIO_CREATE, String.class);
-		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(entity.getBody()).contains("Create scenario");
+		assertThat(rpgRepository).isNotNull();
+		
+		if (rpgRepository.count() > 0) {
+			List<Rpg> listRpg = rpgRepository.findAll();
+			assertThat(listRpg).isNotEmpty();
+			
+			for (Rpg rpg : listRpg) {
+				ResponseEntity<String> entity = this.restTemplate.getForEntity(Routes.SCENARIO_CREATE + "?rpgId=" + rpg.getId(), String.class);
+				assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+				assertThat(entity.getBody()).contains("Create scenario");
+			}
+		}
 	}
 
 	@Test
 	public void scenarioDetailsShowTest() {
-		ResponseEntity<String> entity = this.restTemplate.getForEntity(Routes.SCENARIO_DETAILS, String.class);
-		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+		assertThat(scenarioRepository).isNotNull();
+		
+		if (scenarioRepository.count() > 0) {
+			List<Scenario> listScenario = scenarioRepository.findAll();
+			
+			for (Scenario scenario : listScenario) {
+				ResponseEntity<String> entity = this.restTemplate.getForEntity(Routes.SCENARIO_DETAILS + scenario.getId(), String.class);
+				assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+				assertThat(entity.getBody()).contains(scenario.getName());
+				assertThat(entity.getBody()).contains(scenario.getDescription());
+				assertThat(entity.getBody()).contains(scenario.getCreator().getUsername());
+				assertThat(entity.getBody()).contains(scenario.getDifficulty());
+			}
+		}
 	}
 
 	@Test

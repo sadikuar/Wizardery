@@ -32,5 +32,6 @@ public class MarkdownParsingService {
 	public static void parse(Scenario scenario) {
 		scenario.setDescription(parse(scenario.getDescription()));
 		scenario.setQuests(parse(scenario.getQuests()));
+		scenario.setPatchNote(parse(scenario.getPatchNote()));
 	}
 }

@@ -26,39 +26,6 @@ public class Scenario {
 	@GeneratedValue
 	private long id;
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Scenario [id=");
-		builder.append(id);
-		builder.append(", name=");
-		builder.append(name);
-		builder.append(", creator=");
-		builder.append(creator);
-		builder.append(", description=");
-		builder.append(description);
-		builder.append(", quests=");
-		builder.append(quests);
-		builder.append(", difficulty=");
-		builder.append(difficulty);
-		builder.append(", minPlayers=");
-		builder.append(minPlayers);
-		builder.append(", maxPlayers=");
-		builder.append(maxPlayers);
-		builder.append(", advisedPlayers=");
-		builder.append(advisedPlayers);
-		builder.append(", timeApproximation=");
-		builder.append(timeApproximation);
-		builder.append(", users=");
-		builder.append(users);
-		builder.append(", rpg=");
-		builder.append(rpg);
-		builder.append(", files=");
-		builder.append(files);
-		builder.append("]");
-		return builder.toString();
-	}
-
 	@Column
 	private String name;
 
@@ -88,6 +55,9 @@ public class Scenario {
 
 	@Column
 	private int timeApproximation;
+	
+	@Column
+	private String patchNote;
 
 	@ManyToMany(mappedBy = "favoriteScenarios", fetch = FetchType.LAZY)
 	private Set<User> users = new HashSet<>();
@@ -215,6 +185,14 @@ public class Scenario {
 
 	public void setUsers(Set<User> users) {
 		this.users = users;
+	}
+	
+	public String getPatchNote() {
+		return patchNote;
+	}
+
+	public void setPatchNote(String patchNote) {
+		this.patchNote = patchNote;
 	}
 
 }

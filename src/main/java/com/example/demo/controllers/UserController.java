@@ -3,7 +3,10 @@ package com.example.demo.controllers;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.security.Principal;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +26,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.models.Rpg;
+import com.example.demo.models.Scenario;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
+import com.example.demo.services.MarkdownParsingService;
 import com.example.demo.services.SecurityServiceInterface;
 import com.example.demo.services.StorageService;
 import com.example.demo.services.UserServiceInterface;
@@ -54,20 +60,29 @@ public class UserController {
 	@GetMapping(Routes.USER_DETAILS + "{id}")
 	public String showProfile(Model model, @PathVariable Long id) {
 		Optional<User> optionalUser = userRepository.findById(id);
+
 		if (optionalUser.isPresent()) {
 			User user = optionalUser.get();
 			model.addAttribute("user", user);
+
 			if (!user.getImageUrl().isEmpty()) {
 				String[] tabFile = user.getImageUrl().split("\\.");
 				model.addAttribute("imageName", tabFile[0]);
 				model.addAttribute("imageExt", tabFile[1]);
 			}
-			if(!user.getFavoriteRpgs().isEmpty()) {
+
+			if (!user.getFavoriteRpgs().isEmpty()) {
+				user.getFavoriteRpgs().forEach(MarkdownParsingService::parse);
+
 				model.addAttribute("rpgs", user.getFavoriteRpgs());
 			}
-			if(!user.getFavoriteScenarios().isEmpty()) {
+
+			if (!user.getFavoriteScenarios().isEmpty()) {
+				user.getFavoriteScenarios().forEach(MarkdownParsingService::parse);
+
 				model.addAttribute("scenarios", user.getFavoriteScenarios());
 			}
+
 			return "user-details";
 		}
 
@@ -76,23 +91,35 @@ public class UserController {
 
 	@GetMapping(Routes.SIGNUP)
 	public String signup(Model model) {
-		model.addAttribute("userForm", new User());
+		model.addAttribute("user", new User());
 
 		return "signup";
 	}
 
 	@PostMapping(Routes.SIGNUP)
-	public String signup(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
+	public String signup(HttpSession session, @ModelAttribute("user") User user, BindingResult bindingResult) {
 
-		userSignupValidator.validate(userForm, bindingResult);
+		userSignupValidator.validate(user, bindingResult);
 
 		if (bindingResult.hasErrors()) {
 			return "signup";
 		}
 
-		userService.save(userForm);
+		MultipartFile multipartFile = user.getUploadedFile();
+		if (multipartFile != null && !multipartFile.getOriginalFilename().isBlank()) {
+			String filePath = StorageService.saveToDisk(multipartFile, Directory.PROFILE_DIR);
+			System.out.println(filePath);
+			String[] tab = filePath.split("/");
 
-		securityService.autoLogin(userForm.getEmail(), userForm.getPasswordConfirm());
+			session.setAttribute("imageName", tab[0]);
+			session.setAttribute("imageExt", tab[1]);
+
+			user.setImageUrl(tab[tab.length - 1]);
+		}
+
+		userService.save(user);
+
+		securityService.autoLogin(user.getEmail(), user.getPasswordConfirm());
 
 		return "redirect:/signin/confirm";
 	}
@@ -102,6 +129,7 @@ public class UserController {
 		if (error != null) {
 			model.addAttribute("error", "Your email and/or password is invalid.");
 		}
+
 		if (logout != null) {
 			model.addAttribute("logout", "You have been logged out successfully.");
 			session.setAttribute("username", "");
@@ -128,9 +156,11 @@ public class UserController {
 				String[] tabFile = user.getImageUrl().split("\\.");
 				session.setAttribute("imageName", tabFile[0]);
 				session.setAttribute("imageExt", tabFile[1]);
+				session.setAttribute("profile_img", tabFile[0] + tabFile[1]);
 			} else {
 				session.setAttribute("imageName", "");
 				session.setAttribute("imageExt", "");
+				session.setAttribute("profile_img", "");
 			}
 		}
 		return "redirect:/dashboard";
@@ -160,10 +190,13 @@ public class UserController {
 			System.out.println(bindingResult.getAllErrors());
 			return "user-update";
 		}
+
 		MultipartFile multipartFile = user.getUploadedFile();
 		if (multipartFile != null && !multipartFile.getOriginalFilename().isBlank()) {
 			String filePath = StorageService.saveToDisk(multipartFile, Directory.PROFILE_DIR);
 			String[] tab = filePath.split("/");
+
+			session.setAttribute("profile_img", tab[0] + tab[1]);
 
 			user.setImageUrl(tab[tab.length - 1]);
 		} else if (oldUser.isPresent()) {
@@ -171,6 +204,7 @@ public class UserController {
 		} else {
 			user.setImageUrl("");
 		}
+
 		userService.update(user);
 		session.setAttribute("username", user.getUsername());
 
