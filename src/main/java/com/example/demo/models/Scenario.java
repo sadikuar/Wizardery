@@ -87,7 +87,7 @@ public class Scenario {
 	private int advisedPlayers;
 
 	@Column
-	private double timeApproximation;
+	private int timeApproximation;
 
 	@ManyToMany(mappedBy = "favoriteScenarios", fetch = FetchType.LAZY)
 	private Set<User> users = new HashSet<>();
@@ -165,11 +165,11 @@ public class Scenario {
 		this.advisedPlayers = advicedPlayers;
 	}
 
-	public double getTimeApproximation() {
+	public int getTimeApproximation() {
 		return timeApproximation;
 	}
 
-	public void setTimeApproximation(double timeApproximation) {
+	public void setTimeApproximation(int timeApproximation) {
 		this.timeApproximation = timeApproximation;
 	}
 
