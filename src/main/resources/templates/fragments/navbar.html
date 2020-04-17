@@ -32,11 +32,11 @@
 			</li>
 			<li class="nav-item">
 				<div sec:authorize="isAuthenticated()">
-					<a class="nav-link pb-0 pt-1" th:if="${#strings.isEmpty(session.profile_img)}" th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS + session.user_id}}">
+					<a class="nav-link pb-0 pt-1" th:if="${#strings.isEmpty(session.profile_img)}" th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS + session.userId}}">
 						<img class="img-thumbnail wiz-avatar" alt="profileImage" th:src="@{/images/default.png}" />
 					</a>
-					<a class="nav-link pb-0 pt-1" th:if="${!#strings.isEmpty(session.profile_img)}" th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS + session.user_id}}">
-						<img class="wiz-avatar pb-0 pt-1" alt="profileImage" th:src="@{${'/profile/image/' + session.imageName + '/' + session.imageExt}}" />
+					<a class="nav-link pb-0 pt-1" th:if="${!#strings.isEmpty(session.profile_img)}" th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS + session.userId}}">
+						<img class="wiz-avatar" alt="profileImage" th:src="@{${'/profile/image/' + session.imageName + '/' + session.imageExt}}" />
 					</a>
 				</div>
 			</li>
