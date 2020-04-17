@@ -19,11 +19,13 @@
 .wiz-avatar {
 	width: 32px !important;
 	height: 32px !important;
+	object-fit: cover;
 }
 
 .wiz-avatar-profil {
 	width: 250px !important;
 	height: 250px !important;
+	object-fit: cover;
 }
 
 .wiz-markdown h1 {

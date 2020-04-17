@@ -29,6 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.models.Rpg;
 import com.example.demo.models.Scenario;
 import com.example.demo.models.User;
+import com.example.demo.repositories.RpgRepository;
+import com.example.demo.repositories.ScenarioRepository;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.services.MarkdownParsingService;
 import com.example.demo.services.SecurityServiceInterface;
@@ -56,6 +58,28 @@ public class UserController {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private RpgRepository rpgRepository;
+	
+	@Autowired
+	private ScenarioRepository scenarioRepository;
+	
+	@GetMapping(Routes.ADMIN)
+	public String showAdminPage(Model model) {
+		List<User> listUser = userRepository.findAll();
+		List<Rpg> listRpg = rpgRepository.findAll();
+		List<Scenario> listScenario = scenarioRepository.findAll();
+		
+		model.addAttribute("users", listUser);
+		model.addAttribute("rpgs", listRpg);
+		model.addAttribute("scenarios", listScenario);
+		
+		model.addAttribute("rpg", new Rpg());
+		model.addAttribute("scenario", new Scenario());
+		
+		return "wizardery-admin";
+	}
 
 	@GetMapping(Routes.USER_DETAILS + "{id}")
 	public String showProfile(Model model, @PathVariable Long id) {
