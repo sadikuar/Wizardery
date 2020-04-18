@@ -47,7 +47,7 @@ public class Rpg {
 	@OneToMany(mappedBy = "rpg", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Scenario> scenarios;
 
-	@OneToMany(mappedBy = "rpg", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "rpg", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<File> files;
 
 	transient MultipartFile[] uploadedFiles;
@@ -101,6 +101,9 @@ public class Rpg {
 	}
 
 	public Set<File> getFiles() {
+		if(files == null) {
+			files = new HashSet<>();
+		}
 		return files;
 	}
 
