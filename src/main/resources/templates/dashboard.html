@@ -5,6 +5,7 @@
 	<nav th:insert="fragments/navbar.html :: navbar"></nav>
 	<div class="container">
 		<h2 class="mb-3">Dashboard</h2>
+		<div th:replace='fragments/pagination.html :: pagination(route=${T(com.example.demo.utils.Routes).DASHBOARD}, page=${pageNumber}, total=${pageTotal})'></div>
 		<div th:if="${!#lists.isEmpty(rpgs)}">
 			<div class="rpg-card-holder" th:each="rpg : ${rpgs}">
 				<div
@@ -14,6 +15,8 @@
 		<div th:if="${#lists.isEmpty(rpgs)}">
 			<p class="lead">No games found...</p>
 		</div>
+		
+		<div th:replace='fragments/pagination.html :: pagination(route=${T(com.example.demo.utils.Routes).DASHBOARD}, page=${pageNumber}, total=${pageTotal})'></div>
 	</div>
 </body>
 </html>

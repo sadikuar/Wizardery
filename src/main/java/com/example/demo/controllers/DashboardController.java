@@ -25,7 +25,7 @@ public class DashboardController {
 
 	@GetMapping(value = { Routes.DASHBOARD, "/dashboard" })
 	public String showDashboard(Model model, @RequestParam(required = false) Integer page) {
-		page = page==null ? 0 : page;
+		page = page==null ? 0 : page-1;
 		Pageable pageable = PageRequest.of(page, 5,Sort.by("name"));
 		Page<Rpg> pageRpg = rpgRepository.findAll(pageable);
 		List<Rpg> listRpg = pageRpg.getContent();
