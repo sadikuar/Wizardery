@@ -83,6 +83,7 @@ public class ScenarioSeeder implements TableSeeder {
 		scenario.setTimeApproximation(timeApprox);
 		scenario.setRpg(rpg);
 		scenario.setCreator(creator);
+		scenario.setPatchNote("");
 		return scenario;
 	}
 

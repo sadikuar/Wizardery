@@ -132,13 +132,16 @@ public class UserController {
 		MultipartFile multipartFile = user.getUploadedFile();
 		if (multipartFile != null && !multipartFile.getOriginalFilename().isBlank()) {
 			String filePath = StorageService.saveToDisk(multipartFile, Directory.PROFILE_DIR);
-			System.out.println(filePath);
 			String[] tab = filePath.split("/");
 
 			session.setAttribute("imageName", tab[0]);
 			session.setAttribute("imageExt", tab[1]);
 
 			user.setImageUrl(tab[tab.length - 1]);
+		}
+		else
+		{
+			user.setImageUrl("");
 		}
 
 		userService.save(user);
@@ -180,6 +183,8 @@ public class UserController {
 				String[] tabFile = user.getImageUrl().split("\\.");
 				session.setAttribute("imageName", tabFile[0]);
 				session.setAttribute("imageExt", tabFile[1]);
+				
+				System.out.println(tabFile[0] + "/" + tabFile[1]);
 				session.setAttribute("profile_img", tabFile[0] + tabFile[1]);
 			} else {
 				session.setAttribute("imageName", "");
@@ -219,7 +224,12 @@ public class UserController {
 		if (multipartFile != null && !multipartFile.getOriginalFilename().isBlank()) {
 			String filePath = StorageService.saveToDisk(multipartFile, Directory.PROFILE_DIR);
 			String[] tab = filePath.split("/");
+			
+			String imgName = tab[tab.length - 1];
+			String[] image = imgName.split("\\.");
 
+			session.setAttribute("imageName", image[0]);
+			session.setAttribute("imageExt", image[1]);
 			session.setAttribute("profile_img", tab[0] + tab[1]);
 
 			user.setImageUrl(tab[tab.length - 1]);
