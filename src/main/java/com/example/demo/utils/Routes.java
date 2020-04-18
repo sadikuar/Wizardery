@@ -8,6 +8,7 @@ public final class Routes {
 	// Dashboard
 	public static final String DASHBOARD = "/";
 	public static final String TEST = "/test";
+	public static final String SEARCH = "/search";
 	
 
 	// rpg
