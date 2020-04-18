@@ -5,95 +5,76 @@
 <body>
 	<nav th:insert="fragments/navbar.html :: navbar"></nav>
 	<div class="container mb-3">
-    <h2 th:text="${rpg.name}"></h2>
-    <p class="text-muted">Created by <a th:text="${rpg.creator.username}"th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS+rpg.creator.id}}"></a></p>
-    <div sec:authorize="isAuthenticated()">
-      <div class="d-inline" th:if="${!hasFavourite}">
-        <form class="d-inline" th:action="@{${rpg.id + '/addToFavourite'}}" th:object="${user}" method="post">
-          <input type="hidden" th:field="*{id}" id="user" name="user" value="${user.id}">
-          <input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Add to favourites"
-            name="submit">
-        </form>
-      </div>
-      <div class="d-inline" th:if="${hasFavourite}">
-        <form class="d-inline" th:action="@{${rpg.id + '/removeFromFavourite'}}" th:object="${user}" method="post">
-          <input type="hidden" th:field="*{id}" id="user" name="user" value="${user.id}">
-          <input type="submit" class="btn btn-secondary wiz-btn-secondary"
-            value="Remove from favourites" name="submit">
-        </form>
-      </div>
-      <div class="d-inline" th:if="${rpg.creator.id == user.id}">
-        <form class="d-inline" th:action="@{${rpg.id + '/update/form'}}" method="post" th:object="${rpg}">
-          <input type="hidden" th:field="*{id}" id="rpg" name="rpg" value="${rpg.id}">
-          <input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Update" name="submit">
-        </form>
-        <form class="d-inline" th:action="@{${rpg.id + '/delete'}}" method="post" th:object="${rpg}"
-          onsubmit="return confirm('Are you sure?');">
-          <input type="hidden" th:field="*{id}" id="rpg" name="rpg" value="${rpg.id}">
-          <input type="submit" class="btn btn-danger" value="Delete" name="submit">
-        </form>
-      </div>
-      <div class="d-inline" th:if="${rpg.creator.id != user.id && user.getRole().getName() == T(com.example.demo.utils.RoleEnum).ADMIN.toString()}">
-        <form class="d-inline" th:action="@{${rpg.id + '/delete'}}" method="post" th:object="${rpg}"
-          onsubmit="return confirm('Are you sure?');">
-          <input type="hidden" th:field="*{id}" id="rpg" name="rpg" value="${rpg.id}">
-          <input type="submit" class="btn btn-danger" value="Delete" name="submit">
-        </form>
-      </div>
-    </div>
-    <div class="d-inline" th:if="${hasFavourite}">
-      <form class="d-inline" th:action="@{${rpg.id + '/removeFromFavourite'}}" th:object="${user}" method="post">
-        <input type="hidden" th:field="*{id}" id="user" name="user" value="${user.id}">
-        <input type="submit" class="btn btn-secondary wiz-btn-secondary"
-          value="Remove from favourites" name="submit">
-      </form>
-    </div>
-    <div class="d-inline" th:if="${rpg.creator.id == user.id}">
-      <form class="d-inline" th:action="@{${rpg.id + '/update/form'}}" method="post" th:object="${rpg}">
-        <input type="hidden" th:field="*{id}" id="rpg" name="rpg" value="${rpg.id}">
-        <input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Update" name="submit">
-      </form>
-      <form class="d-inline" th:action="@{${rpg.id + '/delete'}}" method="post" th:object="${rpg}"
-        onsubmit="return confirm('Are you sure?');">
-        <input type="hidden" th:field="*{id}" id="rpg" name="rpg" value="${rpg.id}">
-        <input type="submit" class="btn btn-danger" value="Delete" name="submit">
-      </form>
-    </div>
-  </div>
-  <div sec:authorize="!isAuthenticated()">
-    <a th:href="@{${T(com.example.demo.utils.Routes).SIGNIN}}"
-      class="btn btn-secondary wiz-btn-secondary">Add to favourites</a>
-  </div>
-  <div class="rpg-description border rounded mt-3 p-3">
-    <div class="wiz-markdown">
-      <p th:utext="${rpg.description}"></p>
-    </div>
-  </div>
-  <h4 class="mt-3">Rules</h4>
-  <div class="rpg-rules border rounded p-3">
-    <div class="wiz-markdown">
-      <p th:utext="${rpg.rules}"></p>
-    </div>
-  </div>
-  <h4 class="mt-3">Appendices</h4>
-  <div class="rpg-appendices">
-    <div class="card p-3" th:each="file : ${rpg.files}">
-      <a th:href="@{${T(com.example.demo.utils.Routes).RPG_DETAILS + rpg.id + '/download/' + file.id}}" class="text-primary" th:text="${file.name}"></a>
-    </div>
-    <div th:if="${#lists.isEmpty(rpg.files)}">
-      <p class="lead">No appendices found...</p>
-    </div>
-  </div>
-  <h4 class="mt-3">Scenarios</h4>
-  <div class="rpg-scenarios">
-    <a th:href="@{${T(com.example.demo.utils.Routes).SCENARIO_CREATE + '?rpgId=' + rpg.id}}"
-      class="btn btn-secondary wiz-btn-secondary mb-3">Add a scenario</a>
-    <div class="scenario-card-holder" th:each="scenario : ${scenarios}">
-      <div th:replace="fragments/rpg-card.html :: rpg-card(title=${scenario.name}, creator=${scenario.creator.username}, content=${scenario.description}, link=@{${T(com.example.demo.utils.Routes).SCENARIO_DETAILS + scenario.id}})"></div>
-    </div>
-    <div th:if="${#lists.isEmpty(scenarios)}">
-      <p class="lead">No scenarios found...</p>
-    </div>
+	    <h2 th:text="${rpg.name}"></h2>
+	    <p class="text-muted">Created by <a th:text="${rpg.creator.username}"th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS+rpg.creator.id}}"></a></p>
+	    <div sec:authorize="isAuthenticated()">
+	      <div class="d-inline" th:if="${!hasFavourite}">
+	        <form class="d-inline" th:action="@{${rpg.id + '/addToFavourite'}}" th:object="${user}" method="post">
+	          <input type="hidden" th:field="*{id}" id="user" name="user" value="${user.id}">
+	          <input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Add to favourites"
+	            name="submit">
+	        </form>
+	      </div>
+	      <div class="d-inline" th:if="${hasFavourite}">
+	        <form class="d-inline" th:action="@{${rpg.id + '/removeFromFavourite'}}" th:object="${user}" method="post">
+	          <input type="hidden" th:field="*{id}" id="user" name="user" value="${user.id}">
+	          <input type="submit" class="btn btn-secondary wiz-btn-secondary"
+	            value="Remove from favourites" name="submit">
+	        </form>
+	      </div>
+	      <div class="d-inline" th:if="${rpg.creator.id == user.id}">
+	        <form class="d-inline" th:action="@{${rpg.id + '/update/form'}}" method="post" th:object="${rpg}">
+	          <input type="hidden" th:field="*{id}" id="rpg" name="rpg" value="${rpg.id}">
+	          <input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Update" name="submit">
+	        </form>
+	        <form class="d-inline" th:action="@{${rpg.id + '/delete'}}" method="post" th:object="${rpg}"
+	          onsubmit="return confirm('Are you sure?');">
+	          <input type="hidden" th:field="*{id}" id="rpg" name="rpg" value="${rpg.id}">
+	          <input type="submit" class="btn btn-danger" value="Delete" name="submit">
+	        </form>
+	      </div>
+	      <div class="d-inline" th:if="${rpg.creator.id != user.id && user.getRole().getName() == T(com.example.demo.utils.RoleEnum).ADMIN.toString()}">
+	        <form class="d-inline" th:action="@{${rpg.id + '/delete'}}" method="post" th:object="${rpg}"
+	          onsubmit="return confirm('Are you sure?');">
+	          <input type="hidden" th:field="*{id}" id="rpg" name="rpg" value="${rpg.id}">
+	          <input type="submit" class="btn btn-danger" value="Delete" name="submit">
+	        </form>
+	      </div>
+	    </div>
+	  	<div sec:authorize="!isAuthenticated()">
+	    	<a th:href="@{${T(com.example.demo.utils.Routes).SIGNIN}}" class="btn btn-secondary wiz-btn-secondary">Add to favourites</a>
+	  	</div>
+	  	<div class="rpg-description border rounded mt-3 p-3">
+	    	<div class="wiz-markdown">
+	      		<p th:utext="${rpg.description}"></p>
+	    	</div>
+	  	</div>
+	  	<h4 class="mt-3">Rules</h4>
+		<div class="rpg-rules border rounded p-3">
+	 		<div class="wiz-markdown">
+	   			<p th:utext="${rpg.rules}"></p>
+	 		</div>
+		</div>
+	  	<h4 class="mt-3">Appendices</h4>
+	  	<div class="rpg-appendices">
+	    	<div class="card p-3" th:each="file : ${rpg.files}">
+	      		<a th:href="@{${T(com.example.demo.utils.Routes).RPG_DETAILS + rpg.id + '/download/' + file.id}}" class="text-primary" th:text="${file.name}"></a>
+	    	</div>
+	    	<div th:if="${#lists.isEmpty(rpg.files)}">
+	      		<p class="lead">No appendices found...</p>
+	    	</div>
+	  	</div>
+	  	<h4 class="mt-3">Scenarios</h4>
+	  	<div class="rpg-scenarios">
+	    	<a th:href="@{${T(com.example.demo.utils.Routes).SCENARIO_CREATE + '?rpgId=' + rpg.id}}"
+	      		class="btn btn-secondary wiz-btn-secondary mb-3">Add a scenario</a>
+	    	<div class="scenario-card-holder" th:each="scenario : ${scenarios}">
+	      		<div th:replace="fragments/rpg-card.html :: rpg-card(title=${scenario.name}, creator=${scenario.creator.username}, content=${scenario.description}, link=@{${T(com.example.demo.utils.Routes).SCENARIO_DETAILS + scenario.id}})"></div>
+	    	</div>
+	    	<div th:if="${#lists.isEmpty(scenarios)}">
+	      		<p class="lead">No scenarios found...</p>
+	    	</div>
+		</div>	
 	</div>
 </body>
 </html>

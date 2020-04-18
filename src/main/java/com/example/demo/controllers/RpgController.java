@@ -3,7 +3,11 @@ package com.example.demo.controllers;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Optional;
 import java.util.Set;
 
@@ -53,7 +57,7 @@ public class RpgController {
 
 	@Autowired
 	private FileRepository fileRepository;
-	
+
 	@Autowired
 	private ScenarioRepository scenarioRepository;
 
@@ -63,7 +67,7 @@ public class RpgController {
 		optionalRpg.ifPresent(rpg -> {
 			MarkdownParsingService.parse(rpg);
 			Set<Scenario> listScenario = rpg.getScenarios();
-			
+
 			model.addAttribute("rpg", rpg);
 			model.addAttribute("scenarios", listScenario);
 		});
@@ -77,7 +81,7 @@ public class RpgController {
 				model.addAttribute("hasFavourite", hasFavourite);
 			}
 		}
-		
+
 		return "rpg-details";
 	}
 
@@ -129,19 +133,21 @@ public class RpgController {
 		}
 
 		MultipartFile[] multipartFiles = rpg.getUploadedFiles();
-		List<File> files = new ArrayList<>();
+		Set<File> files = new HashSet<>();
 
 		if (multipartFiles != null) {
 			for (MultipartFile multipartFile : multipartFiles) {
-				File file = new File();
-				String originalFileName = multipartFile.getOriginalFilename();
+				if (multipartFile.getSize() != 0) {
+					File file = new File();
+					String originalFileName = multipartFile.getOriginalFilename();
 
-				String filePath = StorageService.saveToDisk(multipartFile, Directory.RPG_DIR);
+					String filePath = StorageService.saveToDisk(multipartFile, Directory.RPG_DIR);
 
-				file.setName(originalFileName);
-				file.setRpg(rpg);
-				file.setFileLocation(filePath);
-				files.add(file);
+					file.setName(originalFileName);
+					file.setRpg(rpg);
+					file.setFileLocation(filePath);
+					files.add(file);
+				}
 			}
 		}
 
@@ -173,6 +179,42 @@ public class RpgController {
 		if (bindingResult.hasErrors()) {
 			return "rpg-update";
 		}
+		
+		MultipartFile[] multipartFiles = rpg.getUploadedFiles();
+		Set<File> files = new HashSet<>();
+
+		if (multipartFiles != null) {
+			for (MultipartFile multipartFile : multipartFiles) {
+				if (multipartFile.getSize() != 0) {
+					File file = new File();
+					String originalFileName = multipartFile.getOriginalFilename();
+
+					String filePath = StorageService.saveToDisk(multipartFile, Directory.RPG_DIR);
+
+					file.setName(originalFileName);
+					file.setRpg(rpg);
+					file.setFileLocation(filePath);
+					files.add(file);
+				}
+			}
+		
+			if(files.size() != 0)
+			{
+				
+				Optional<Rpg> oldRpg = rpgRepository.findById(rpg.getId());
+				
+				oldRpg.ifPresent( old -> {
+					System.out.println(old.getFiles().size());
+					for (File file : old.getFiles()) {
+						System.out.println(file.getName());
+						fileRepository.deleteById(file.getId());
+//						fileRepository.delete(file);
+					}
+				});
+				rpg.setFiles(files);
+			}
+		}
+		
 
 		rpgRepository.save(rpg);
 
