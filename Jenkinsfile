@@ -14,9 +14,15 @@ pipeline {
     		}
     	}
     	
-    	stage('Build && SonarCloud analysis') {
+    	stage('Build') {
             steps {
-                sh 'mvn clean package sonar:sonar -Dspring.profiles.active=prod'
+                sh 'mvn clean package -Dspring.profiles.active=prod'
+            }
+        }
+        
+        stage('SonarCloud analysis') {
+            steps {
+                sh 'mvn verify sonar:sonar'
             }
         }
         
