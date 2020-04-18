@@ -183,8 +183,6 @@ public class UserController {
 				String[] tabFile = user.getImageUrl().split("\\.");
 				session.setAttribute("imageName", tabFile[0]);
 				session.setAttribute("imageExt", tabFile[1]);
-				
-				System.out.println(tabFile[0] + "/" + tabFile[1]);
 				session.setAttribute("profile_img", tabFile[0] + tabFile[1]);
 			} else {
 				session.setAttribute("imageName", "");
@@ -260,10 +258,19 @@ public class UserController {
 	@Transactional
 	@PostMapping(Routes.USER_DETAILS + "{id}" + "/delete")
 	public String delete(HttpServletRequest request) throws ServletException {
+		
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		userService.deleteByEmail(email);
 
 		request.logout();
 		return "redirect:/dashboard";
+	}
+	
+	@Transactional
+	@PostMapping(Routes.USER_DETAILS + "{id}" + "/forceDelete")
+	public String forceDelete(@PathVariable Long id) throws ServletException {
+		
+		userRepository.deleteById(id);
+		return "redirect:" + Routes.ADMIN;
 	}
 }

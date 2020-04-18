@@ -20,4 +20,9 @@ $(function() {
 			$('#formDeleteProfile').submit();
 		}
 	});
+	
+	$('#deleteModalButton').click(function() {
+		$('#deleteModal').modal('hide');
+		$('#formDelete').submit();
+	});
 });
