@@ -200,24 +200,18 @@ public class RpgController {
 		
 			if(files.size() != 0)
 			{
-				
-				Optional<Rpg> oldRpg = rpgRepository.findById(rpg.getId());
-				
-				oldRpg.ifPresent( old -> {
-					System.out.println(old.getFiles().size());
-					for (File file : old.getFiles()) {
-						System.out.println(file.getName());
-						fileRepository.deleteById(file.getId());
-//						fileRepository.delete(file);
-					}
-				});
 				rpg.setFiles(files);
+				
+			}else {
+				Optional<Rpg> oldRpg = rpgRepository.findById(rpg.getId());
+				oldRpg.ifPresent( old -> {
+					rpg.setFiles(old.getFiles());
+				});
 			}
 		}
 		
-
 		rpgRepository.save(rpg);
-
+		
 		return "redirect:" + Routes.RPG_DETAILS + rpg.getId();
 	}
 

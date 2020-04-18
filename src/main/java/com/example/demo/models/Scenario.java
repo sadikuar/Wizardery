@@ -66,8 +66,8 @@ public class Scenario {
 	@JoinColumn
 	private Rpg rpg;
 
-	@OneToMany(mappedBy = "scenario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<File> files;
+	@OneToMany(mappedBy = "scenario", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<File> files;
 
 	transient MultipartFile[] uploadedFiles;
 
@@ -163,11 +163,11 @@ public class Scenario {
 		this.creator = creator;
 	}
 
-	public List<File> getFiles() {
+	public Set<File> getFiles() {
 		return files;
 	}
 
-	public void setFiles(List<File> files) {
+	public void setFiles(Set<File> files) {
 		this.files = files;
 	}
 

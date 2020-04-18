@@ -3,8 +3,10 @@ package com.example.demo.controllers;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -46,10 +48,10 @@ public class ScenarioController {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private RpgRepository rpgRepository;
-	
+
 	@Autowired
 	private FileRepository fileRepository;
 
@@ -61,10 +63,10 @@ public class ScenarioController {
 		if (rpgId != -1) {
 			model.addAttribute("scenario", new Scenario());
 			model.addAttribute("rpgId", rpgId);
-			
+
 			return "scenario-create";
 		}
-		
+
 		return "redirect:error";
 	}
 
@@ -75,22 +77,21 @@ public class ScenarioController {
 			MarkdownParsingService.parse(scenario);
 			model.addAttribute("scenario", scenario);
 			int time = scenario.getTimeApproximation();
-			int h = time/60;
-			int m = time%60;
+			int h = time / 60;
+			int m = time % 60;
 			StringBuilder sb = new StringBuilder();
-			if(h>0) {
+			if (h > 0) {
 				sb.append(h);
 				sb.append("h");
-				if(m>0) {
+				if (m > 0) {
 					sb.append(String.format("%02d", m));
 				}
-			}else {
+			} else {
 				sb.append(m);
 				sb.append("m");
 			}
 			model.addAttribute("parsedTime", sb.toString());
 		});
-		
 
 		if (principal != null) {
 			User authUser = userRepository.findByEmail(principal.getName());
@@ -101,53 +102,55 @@ public class ScenarioController {
 				model.addAttribute("hasFavourite", hasFavourite);
 			}
 		}
-		
+
 		return "scenario-details";
 	}
 
 	@PostMapping(Routes.SCENARIO_CREATE)
-	public String insertScenario(@ModelAttribute Scenario scenario, @RequestParam("rpgId") Long id,Model model, Principal principal,
-			BindingResult bindingResult) {
-		
+	public String insertScenario(@ModelAttribute Scenario scenario, @RequestParam("rpgId") Long id, Model model,
+			Principal principal, BindingResult bindingResult) {
+
 		scenarioValidator.validate(scenario, bindingResult);
-		
+
 		if (bindingResult.hasErrors()) {
 			return "scenario-create";
 		}
-		
+
 		MultipartFile[] multipartFiles = scenario.getUploadedFiles();
-		List<File> files = new ArrayList<>();
-		
+		Set<File> files = new HashSet<>();
+
 		if (multipartFiles != null) {
 			for (MultipartFile multipartFile : multipartFiles) {
-				File file = new File();
-				String originalFileName = multipartFile.getOriginalFilename();
+				if (multipartFile.getSize() != 0) {
+					File file = new File();
+					String originalFileName = multipartFile.getOriginalFilename();
 
-				String filePath = StorageService.saveToDisk(multipartFile, Directory.SCENARIO_DIR);
+					String filePath = StorageService.saveToDisk(multipartFile, Directory.SCENARIO_DIR);
 
-				file.setName(originalFileName);
-				file.setScenario(scenario);
-				file.setFileLocation(filePath);
-				files.add(file);
+					file.setName(originalFileName);
+					file.setScenario(scenario);
+					file.setFileLocation(filePath);
+					files.add(file);
+				}
 			}
 		}
-		
+
 		User creator = userRepository.findByEmail(principal.getName());
 		Optional<Rpg> optionalRpg = rpgRepository.findById(id);
-		
+
 		if (optionalRpg.isPresent()) {
 			scenario.setRpg(optionalRpg.get());
 		}
-		
+		scenario.setFiles(files);
 		scenario.setPatchNote("");
-		
+
 		scenario.setCreator(creator);
-		
+
 		scenarioRepository.save(scenario);
-		
+
 		return "redirect:" + Routes.RPG_DETAILS + id;
 	}
-	
+
 	@PostMapping(Routes.SCENARIO_DETAILS + "{id}" + "/update/form")
 	public String updateScenarioForm(@ModelAttribute Scenario scenario, Model model) {
 		Optional<Scenario> optionalScenario = scenarioRepository.findById(scenario.getId());
@@ -159,22 +162,50 @@ public class ScenarioController {
 
 		return "redirect:error";
 	}
-	
+
 	@PostMapping(Routes.SCENARIO_DETAILS + "{id}" + "/update")
 	public String updateRpg(@ModelAttribute Scenario scenario, BindingResult bindingResult) {
 
 		scenarioValidator.validate(scenario, bindingResult);
-		
+
 		if (bindingResult.hasErrors()) {
-			System.out.println(bindingResult.getAllErrors());
 			return "scenario-update";
 		}
+		
+		MultipartFile[] multipartFiles = scenario.getUploadedFiles();
+		Set<File> files = new HashSet<>();
 
+		if (multipartFiles != null) {
+			for (MultipartFile multipartFile : multipartFiles) {
+				if (multipartFile.getSize() != 0) {
+					File file = new File();
+					String originalFileName = multipartFile.getOriginalFilename();
+
+					String filePath = StorageService.saveToDisk(multipartFile, Directory.RPG_DIR);
+
+					file.setName(originalFileName);
+					file.setScenario(scenario);
+					file.setFileLocation(filePath);
+					files.add(file);
+				}
+			}
+		
+			if(files.size() != 0)
+			{
+				scenario.setFiles(files);
+				
+			}else {
+				Optional<Scenario> oldScenario = scenarioRepository.findById(scenario.getId());
+				oldScenario.ifPresent( old -> {
+					scenario.setFiles(old.getFiles());
+				});
+			}
+		}
 		scenarioRepository.save(scenario);
 
 		return "redirect:" + Routes.SCENARIO_DETAILS + scenario.getId();
 	}
-	
+
 	@PostMapping(Routes.SCENARIO_DETAILS + "{id}" + "/delete")
 	public String deleteScenario(@ModelAttribute Scenario scenario) {
 		Rpg rpg = scenario.getRpg();
@@ -182,7 +213,7 @@ public class ScenarioController {
 
 		return "redirect:" + Routes.RPG_DETAILS + rpg.getId();
 	}
-	
+
 	@PostMapping(Routes.SCENARIO_DETAILS + "{id}" + "/addToFavourite")
 	public String addToFavourite(@ModelAttribute User user, Model model, @PathVariable Long id) {
 		Optional<User> optionalUser = userRepository.findById(user.getId());
@@ -214,7 +245,7 @@ public class ScenarioController {
 
 		return "redirect:" + Routes.SCENARIO_DETAILS + id;
 	}
-	
+
 	@GetMapping(Routes.SCENARIO_DETAILS + "{id}" + "/download/{fileId}")
 	public ResponseEntity<Resource> download(@PathVariable Long id, @PathVariable Long fileId) throws IOException {
 		Optional<File> f = fileRepository.findById(fileId);
@@ -235,5 +266,5 @@ public class ScenarioController {
 	public String handleNotFound(DataAccessResourceFailureException ex, RedirectAttributes redirectAttrs) {
 		return "forward:" + Routes.DASHBOARD;
 	}
-	
+
 }
