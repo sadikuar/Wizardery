@@ -16,4 +16,6 @@ public interface ScenarioRepository extends JpaRepository<Scenario, Long> {
 	Page<Scenario> findAll(Pageable pageable);
 
 	List<Scenario> findByNameLike(String name);
+	
+	Page<Scenario> findByNameLike(String name, Pageable pageable);
 }
