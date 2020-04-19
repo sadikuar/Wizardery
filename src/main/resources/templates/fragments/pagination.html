@@ -1,0 +1,45 @@
+<div th:fragment="pagination (route, page, total)">
+	<nav aria-label="Pagination" th:if="${total gt 0}">
+		<ul class="pagination justify-content-center font-weight-medium">
+			<li class="page-item" th:classappend="${page eq 0} ? 'disabled'">
+				<a class="page-link"
+				th:href="@{{route}?page={id}(route=${route},id=${1})}"
+				aria-label="First" title="First page" rel="tooltip"> <span
+					aria-hidden="true" th:text="First" width="20"
+					height="20"></span>
+			</a>
+			</li>
+			<li class="page-item" th:classappend="${page eq 0} ? 'disabled'">
+				<a class="page-link"
+				th:href="@{{route}?page={id}(route=${route},id=${page lt 1 ? 0 : page})}"
+				aria-label="Previous" title="Previous Page" rel="tooltip"> <span
+					aria-hidden="true" th:text="Previous" width="20"
+					height="20"></span>
+			</a>
+			</li>
+			<li class="page-item" th:classappend="${i eq page + 1} ? 'active'"
+				th:each="i : ${#numbers.sequence( page -1  > 0 ? page -1 : page > 0 ? page : page +1 , total > 3 + page ? page + 3 : total, 1)}">
+				<a class="page-link" th:href="@{{route}?page={id}(route=${route},id=${i})}"
+				th:text="${i}" th:title="${'Page '+ i}" rel="tooltip"></a>
+			</li>
+			<li class="page-item disabled" th:if="${page + 10 < total}"><a
+				class="page-link svg-icon" href="#"> <span
+					data-feather="more-horizontal" width="20" height="20"></span>
+			</a></li>
+			<li class="page-item"
+				th:classappend="${page + 1 eq total} ? 'disabled'"><a
+				class="page-link"
+				th:href="@{{route}?page={id}(route=${route},id=${page + 2})}" aria-label="Next"
+				title="Next page" rel="tooltip"> <span aria-hidden="true"
+					th:text="Next" width="20" height="20"></span>
+			</a></li>
+			<li class="page-item"
+				th:classappend="${page + 1 eq total} ? 'disabled'"><a
+				class="page-link"
+				th:href="@{{route}?page={id}(route=${route},id=${total})}" aria-label="Last"
+				title="Last page" rel="tooltip"> <span aria-hidden="true"
+					th:text="Last" width="20" height="20"></span>
+			</a></li>
+		</ul>
+	</nav>
+</div>

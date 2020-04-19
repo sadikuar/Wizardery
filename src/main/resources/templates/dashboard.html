@@ -5,6 +5,7 @@
 	<nav th:insert="fragments/navbar.html :: navbar"></nav>
 	<div class="container">
 		<h2 class="mb-3">Dashboard</h2>
+		<div th:replace='fragments/pagination.html :: pagination(route=${T(com.example.demo.utils.Routes).DASHBOARD}, page=${pageNumber}, total=${pageTotal})'></div>
 		<div class="card p-2">
 			<form th:action="@{${T(com.example.demo.utils.Routes).SEARCH}}" method="get">
 				<div class="form-group row">
@@ -43,6 +44,8 @@
 				<p class="lead">No results found...</p>
 			</div>
 		</div>
+		
+		<div th:replace='fragments/pagination.html :: pagination(route=${T(com.example.demo.utils.Routes).DASHBOARD}, page=${pageNumber}, total=${pageTotal})'></div>
 	</div>
 </body>
 </html>

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,13 +30,17 @@ public class DashboardController {
 	private ScenarioRepository scenarioRepository;
 
 	@GetMapping(value = { Routes.DASHBOARD, "/dashboard" })
-	public String showDashboard(Model model) {
-		List<Rpg> listRpg = rpgRepository.findAll(PageRequest.of(0, 5)).getContent();
+	public String showDashboard(Model model, @RequestParam(required = false) Integer page) {
+		page = page==null ? 0 : page-1;
+		Pageable pageable = PageRequest.of(page, 5,Sort.by("name"));
+		Page<Rpg> pageRpg = rpgRepository.findAll(pageable);
+		List<Rpg> listRpg = pageRpg.getContent();
 		for (Rpg rpg : listRpg) {
 			MarkdownParsingService.parse(rpg);
 		}
 		model.addAttribute("rpgs", listRpg);
-
+		model.addAttribute("pageNumber", pageRpg.getNumber());
+		model.addAttribute("pageTotal", pageRpg.getTotalPages());
 		return "dashboard";
 	}
 
