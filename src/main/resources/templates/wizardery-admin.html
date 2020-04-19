@@ -17,7 +17,7 @@
 				<tr th:each="user : ${users}">
 					<td><a th:text="${user.username}" th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS + user.id}}"></a></td>
 					<td class="text-right">
-						<form th:action="@{${T(com.example.demo.utils.Routes).USER_DETAILS + user.id + '/delete'}}" th:method="post" id="formDeleteProfile">
+						<form th:action="@{${T(com.example.demo.utils.Routes).USER_DETAILS + user.id + '/forceDelete'}}" th:method="post" id="formDeleteProfile">
 							<input type="hidden" id="email" name="email" th:value="${user.email}">
 							<input class="btn btn-danger" type="submit" value="Delete" name="submit">
 						</form>
