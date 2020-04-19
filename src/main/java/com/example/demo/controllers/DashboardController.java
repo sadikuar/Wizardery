@@ -1,6 +1,5 @@
 package com.example.demo.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.models.Rpg;
-import com.example.demo.models.Scenario;
 import com.example.demo.repositories.RpgRepository;
-import com.example.demo.repositories.ScenarioRepository;
 import com.example.demo.services.MarkdownParsingService;
 import com.example.demo.utils.Routes;
 
@@ -26,18 +23,18 @@ public class DashboardController {
 	@Autowired
 	private RpgRepository rpgRepository;
 
-	@Autowired
-	private ScenarioRepository scenarioRepository;
-
 	@GetMapping(value = { Routes.DASHBOARD, "/dashboard" })
 	public String showDashboard(Model model, @RequestParam(required = false) Integer page) {
-		page = page==null ? 0 : page-1;
-		Pageable pageable = PageRequest.of(page, 5,Sort.by("name"));
+		page = page == null ? 0 : page - 1;
+
+		Pageable pageable = PageRequest.of(page, 5);
 		Page<Rpg> pageRpg = rpgRepository.findAll(pageable);
 		List<Rpg> listRpg = pageRpg.getContent();
+
 		for (Rpg rpg : listRpg) {
 			MarkdownParsingService.parse(rpg);
 		}
+
 		model.addAttribute("rpgs", listRpg);
 		model.addAttribute("pageNumber", pageRpg.getNumber());
 		model.addAttribute("pageTotal", pageRpg.getTotalPages());
@@ -45,39 +42,47 @@ public class DashboardController {
 	}
 
 	@GetMapping(Routes.SEARCH)
-	public String search(Model model, @RequestParam(name = "name") String name, @RequestParam(name = "type") int type) {
-		List<Rpg> listRpg = new ArrayList<>();
-		List<Scenario> listScenarios = new ArrayList<>();
-
-		switch (type) {
-		case 0:
-			listRpg = rpgRepository.findByNameLike("%" + name + "%");
-			listScenarios = scenarioRepository.findByNameLike("%" + name + "%");
-			break;
-
-		case 1:
-			listRpg = rpgRepository.findByNameLike("%" + name + "%");
-			break;
-
-		case 2:
-			listScenarios = scenarioRepository.findByNameLike("%" + name + "%");
-			break;
-
-		default:
-			break;
-		}
+	public String search(Model model, @RequestParam(required = false, name = "name") String name,  @RequestParam(required = false, name = "orderby") Integer orderby, @RequestParam(required = false) Integer page) {
+		page = page == null ? 0 : page - 1;
 		
+		Pageable pageable = PageRequest.of(page, 5);
+		
+		if (orderby != null) {
+			switch (orderby) {
+			case 1:
+				pageable = PageRequest.of(page, 5, Sort.by("name").ascending());
+				break;
+				
+			case 2:
+				pageable = PageRequest.of(page, 5, Sort.by("name").descending());
+				break;
+				
+			case 3:
+				pageable = PageRequest.of(page, 5, Sort.by("creator.username").ascending());
+				break;
+				
+			case 4:
+				pageable = PageRequest.of(page, 5, Sort.by("creator.username").descending());
+				break;
+			}
+		}
+
+		Page<Rpg> pageRpg = rpgRepository.findByNameLike("%" + name + "%", pageable);
+		
+		System.out.println(pageRpg.getTotalPages());
+
+		List<Rpg> listRpg = pageRpg.getContent();
+
 		listRpg.forEach(MarkdownParsingService::parse);
-		listScenarios.forEach(MarkdownParsingService::parse);
+
+		model.addAttribute("pageNumber", pageRpg.getNumber());
+		model.addAttribute("pageTotal", pageRpg.getTotalPages());
 
 		model.addAttribute("rpgs", listRpg);
-		model.addAttribute("scenarios", listScenarios);
-		model.addAttribute("rpg_count", listRpg.size() > 0 ? listRpg.size() : null);
-		model.addAttribute("scenario_count", listScenarios.size() > 0 ? listScenarios.size() : null);
-		
+
 		model.addAttribute("name", name);
-		model.addAttribute("type", type);
-		
+		model.addAttribute("orderby", orderby);
+
 		return "dashboard";
 	}
 
