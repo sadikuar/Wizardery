@@ -6,8 +6,7 @@
 	<div class="container mb-3">
 		<div class="card p-4">
 			<h2>Create scenario</h2>
-			<form th:action="@{${T(com.example.demo.utils.Routes).SCENARIO_CREATE}}" th:object="${scenario}"
-				method="post" enctype="multipart/form-data">
+			<form th:action="@{${T(com.example.demo.utils.Routes).SCENARIO_CREATE}}" th:object="${scenario}" method="post" enctype="multipart/form-data">
 				<div class="form-group">
 					<label for="name">Name</label>
 					<input type="text" th:field="*{name}" class="form-control" id="name" name="name">
@@ -15,24 +14,24 @@
 				</div>
 				<div class="form-group">
 					<label for="description">Description</label>
-					<textarea class="form-control" th:field="*{description}" id="description" rows="" cols=""
-						name="description"></textarea>
-					<small class="form-text text-muted">Supports <a href="https://guides.github.com/features/mastering-markdown/">Markdown</a> syntax !</small>
+					<textarea class="form-control" th:field="*{description}" id="description" rows="" cols="" name="description"></textarea>
+					<small class="form-text text-muted">
+						Supports
+						<a href="https://guides.github.com/features/mastering-markdown/">Markdown</a>
+						syntax !
+					</small>
 				</div>
 				<div class="form-group">
 					<label>Number of players (min, advised and max)</label>
 					<div class="row">
 						<div class="col">
-							<input type="number" th:field="*{minPlayers}" class="form-control" id="nbplayermin"
-								name="nbplayermin" placeholder="min..">
+							<input type="number" th:field="*{minPlayers}" class="form-control" min="0" id="nbplayermin" name="nbplayermin" placeholder="min..">
 						</div>
 						<div class="col">
-							<input type="number" th:field="*{advisedPlayers}" class="form-control" id="nbplayeradvised"
-								name="nbplayeradvised" placeholder="advised..">
+							<input type="number" th:field="*{advisedPlayers}" class="form-control" min="0" id="nbplayeradvised" name="nbplayeradvised" placeholder="advised..">
 						</div>
 						<div class="col">
-							<input type="number" th:field="*{maxPlayers}" class="form-control" id="nbplayermax"
-								name="nbplayermax" placeholder="max..">
+							<input type="number" th:field="*{maxPlayers}" class="form-control" min="0" id="nbplayermax" name="nbplayermax" placeholder="max..">
 						</div>
 					</div>
 				</div>
@@ -47,29 +46,32 @@
 				</div>
 				<div class="form-group">
 					<label for="timeapprox">Time to complete (in minutes)</label>
-					<input type="number" th:field="*{timeApproximation}" class="form-control" id="timeapprox"
-						name="timeapprox">
+					<input type="number" th:field="*{timeApproximation}" class="form-control" id="timeapprox" name="timeapprox">
 				</div>
 				<div class="form-group">
 					<label for="quests">Quests</label>
 					<textarea class="form-control" th:field="*{quests}" id="quests" rows="" cols="" name="quests"></textarea>
-					<small class="form-text text-muted">Supports <a href="https://guides.github.com/features/mastering-markdown/">Markdown</a> syntax !</small>
+					<small class="form-text text-muted">
+						Supports
+						<a href="https://guides.github.com/features/mastering-markdown/">Markdown</a>
+						syntax !
+					</small>
 				</div>
 				<div class="form-group">
 					<label for="file-upload">Appendices</label>
 					<div class="custom-file">
 						<input type="file" th:field="*{uploadedFiles}" class="custom-file-input" id="file-upload">
-						<label class="custom-file-label" for="avatar" id="file-upload" enctype="multipart/form-data"
-							multiple>Choose file...</label>
+						<label class="custom-file-label" for="avatar" id="file-upload" enctype="multipart/form-data" multiple>Choose file...</label>
 						<div class="invalid-feedback">File doesn't match formats</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Submit" name="submit">
-					<input type="hidden" th:value="${rpgId}" name="rpgId" >
+					<input type="hidden" th:value="${rpgId}" name="rpgId">
 				</div>
 			</form>
 		</div>
 	</div>
+	<footer th:insert="fragments/footer.html"></footer>
 </body>
 </html>

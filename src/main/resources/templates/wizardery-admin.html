@@ -15,7 +15,9 @@
 			</thead>
 			<tbody>
 				<tr th:each="user : ${users}">
-					<td><a th:text="${user.username}" th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS + user.id}}"></a></td>
+					<td>
+						<a th:text="${user.username}" th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS + user.id}}"></a>
+					</td>
 					<td class="text-right">
 						<form th:action="@{${T(com.example.demo.utils.Routes).USER_DETAILS + user.id + '/forceDelete'}}" th:method="post" id="formDeleteProfile">
 							<input type="hidden" id="email" name="email" th:value="${user.email}">
@@ -35,7 +37,9 @@
 			</thead>
 			<tbody>
 				<tr th:each="rpg : ${rpgs}">
-					<td><a th:text="${rpg.name}" th:href="@{${T(com.example.demo.utils.Routes).RPG_DETAILS + rpg.id}}"></a></td>
+					<td>
+						<a th:text="${rpg.name}" th:href="@{${T(com.example.demo.utils.Routes).RPG_DETAILS + rpg.id}}"></a>
+					</td>
 					<td class="text-right">
 						<form class="d-inline" th:action="@{${T(com.example.demo.utils.Routes).RPG_DETAILS + rpg.id + '/forceDelete'}}" method="post">
 							<input type="submit" class="btn btn-danger" value="Delete" th:name="${submitRPGDelete + rpg.name}">
@@ -45,7 +49,7 @@
 			</tbody>
 		</table>
 		<h3>Scenarios</h3>
-				<table class="table">
+		<table class="table">
 			<thead class="thead-dark">
 				<tr>
 					<th scope="col">Name</th>
@@ -54,7 +58,9 @@
 			</thead>
 			<tbody>
 				<tr th:each="scenario : ${scenarios}">
-					<td><a th:text="${scenario.name}" th:href="@{${T(com.example.demo.utils.Routes).SCENARIO_DETAILS + scenario.id}}"></a></td>
+					<td>
+						<a th:text="${scenario.name}" th:href="@{${T(com.example.demo.utils.Routes).SCENARIO_DETAILS + scenario.id}}"></a>
+					</td>
 					<td class="text-right">
 						<form class="d-inline" th:action="@{${T(com.example.demo.utils.Routes).SCENARIO_DETAILS + scenario.id + '/forceDelete'}}" method="post">
 							<input type="submit" class="btn btn-danger" value="Delete" th:name="${submitScenarioDelete + scenario.name}">
@@ -64,5 +70,6 @@
 			</tbody>
 		</table>
 	</div>
+	<footer th:insert="fragments/footer.html"></footer>
 </body>
 </html>

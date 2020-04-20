@@ -21,13 +21,13 @@
 					<label>Number of players (min, advised and max)</label>
 					<div class="row">
 						<div class="col">
-							<input type="number" th:field="*{minPlayers}" class="form-control" id="nbplayermin" name="nbplayermin" placeholder="min..">
+							<input type="number" th:field="*{minPlayers}" class="form-control" min="0" id="nbplayermin" name="nbplayermin" placeholder="min..">
 						</div>
 						<div class="col">
-							<input type="number" th:field="*{advisedPlayers}" class="form-control" id="nbplayeradvised" name="nbplayeradvised" placeholder="advised..">
+							<input type="number" th:field="*{advisedPlayers}" class="form-control" min="0" id="nbplayeradvised" name="nbplayeradvised" placeholder="advised..">
 						</div>
 						<div class="col">
-							<input type="number" th:field="*{maxPlayers}" class="form-control" id="nbplayermax" name="nbplayermax" placeholder="max..">
+							<input type="number" th:field="*{maxPlayers}" class="form-control" min="0" id="nbplayermax" name="nbplayermax" placeholder="max..">
 						</div>
 					</div>
 				</div>
@@ -71,5 +71,6 @@
 			</form>
 		</div>
 	</div>
+	<footer th:insert="fragments/footer.html"></footer>
 </body>
 </html>
