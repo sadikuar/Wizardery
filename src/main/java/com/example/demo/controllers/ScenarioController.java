@@ -208,11 +208,7 @@ public class ScenarioController {
 
 	@PostMapping(Routes.SCENARIO_DETAILS + "{id}" + "/delete")
 	public String deleteScenario(@ModelAttribute Scenario scenario) {
-		
-		System.out.println("ICIIIIII");
-		System.out.println(scenario.getName());
-		System.out.println(scenario.getId());
-		
+			
 		Rpg rpg = scenario.getRpg();
 		scenarioRepository.deleteById(scenario.getId());
 
