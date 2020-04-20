@@ -12,20 +12,20 @@
 	        <form class="d-inline" th:action="@{${rpg.id + '/addToFavourite'}}" th:object="${user}" method="post">
 	          <input type="hidden" th:field="*{id}" id="user" name="user" value="${user.id}">
 	          <input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Add to favourites"
-	            name="submit">
+	            name="favoriteSubmit">
 	        </form>
 	      </div>
 	      <div class="d-inline" th:if="${hasFavourite}">
 	        <form class="d-inline" th:action="@{${rpg.id + '/removeFromFavourite'}}" th:object="${user}" method="post">
 	          <input type="hidden" th:field="*{id}" id="user" name="user" value="${user.id}">
 	          <input type="submit" class="btn btn-secondary wiz-btn-secondary"
-	            value="Remove from favourites" name="submit">
+	            value="Remove from favourites" name="unfavoriteSubmit">
 	        </form>
 	      </div>
 	      <div class="d-inline" th:if="${rpg.creator.id == user.id}">
 	        <form class="d-inline" th:action="@{${rpg.id + '/update/form'}}" method="post" th:object="${rpg}">
 	          <input type="hidden" th:field="*{id}" id="rpg" name="rpg" value="${rpg.id}">
-	          <input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Update" name="submit">
+	          <input type="submit" class="btn btn-secondary wiz-btn-secondary" value="Update" name="updateSubmit">
 	        </form>
 	        <form class="d-inline" th:action="@{${rpg.id + '/delete'}}" method="post" th:object="${rpg}" id="formDelete">
 	          <input type="hidden" th:field="*{id}" id="rpg" name="rpg" value="${rpg.id}">
@@ -89,17 +89,20 @@
 	    </div>
 	  	<div sec:authorize="!isAuthenticated()">
 	    	<a th:href="@{${T(com.example.demo.utils.Routes).SIGNIN}}" class="btn btn-secondary wiz-btn-secondary">Add to favourites</a>
-	  	</div>
-	  	<div class="rpg-description border rounded mt-3 p-3">
+	  	</div>  	
+	  	<div th:if="${rpg.description != ''}" class="rpg-description border rounded mt-3 p-3">
 	    	<div class="wiz-markdown">
 	      		<p th:utext="${rpg.description}"></p>
 	    	</div>
 	  	</div>
 	  	<h4 class="mt-3">Rules</h4>
-		<div class="rpg-rules border rounded p-3">
+		<div th:if="${rpg.rules != ''}" class="rpg-rules border rounded p-3">
 	 		<div class="wiz-markdown">
 	   			<p th:utext="${rpg.rules}"></p>
 	 		</div>
+		</div>
+		<div th:unless="${rpg.rules != ''}" class="rpg-rules lead">
+	   		No rules for this game.
 		</div>
 	  	<h4 class="mt-3">Appendices</h4>
 	  	<div class="rpg-appendices">

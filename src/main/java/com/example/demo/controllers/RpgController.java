@@ -156,7 +156,9 @@ public class RpgController {
 		rpg.setCreator(creator);
 		rpg.setFiles(files);
 		rpgRepository.save(rpg);
-		return "redirect:" + Routes.DASHBOARD;
+		
+		return "redirect:" + Routes.RPG_DETAILS + rpg.getId();
+
 	}
 
 	@PostMapping(Routes.RPG_DETAILS + "{id}" + "/update/form")
@@ -221,6 +223,13 @@ public class RpgController {
 		rpgRepository.deleteById(rpg.getId());
 
 		return "redirect:" + Routes.DASHBOARD;
+	}
+	
+	@PostMapping(Routes.RPG_DETAILS + "{id}" + "/forceDelete")
+	public String deleteRpg(@PathVariable Long id) {
+		rpgRepository.deleteById(id);
+
+		return "redirect:" + Routes.ADMIN;
 	}
 
 	@GetMapping(Routes.RPG_DETAILS + "{id}" + "/download/{fileId}")

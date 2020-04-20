@@ -60,6 +60,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers(Routes.SCENARIO_DETAILS + "/*/addToFavorite").authenticated()
 			.antMatchers(Routes.USER_DELETE).authenticated()
 			.antMatchers(Routes.ADMIN).hasAuthority(admin)
+			.antMatchers(Routes.RPG_DETAILS + "/*/forceDelete").hasAuthority(admin)
+			.antMatchers(Routes.SCENARIO_DETAILS + "/*/forceDelete").hasAuthority(admin)
 			.and()
 		.formLogin() // par défaut, failure url est /user/signin?error
 			.loginPage(Routes.SIGNIN).permitAll()
