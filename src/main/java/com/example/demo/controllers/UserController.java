@@ -98,15 +98,27 @@ public class UserController {
 			if (!user.getFavoriteRpgs().isEmpty()) {
 				user.getFavoriteRpgs().forEach(MarkdownParsingService::parse);
 
-				model.addAttribute("rpgs", user.getFavoriteRpgs());
+				model.addAttribute("favoriteRpgs", user.getFavoriteRpgs());
 			}
 
 			if (!user.getFavoriteScenarios().isEmpty()) {
 				user.getFavoriteScenarios().forEach(MarkdownParsingService::parse);
 
-				model.addAttribute("scenarios", user.getFavoriteScenarios());
+				model.addAttribute("favoriteScenarios", user.getFavoriteScenarios());
 			}
 
+			if (!user.getRpgs().isEmpty()) {
+				user.getRpgs().forEach(MarkdownParsingService::parse);
+				
+				model.addAttribute("rpgs", user.getRpgs());
+			}
+			
+			if (!user.getScenarios().isEmpty()) {
+				user.getScenarios().forEach(MarkdownParsingService::parse);
+				
+				model.addAttribute("scenarios", user.getScenarios());
+			}
+			
 			return "user-details";
 		}
 

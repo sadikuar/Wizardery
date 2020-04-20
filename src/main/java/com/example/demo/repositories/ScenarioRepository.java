@@ -1,6 +1,5 @@
 package com.example.demo.repositories;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -12,10 +11,8 @@ import com.example.demo.models.Scenario;
 public interface ScenarioRepository extends JpaRepository<Scenario, Long> {
 
 	Optional<Scenario> findByName(String name);
-	
+
 	Page<Scenario> findAll(Pageable pageable);
 
-	List<Scenario> findByNameLike(String name);
-	
 	Page<Scenario> findByNameLike(String name, Pageable pageable);
 }

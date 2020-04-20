@@ -6,7 +6,7 @@
 	<nav th:insert="fragments/navbar.html :: navbar"></nav>
 	<div class="container mb-3">
 	    <h2 th:text="${rpg.name}"></h2>
-	    <p class="text-muted">Created by <a th:text="${rpg.creator.username}"th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS+rpg.creator.id}}"></a></p>
+	    <p class="text-muted">Created by <a th:text="${rpg.creator.username}"th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS + rpg.creator.id}}"></a></p>
 	    <div sec:authorize="isAuthenticated()">
 	      <div class="d-inline" th:if="${!hasFavourite}">
 	        <form class="d-inline" th:action="@{${rpg.id + '/addToFavourite'}}" th:object="${user}" method="post">
@@ -118,12 +118,13 @@
 	    	<a th:href="@{${T(com.example.demo.utils.Routes).SCENARIO_CREATE + '?rpgId=' + rpg.id}}"
 	      		class="btn btn-secondary wiz-btn-secondary mb-3">Add a scenario</a>
 	    	<div class="scenario-card-holder" th:each="scenario : ${scenarios}">
-	      		<div th:replace="fragments/rpg-card.html :: rpg-card(title=${scenario.name}, creator=${scenario.creator.username}, content=${scenario.description}, link=@{${T(com.example.demo.utils.Routes).SCENARIO_DETAILS + scenario.id}})"></div>
+	      		<div th:replace="fragments/rpg-card.html :: rpg-card(title=${scenario.name}, creator=${scenario.creator}, content=${scenario.description}, link=@{${T(com.example.demo.utils.Routes).SCENARIO_DETAILS + scenario.id}})"></div>
 	    	</div>
 	    	<div th:if="${#lists.isEmpty(scenarios)}">
 	      		<p class="lead">No scenarios found...</p>
 	    	</div>
 		</div>	
 	</div>
+	<footer th:insert="fragments/footer.html"></footer>
 </body>
 </html>

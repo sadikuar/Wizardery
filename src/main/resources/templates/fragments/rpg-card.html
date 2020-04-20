@@ -3,7 +3,7 @@
 	class="card mb-4">
 	<h5 class="card-header" th:text="${title}"></h5>
 	<div class="card-body">
-		<h6 class="card-title" th:text="'Created by ' + ${creator}"></h6>
+		<h6 class="card-title">Created by <a th:href="@{${T(com.example.demo.utils.Routes).USER_DETAILS + creator.id}}" th:text="${creator.username}"></a></h6>
 		<div class="wiz-markdown">
 			<p class="card-text text-truncate" th:utext="${content}"></p>
 		</div>

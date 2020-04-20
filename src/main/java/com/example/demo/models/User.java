@@ -65,6 +65,9 @@ public class User {
 
 	@OneToMany(mappedBy = "creator", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Rpg> rpgs;
+	
+	@OneToMany(mappedBy = "creator", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Scenario> scenarios;
 
 	transient MultipartFile uploadedFile;
 
@@ -168,6 +171,14 @@ public class User {
 		this.rpgs = rpgs;
 	}
 	
+	public Set<Scenario> getScenarios() {
+		return scenarios;
+	}
+
+	public void setScenarios(Set<Scenario> scenarios) {
+		this.scenarios = scenarios;
+	}
+
 	public Set<Scenario> getFavoriteScenarios() {
 		return favoriteScenarios;
 	}
