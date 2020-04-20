@@ -240,7 +240,7 @@ public class UserController {
 		userService.update(user);
 		session.setAttribute("username", user.getUsername());
 
-		return "redirect:/dashboard";
+		return "redirect:" + Routes.USER_DETAILS + id;
 	}
 
 	@GetMapping("/profile/image/{fileName}/{fileExt}")

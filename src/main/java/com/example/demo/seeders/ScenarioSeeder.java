@@ -29,8 +29,8 @@ public class ScenarioSeeder implements TableSeeder {
 	private static final String[] tabDifficulties = { "Medium", "Hard" };
 	private static final String[] tabRpgName = { "Dungeons & Dragons", "Dungeons & Dragons" };
 	private static final int[] tabMinPlayers = { 3 , 4 };
-	private static final int[] tabMaxPlayers = { 4, 5 };
-	private static final int[] tabAdvisedPlayers = { 6, 4 };
+	private static final int[] tabMaxPlayers = { 6, 5 };
+	private static final int[] tabAdvisedPlayers = { 4, 4 };
 	private static final int[] tabTimeApprox = { 140, 240 };
 
 	private ScenarioRepository scenarioRepository;

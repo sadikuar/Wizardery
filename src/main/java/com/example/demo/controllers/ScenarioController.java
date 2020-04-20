@@ -208,10 +208,18 @@ public class ScenarioController {
 
 	@PostMapping(Routes.SCENARIO_DETAILS + "{id}" + "/delete")
 	public String deleteScenario(@ModelAttribute Scenario scenario) {
+			
 		Rpg rpg = scenario.getRpg();
 		scenarioRepository.deleteById(scenario.getId());
 
 		return "redirect:" + Routes.RPG_DETAILS + rpg.getId();
+	}
+	
+	@PostMapping(Routes.SCENARIO_DETAILS + "{id}" + "/forceDelete")
+	public String deleteScenario(@PathVariable Long id) {		
+		scenarioRepository.deleteById(id);
+
+		return "redirect:" + Routes.ADMIN;
 	}
 
 	@PostMapping(Routes.SCENARIO_DETAILS + "{id}" + "/addToFavourite")
