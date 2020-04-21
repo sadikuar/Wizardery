@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description>User can access signup page, create an account, logout, login, go to his profile, update his information and finally delete his profile.</description>
+   <name>Successful user signup</name>
+   <tag></tag>
+   <comment></comment>
+   <testCaseGuid>46f91770-7111-492a-bbdf-bf4fdec4a171</testCaseGuid>
+</TestCaseEntity>

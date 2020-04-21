@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description>Authenticated user can create an rpg, use markdown on description and rules, add to favorite to see RPG listed in profile, update RPG and finally delete RPG.</description>
+   <name>Successful RPG creation</name>
+   <tag></tag>
+   <comment></comment>
+   <testCaseGuid>c7680095-37fc-4f38-b52e-1acc9adc0e6d</testCaseGuid>
+</TestCaseEntity>
