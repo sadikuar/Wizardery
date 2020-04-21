@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -49,6 +50,17 @@ public class UserTests {
 		return user;
 	}
 	
+	private boolean checkIfSameUser(User user1, User user2) {
+		boolean isSame = user1.getId() == user2.getId();
+		isSame &= user1.getIsPublic() == user2.getIsPublic();
+		isSame &= user1.getDescription().contentEquals(user2.getDescription());
+		isSame &= user1.getEmail().contentEquals(user2.getEmail());
+		isSame &= user1.getImageUrl().contentEquals(user2.getImageUrl());
+		isSame &= user1.getPassword().contentEquals(user2.getPassword());
+		isSame &= user1.getUsername().contentEquals(user2.getUsername());
+		return isSame;
+	}
+	
 	@BeforeEach
 	public void checkRepositoryNotNull() {
 		assertThat(userRepository).isNotNull();
@@ -60,13 +72,15 @@ public class UserTests {
 		// Delete the user used for tests to keep database clean
 		if(user != null) {
 			userRepository.deleteById(user.getId());
+			assertFalse(userRepository.findById(user.getId()).isPresent(), "User not correctly deleted from database");
 		}
-		assertFalse(userRepository.findById(user.getId()).isPresent(), "User not correctly deleted from database");
+		
 	}
 	
 	
 	
 	@Test
+	@Order(1)
 	@DisplayName("Add valid user in database")
 	public void createValidUserTest() {
 		user = createValidTestUser();
@@ -75,6 +89,7 @@ public class UserTests {
 	}
 	
 	@Test
+	@Order(2)
 	@DisplayName("Retrieve user from database")
 	public void retriveUserTest() {
 		// Add user in database
@@ -92,6 +107,7 @@ public class UserTests {
 	}
 	
 	@Test
+	@Order(3)
 	@DisplayName("Update user in database")
 	public void updateUserTest() {
 		user = createValidTestUser();
@@ -115,22 +131,31 @@ public class UserTests {
 		assertTrue(optionalUpdated.isPresent(),"findById didn't work after update");
 		User updated = optionalUpdated.get();
 		assertTrue(checkIfSameUser(user, updated), "User not properly updated");
+	}
+	
+	@Test
+	@Order(4)
+	@DisplayName("Delete user from database")
+	public void deleteUserTest() {
+		user = createValidTestUser();
+		userRepository.save(user);
+		assertTrue(userRepository.findById(user.getId()).isPresent());
 		
+		userRepository.delete(user);
+		assertFalse(userRepository.findById(user.getId()).isPresent());
+		user=null;
 	}
 	
-	private boolean checkIfSameUser(User user1, User user2) {
-		boolean isSame = true;
-		isSame &= user1.getId() == user2.getId();
-		isSame &= user1.getIsPublic() == user2.getIsPublic();
-		isSame &= user1.getDescription().contentEquals(user2.getDescription());
-		isSame &= user1.getEmail().contentEquals(user2.getEmail());
-		isSame &= user1.getImageUrl().contentEquals(user2.getImageUrl());
-		isSame &= user1.getPassword().contentEquals(user2.getPassword());
-		isSame &= user1.getUsername().contentEquals(user2.getUsername());
-		return isSame;
+	@Test
+	@Order(5)
+	@DisplayName("Delete user by id from database")
+	public void deleteUserByIdTest() {
+		user = createValidTestUser();
+		userRepository.save(user);
+		assertTrue(userRepository.findById(user.getId()).isPresent());
+		
+		userRepository.deleteById(user.getId());
+		assertFalse(userRepository.findById(user.getId()).isPresent());
+		user=null;
 	}
-	
-	
-	
-	
 }
