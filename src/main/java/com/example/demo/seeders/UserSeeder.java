@@ -25,7 +25,7 @@ public class UserSeeder implements TableSeeder {
 		if (userRepository.findAll().isEmpty()) {
 			User admin = createAdmin("admin@wizardery.ch", "Administrator", "password", "", "", true);
 			userService.save(admin);
-			User user = createUser("user@wizardery.ch", "User", "password", "", "", false);
+			User user = createUser("user@wizardery.ch", "User", "password", "", "", false); 
 			userService.save(user);
 		}
 	}
