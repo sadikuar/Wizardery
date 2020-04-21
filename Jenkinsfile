@@ -22,7 +22,7 @@ pipeline {
         
         stage('SonarCloud analysis') {
             steps {
-                sh 'mvn verify sonar:sonar'
+                sh 'mvn verify sonar:sonar -Dspring.profiles.active=prod'
             }
         }
         
