@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description>Search for an RPG that contains &quot;Dragons&quot;</description>
+   <name>Successfull RPG Search</name>
+   <tag></tag>
+   <comment></comment>
+   <testCaseGuid>574186f4-eaa0-42a3-bf1b-23eeba18f5ad</testCaseGuid>
+</TestCaseEntity>
