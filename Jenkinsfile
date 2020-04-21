@@ -16,13 +16,13 @@ pipeline {
     	
     	stage('Build') {
             steps {
-                sh 'mvn clean package -Dspring.profiles.active=prod'
+                sh 'mvn clean package -Dspring.profiles.active=prod -Dmaven.test.skip=true'
             }
         }
         
         stage('SonarCloud analysis') {
             steps {
-                sh 'mvn verify sonar:sonar -Dspring.profiles.active=prod'
+                sh 'mvn verify sonar:sonar -Dspring.profiles.active=prod -Dmaven.test.skip=true'
             }
         }
         
