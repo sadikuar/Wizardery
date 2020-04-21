@@ -22,7 +22,7 @@ pipeline {
         
         stage('SonarCloud analysis') {
             steps {
-                sh 'mvn verify sonar:sonar -Dspring.profiles.active=prod -Dmaven.test.skip=true'
+                sh 'mvn sonar:sonar -Dspring.profiles.active=prod -Dmaven.test.skip=true'
             }
         }
         
@@ -30,6 +30,31 @@ pipeline {
         	steps {
         		sh 'mvn clean test -Dspring.profiles.active=prod'
     		}
+        }
+        
+        stage('IntegrationTest') {
+            agent {
+                docker {
+                  image 'lucienmoor/katalon-for-jenkins:latest'
+                  args '-p 8888:8080'
+                }
+            }
+            steps {
+                echo "Running integration tests"
+                unstash "app"
+                sh 'java -jar ./Wizardery/target/Wizardery-0.0.1-SNAPSHOT.jar >/dev/null 2>&1 &'
+                sh 'sleep 30'
+                sh 'chmod +x ./runTest.sh'
+                sh './runTest.sh'
+
+                cleanWs()
+            }
+        }
+    }
+    post {
+        always {
+          echo 'Clean up'
+          deleteDir()
         }
     }
 }
