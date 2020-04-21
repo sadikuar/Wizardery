@@ -5,10 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -17,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.dao.EmptyResultDataAccessException;
 
+import com.example.demo.models.File;
 import com.example.demo.models.Rpg;
 import com.example.demo.models.User;
 import com.example.demo.repositories.FileRepository;
@@ -93,21 +97,23 @@ public class RpgTests {
 	@AfterEach
 	public void resetDatabse() {
 		// Delete the rpg used for tests to keep database clean
-		if (user != null) {
-			userRepository.delete(user);
-			user = null;
-		}
 		if (rpg != null) {
-			rpgRepository.delete(rpg);
+			rpgRepository.deleteById(rpg.getId());
 			rpg = null;
 		}
+		if (user != null) {
+			userRepository.deleteById(user.getId());
+			assertFalse(userRepository.findById(user.getId()).isPresent());
+			user = null;
+		}
+		
 
 	}
 
 	@Test
 	@Order(1)
 	@DisplayName("Add valid rpg in database")
-	public void createRpg() {
+	public void createRpgTest() {
 		rpg = createValidRpg();
 		rpgRepository.save(rpg);
 
@@ -117,7 +123,7 @@ public class RpgTests {
 	@Test
 	@Order(2)
 	@DisplayName("Retrieve RPG from database")
-	public void retrieveRpg() {
+	public void retrieveRpgTest() {
 		// Add RPG to database
 		rpg = createValidRpg();
 		rpgRepository.save(rpg);
@@ -135,7 +141,7 @@ public class RpgTests {
 	@Test
 	@Order(3)
 	@DisplayName("Update user in database")
-	public void updateRpg() {
+	public void updateRpgTest() {
 		// Add RPG to database
 		rpg = createValidRpg();
 		rpgRepository.save(rpg);
@@ -159,13 +165,15 @@ public class RpgTests {
 		assertTrue(optionalId.isPresent(), "findById didn't work");
 		assertTrue(checkIfSameRpg(optionalId.get(), rpg));
 		
+		rpgRepository.deleteById(rpg.getId());
 		userRepository.delete(newCreator);
+		rpg=null;
 	}
 
 	@Test
 	@Order(4)
-	@DisplayName("Delete user from database")
-	public void deleteRpg() {
+	@DisplayName("Delete rpg from database")
+	public void deleteRpgTest() {
 		rpg = createValidRpg();
 		rpgRepository.save(rpg);
 
@@ -174,6 +182,35 @@ public class RpgTests {
 		rpgRepository.deleteById(rpg.getId());
 		assertFalse(rpgRepository.findById(rpg.getId()).isPresent());
 		rpg=null;
+	}
+	
+	@Test
+	@Order(5)
+	@DisplayName("Add file to RPG")
+	@Disabled
+	public void addFileRpgTest() {
+		rpg = createValidRpg();
+		rpgRepository.save(rpg);
+
+		assertTrue(rpgRepository.findById(rpg.getId()).isPresent());
+		
+		File file = new File();
+		file.setFileLocation("/");
+		file.setName("file");
+		file.setRpg(rpg);
+		
+		fileRepository.save(file);
+		
+		Set<File> fileSet = new HashSet<>();
+		fileSet.add(file);
+		rpg.setFiles(fileSet);
+		
+		rpgRepository.save(rpg);
+		Optional<Rpg> optional = rpgRepository.findById(rpg.getId());
+		assertTrue(optional.isPresent());
+		assertFalse(optional.get().getFiles().isEmpty());
+		
+		fileRepository.delete(file);
 	}
 
 }
