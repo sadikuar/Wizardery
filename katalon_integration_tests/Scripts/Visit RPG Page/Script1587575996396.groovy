@@ -19,9 +19,7 @@ WebUI.openBrowser('')
 
 WebUI.navigateToUrl('http://127.0.0.1:8081/')
 
-WebUI.click(findTestObject('Object Repository/visit_rpg_page/Page_Wizardery/a_Learn more'))
-
-WebUI.click(findTestObject('Object Repository/visit_rpg_page/Page_Wizardery/h2_Dungeons  Dragons'))
+WebUI.navigateToUrl('http://127.0.0.1:8081/rpgs/5')
 
 WebUI.closeBrowser()
 

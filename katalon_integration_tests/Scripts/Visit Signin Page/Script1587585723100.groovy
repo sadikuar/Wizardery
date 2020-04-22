@@ -13,13 +13,12 @@ import com.kms.katalon.core.testobject.TestObject as TestObject
 import com.kms.katalon.core.webservice.keyword.WSBuiltInKeywords as WS
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import internal.GlobalVariable as GlobalVariable
-import org.openqa.selenium.Keys as Keys
 
 WebUI.openBrowser('')
 
 WebUI.navigateToUrl('http://127.0.0.1:8081/')
 
-WebUI.navigateToUrl('http://localhost:8081/search?name=dun&orderby=0')
+WebUI.navigateToUrl('http://127.0.0.1:8081/signin')
 
 WebUI.closeBrowser()
 
