@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<TestCaseEntity>
-   <description>Authenticated user can create a scenario, use markdown on description and quests, add to favorite to see scenario listed in profile, update scenario and finally delete the scenario.</description>
-   <name>Successful scenario creation</name>
-   <tag></tag>
-   <comment></comment>
-   <testCaseGuid>02a96a84-9289-40bb-811d-e5609317d7ae</testCaseGuid>
-</TestCaseEntity>

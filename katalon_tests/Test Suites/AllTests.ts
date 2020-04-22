@@ -9,47 +9,47 @@
    <pageLoadTimeout>30</pageLoadTimeout>
    <pageLoadTimeoutDefault>true</pageLoadTimeoutDefault>
    <rerunFailedTestCasesOnly>false</rerunFailedTestCasesOnly>
-   <testSuiteGuid>6125b660-cbd7-4227-b33a-3e62f1d8e645</testSuiteGuid>
+   <testSuiteGuid>9242821a-9631-4434-91eb-8850a8860157</testSuiteGuid>
    <testCaseLink>
-      <guid>800bcb72-4fca-499d-9050-6f560e8543df</guid>
+      <guid>124ab755-9df3-4bf7-8a27-18c2234d5058</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/Admin/General admin delete</testCaseId>
+      <testCaseId>Test Cases/Access Public Profile</testCaseId>
    </testCaseLink>
    <testCaseLink>
-      <guid>0c3d4f89-8b73-40a8-9f39-2d778ad7f486</guid>
+      <guid>6e7222d5-3cec-46c2-b0b8-26df07ed61f0</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/RPG/Successful RPG creation</testCaseId>
+      <testCaseId>Test Cases/Add Favorite RPG and Scenario</testCaseId>
    </testCaseLink>
    <testCaseLink>
-      <guid>65450cd1-bd89-4882-b212-cbce1581877e</guid>
+      <guid>e3ebbd45-9eea-4d31-904e-dca2bbbf0af8</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/RPG/Successfull RPG Search</testCaseId>
+      <testCaseId>Test Cases/Search RPG</testCaseId>
    </testCaseLink>
    <testCaseLink>
-      <guid>d2665134-d5c9-4030-85b1-46af730245a8</guid>
+      <guid>aad36ee7-f65e-42a6-99b0-9519a38d60c8</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/Scenario/Successful scenario creation</testCaseId>
+      <testCaseId>Test Cases/Signin As Admin</testCaseId>
    </testCaseLink>
    <testCaseLink>
-      <guid>0c2cd084-7f57-4a49-b923-6ccfad587de6</guid>
+      <guid>c1275895-6bd0-4e0f-941b-24591d9ccfe3</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/User/Access to public profile</testCaseId>
+      <testCaseId>Test Cases/Signin As User</testCaseId>
    </testCaseLink>
    <testCaseLink>
-      <guid>64564fc4-a379-4b3a-8c9a-4ad07c22a131</guid>
+      <guid>dcae5c86-e595-4da6-bf17-40fec2bbb7e2</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/User/Successful user signup</testCaseId>
+      <testCaseId>Test Cases/Visit RPG Page</testCaseId>
    </testCaseLink>
    <testCaseLink>
-      <guid>814bece0-3578-4114-9822-170cc0a20b14</guid>
+      <guid>4bd0d36e-c1d8-4e6c-b1a0-a16c0f045b54</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/User/Unsuccessful user signup</testCaseId>
+      <testCaseId>Test Cases/Visit Scenario Page</testCaseId>
    </testCaseLink>
 </TestSuiteEntity>

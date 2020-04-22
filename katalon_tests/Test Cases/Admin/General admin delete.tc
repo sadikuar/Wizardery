@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<TestCaseEntity>
-   <description>Admin can delete a user, another user's scenario and game</description>
-   <name>General admin delete</name>
-   <tag></tag>
-   <comment></comment>
-   <testCaseGuid>ccd9017f-8874-481d-a9f1-ccd470cdd1ee</testCaseGuid>
-</TestCaseEntity>
