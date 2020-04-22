@@ -18,6 +18,20 @@ pipeline {
                 stash name: "app", includes: "**"
             }
         }
+        
+        stage('SonarCloud analysis') {
+            steps {
+            	unstash "app"
+                sh 'mvn sonar:sonar -Dspring.profiles.active=prod -Dmaven.test.skip=true'
+            }
+        }
+        
+        stage('Unit tests') {
+        	steps {
+        		unstash "app"
+        		sh 'mvn test -Dspring.profiles.active=prod'
+    		}
+        }
     
         stage('IntegrationTest') {
             agent {
