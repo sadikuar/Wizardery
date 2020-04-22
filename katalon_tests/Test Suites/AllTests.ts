@@ -29,12 +29,6 @@
       <testCaseId>Test Cases/Search RPG</testCaseId>
    </testCaseLink>
    <testCaseLink>
-      <guid>9428cc6d-a455-4951-8f04-a3bbc8eb79d2</guid>
-      <isReuseDriver>false</isReuseDriver>
-      <isRun>true</isRun>
-      <testCaseId>Test Cases/Signin as Admin</testCaseId>
-   </testCaseLink>
-   <testCaseLink>
       <guid>1feefbb5-52d9-4a8b-a092-153456a83965</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
