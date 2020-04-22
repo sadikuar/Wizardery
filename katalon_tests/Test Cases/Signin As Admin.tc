@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>Signin as Admin</name>
+   <name>Signin As Admin</name>
    <tag></tag>
    <comment></comment>
-   <testCaseGuid>bb13097b-8ab5-4550-a2ec-32f43fd609a0</testCaseGuid>
+   <testCaseGuid>3aeefc62-fa0e-4c2b-ba32-1fcde035b5ab</testCaseGuid>
 </TestCaseEntity>

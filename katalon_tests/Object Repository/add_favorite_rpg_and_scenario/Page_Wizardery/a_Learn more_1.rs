@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <WebElementEntity>
    <description></description>
-   <name>a_Learn more</name>
+   <name>a_Learn more_1</name>
    <tag></tag>
-   <elementGuidId>254a08ca-2f19-4c60-9a22-b859e9198199</elementGuidId>
+   <elementGuidId>f583e3ac-278b-4273-a9fb-8974c4b3d1d1</elementGuidId>
    <selectorCollection>
       <entry>
          <key>XPATH</key>
-         <value>//a[contains(text(),'Learn more')]</value>
+         <value>(//a[contains(text(),'Learn more')])[2]</value>
       </entry>
    </selectorCollection>
    <selectorMethod>XPATH</selectorMethod>
@@ -24,7 +24,7 @@
       <matchCondition>equals</matchCondition>
       <name>href</name>
       <type>Main</type>
-      <value>/rpgs/5</value>
+      <value>/scenarios/10</value>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
@@ -45,21 +45,21 @@
       <matchCondition>equals</matchCondition>
       <name>xpath</name>
       <type>Main</type>
-      <value>/html[1]/body[1]/div[@class=&quot;container&quot;]/div[@class=&quot;wiz-search-result&quot;]/div[@class=&quot;mt-3&quot;]/div[@class=&quot;rpg-card-holder&quot;]/div[@class=&quot;card mb-4&quot;]/div[@class=&quot;card-body&quot;]/a[@class=&quot;btn btn-secondary&quot;]</value>
+      <value>/html[1]/body[1]/div[@class=&quot;container mb-3&quot;]/div[@class=&quot;rpg-scenarios&quot;]/div[@class=&quot;scenario-card-holder&quot;]/div[@class=&quot;card mb-4&quot;]/div[@class=&quot;card-body&quot;]/a[@class=&quot;btn btn-secondary&quot;]</value>
    </webElementProperties>
    <webElementXpaths>
       <isSelected>true</isSelected>
       <matchCondition>equals</matchCondition>
       <name>xpath:link</name>
       <type>Main</type>
-      <value>//a[contains(text(),'Learn more')]</value>
+      <value>(//a[contains(text(),'Learn more')])[2]</value>
    </webElementXpaths>
    <webElementXpaths>
       <isSelected>false</isSelected>
       <matchCondition>equals</matchCondition>
       <name>xpath:neighbor</name>
       <type>Main</type>
-      <value>(.//*[normalize-space(text()) and normalize-space(.)='Administrator'])[1]/following::a[1]</value>
+      <value>(.//*[normalize-space(text()) and normalize-space(.)='Administrator'])[3]/following::a[1]</value>
    </webElementXpaths>
    <webElementXpaths>
       <isSelected>false</isSelected>
@@ -78,22 +78,15 @@
    <webElementXpaths>
       <isSelected>false</isSelected>
       <matchCondition>equals</matchCondition>
-      <name>xpath:neighbor</name>
-      <type>Main</type>
-      <value>//*/text()[normalize-space(.)='Learn more']/parent::*</value>
-   </webElementXpaths>
-   <webElementXpaths>
-      <isSelected>false</isSelected>
-      <matchCondition>equals</matchCondition>
       <name>xpath:href</name>
       <type>Main</type>
-      <value>//a[contains(@href, '/rpgs/5')]</value>
+      <value>//a[contains(@href, '/scenarios/10')]</value>
    </webElementXpaths>
    <webElementXpaths>
       <isSelected>false</isSelected>
       <matchCondition>equals</matchCondition>
       <name>xpath:position</name>
       <type>Main</type>
-      <value>//div/div/a</value>
+      <value>//div[2]/div/div/a</value>
    </webElementXpaths>
 </WebElementEntity>

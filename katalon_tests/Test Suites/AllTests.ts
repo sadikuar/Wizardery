@@ -9,39 +9,45 @@
    <pageLoadTimeout>30</pageLoadTimeout>
    <pageLoadTimeoutDefault>true</pageLoadTimeoutDefault>
    <rerunFailedTestCasesOnly>false</rerunFailedTestCasesOnly>
-   <testSuiteGuid>fa5647d4-6b08-4595-ad93-05d74a192db2</testSuiteGuid>
+   <testSuiteGuid>9242821a-9631-4434-91eb-8850a8860157</testSuiteGuid>
    <testCaseLink>
-      <guid>90bb8bea-4706-461c-a14d-b1d051eff4c4</guid>
+      <guid>124ab755-9df3-4bf7-8a27-18c2234d5058</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
       <testCaseId>Test Cases/Access Public Profile</testCaseId>
    </testCaseLink>
    <testCaseLink>
-      <guid>d9aa8dc9-f7c6-4483-add5-ee5fa23e9bb8</guid>
+      <guid>6e7222d5-3cec-46c2-b0b8-26df07ed61f0</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/Add Favorite RPG</testCaseId>
+      <testCaseId>Test Cases/Add Favorite RPG and Scenario</testCaseId>
    </testCaseLink>
    <testCaseLink>
-      <guid>b95b3078-d461-46ed-addc-0d17ee8bccb8</guid>
+      <guid>e3ebbd45-9eea-4d31-904e-dca2bbbf0af8</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
       <testCaseId>Test Cases/Search RPG</testCaseId>
    </testCaseLink>
    <testCaseLink>
-      <guid>1feefbb5-52d9-4a8b-a092-153456a83965</guid>
+      <guid>aad36ee7-f65e-42a6-99b0-9519a38d60c8</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/Signin as User</testCaseId>
+      <testCaseId>Test Cases/Signin As Admin</testCaseId>
    </testCaseLink>
    <testCaseLink>
-      <guid>2e6ee237-73ae-4d0c-808c-e50349acb5ef</guid>
+      <guid>c1275895-6bd0-4e0f-941b-24591d9ccfe3</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/Visit RPG page</testCaseId>
+      <testCaseId>Test Cases/Signin As User</testCaseId>
    </testCaseLink>
    <testCaseLink>
-      <guid>fa3cb178-5b60-48ea-bd3d-7cd9b321a3cc</guid>
+      <guid>dcae5c86-e595-4da6-bf17-40fec2bbb7e2</guid>
+      <isReuseDriver>false</isReuseDriver>
+      <isRun>true</isRun>
+      <testCaseId>Test Cases/Visit RPG Page</testCaseId>
+   </testCaseLink>
+   <testCaseLink>
+      <guid>4bd0d36e-c1d8-4e6c-b1a0-a16c0f045b54</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
       <testCaseId>Test Cases/Visit Scenario Page</testCaseId>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <WebElementEntity>
    <description></description>
-   <name>a_Learn more</name>
+   <name>a_Learn more_1</name>
    <tag></tag>
-   <elementGuidId>254a08ca-2f19-4c60-9a22-b859e9198199</elementGuidId>
+   <elementGuidId>0e7ef9c2-326c-4001-aa9d-a3803e062b5a</elementGuidId>
    <selectorCollection>
       <entry>
          <key>XPATH</key>
@@ -24,7 +24,7 @@
       <matchCondition>equals</matchCondition>
       <name>href</name>
       <type>Main</type>
-      <value>/rpgs/5</value>
+      <value>/scenarios/9</value>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
@@ -45,7 +45,7 @@
       <matchCondition>equals</matchCondition>
       <name>xpath</name>
       <type>Main</type>
-      <value>/html[1]/body[1]/div[@class=&quot;container&quot;]/div[@class=&quot;wiz-search-result&quot;]/div[@class=&quot;mt-3&quot;]/div[@class=&quot;rpg-card-holder&quot;]/div[@class=&quot;card mb-4&quot;]/div[@class=&quot;card-body&quot;]/a[@class=&quot;btn btn-secondary&quot;]</value>
+      <value>/html[1]/body[1]/div[@class=&quot;container mb-3&quot;]/div[@class=&quot;rpg-scenarios&quot;]/div[@class=&quot;scenario-card-holder&quot;]/div[@class=&quot;card mb-4&quot;]/div[@class=&quot;card-body&quot;]/a[@class=&quot;btn btn-secondary&quot;]</value>
    </webElementProperties>
    <webElementXpaths>
       <isSelected>true</isSelected>
@@ -59,21 +59,14 @@
       <matchCondition>equals</matchCondition>
       <name>xpath:neighbor</name>
       <type>Main</type>
-      <value>(.//*[normalize-space(text()) and normalize-space(.)='Administrator'])[1]/following::a[1]</value>
+      <value>(.//*[normalize-space(text()) and normalize-space(.)='Administrator'])[2]/following::a[1]</value>
    </webElementXpaths>
    <webElementXpaths>
       <isSelected>false</isSelected>
       <matchCondition>equals</matchCondition>
       <name>xpath:neighbor</name>
       <type>Main</type>
-      <value>(.//*[normalize-space(text()) and normalize-space(.)='Information'])[1]/preceding::a[1]</value>
-   </webElementXpaths>
-   <webElementXpaths>
-      <isSelected>false</isSelected>
-      <matchCondition>equals</matchCondition>
-      <name>xpath:neighbor</name>
-      <type>Main</type>
-      <value>(.//*[normalize-space(text()) and normalize-space(.)='Social networks'])[1]/preceding::a[1]</value>
+      <value>(.//*[normalize-space(text()) and normalize-space(.)='Baldur’s Gate: Descent into Avernus'])[1]/preceding::a[1]</value>
    </webElementXpaths>
    <webElementXpaths>
       <isSelected>false</isSelected>
@@ -87,13 +80,13 @@
       <matchCondition>equals</matchCondition>
       <name>xpath:href</name>
       <type>Main</type>
-      <value>//a[contains(@href, '/rpgs/5')]</value>
+      <value>//a[contains(@href, '/scenarios/9')]</value>
    </webElementXpaths>
    <webElementXpaths>
       <isSelected>false</isSelected>
       <matchCondition>equals</matchCondition>
       <name>xpath:position</name>
       <type>Main</type>
-      <value>//div/div/a</value>
+      <value>//div[5]/div/div/div/a</value>
    </webElementXpaths>
 </WebElementEntity>

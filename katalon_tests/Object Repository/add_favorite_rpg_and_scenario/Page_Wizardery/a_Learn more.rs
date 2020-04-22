@@ -3,7 +3,7 @@
    <description></description>
    <name>a_Learn more</name>
    <tag></tag>
-   <elementGuidId>254a08ca-2f19-4c60-9a22-b859e9198199</elementGuidId>
+   <elementGuidId>81aa24f2-ce26-4ec0-a06b-90b6e28fba77</elementGuidId>
    <selectorCollection>
       <entry>
          <key>XPATH</key>
@@ -66,14 +66,7 @@
       <matchCondition>equals</matchCondition>
       <name>xpath:neighbor</name>
       <type>Main</type>
-      <value>(.//*[normalize-space(text()) and normalize-space(.)='Information'])[1]/preceding::a[1]</value>
-   </webElementXpaths>
-   <webElementXpaths>
-      <isSelected>false</isSelected>
-      <matchCondition>equals</matchCondition>
-      <name>xpath:neighbor</name>
-      <type>Main</type>
-      <value>(.//*[normalize-space(text()) and normalize-space(.)='Social networks'])[1]/preceding::a[1]</value>
+      <value>(.//*[normalize-space(text()) and normalize-space(.)='Call of Cthulhu'])[1]/preceding::a[1]</value>
    </webElementXpaths>
    <webElementXpaths>
       <isSelected>false</isSelected>
