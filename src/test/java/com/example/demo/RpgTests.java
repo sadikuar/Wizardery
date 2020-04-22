@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import org.hibernate.Hibernate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -19,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.models.File;
 import com.example.demo.models.Rpg;
@@ -116,19 +119,18 @@ public class RpgTests {
 	public void createRpgTest() {
 		rpg = createValidRpg();
 		rpgRepository.save(rpg);
-
 		assertTrue(rpgRepository.findById(rpg.getId()).isPresent());
 	}
 
 	@Test
 	@Order(2)
-	@DisplayName("Retrieve RPG from database")
+	@DisplayName("Retrieve rpg from database")
 	public void retrieveRpgTest() {
 		// Add RPG to database
 		rpg = createValidRpg();
 		rpgRepository.save(rpg);
 		assertTrue(rpgRepository.findById(rpg.getId()).isPresent());
-
+		
 		// Retrieve RPG
 		Optional<Rpg> optionalId = rpgRepository.findById(rpg.getId());
 		Optional<Rpg> optionalName = rpgRepository.findByName(rpg.getName());
@@ -136,11 +138,14 @@ public class RpgTests {
 		assertTrue(optionalName.isPresent(), "findById didn't work");
 		assertTrue(checkIfSameRpg(optionalId.get(), rpg));
 		assertTrue(checkIfSameRpg(optionalName.get(), rpg));
+		
+		rpgRepository.deleteById(rpg.getId());
+		rpg=null;
 	}
 
 	@Test
 	@Order(3)
-	@DisplayName("Update user in database")
+	@DisplayName("Update rpg in database")
 	public void updateRpgTest() {
 		// Add RPG to database
 		rpg = createValidRpg();
@@ -183,34 +188,4 @@ public class RpgTests {
 		assertFalse(rpgRepository.findById(rpg.getId()).isPresent());
 		rpg=null;
 	}
-	
-	@Test
-	@Order(5)
-	@DisplayName("Add file to RPG")
-	@Disabled
-	public void addFileRpgTest() {
-		rpg = createValidRpg();
-		rpgRepository.save(rpg);
-
-		assertTrue(rpgRepository.findById(rpg.getId()).isPresent());
-		
-		File file = new File();
-		file.setFileLocation("/");
-		file.setName("file");
-		file.setRpg(rpg);
-		
-		fileRepository.save(file);
-		
-		Set<File> fileSet = new HashSet<>();
-		fileSet.add(file);
-		rpg.setFiles(fileSet);
-		
-		rpgRepository.save(rpg);
-		Optional<Rpg> optional = rpgRepository.findById(rpg.getId());
-		assertTrue(optional.isPresent());
-		assertFalse(optional.get().getFiles().isEmpty());
-		
-		fileRepository.delete(file);
-	}
-
 }
