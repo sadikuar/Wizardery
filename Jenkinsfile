@@ -13,6 +13,7 @@ pipeline {
     stages {
     	stage('Build') {
             steps {
+            	sh 'ls'
                 sh '(cd ./Wizardery/; mvn clean package -Dspring.profiles.active=prod -Dmaven.test.skip=true)'
                 stash name: "app", includes: "**"
             }
