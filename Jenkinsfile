@@ -45,7 +45,6 @@ pipeline {
             }
             steps {
                 echo "Running integration tests"
-                unstash "app"
                 sh 'java -jar ./Wizardery/target/Wizardery-0.0.1-SNAPSHOT.jar >/dev/null 2>&1 &'
                 sh 'sleep 30'
                 sh 'chmod +x ./runTest.sh'
