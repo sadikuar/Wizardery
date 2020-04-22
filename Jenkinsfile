@@ -11,6 +11,14 @@ pipeline {
     }
     
     stages {
+    	stage('Build') {
+            steps {
+            	sh 'ls'
+                sh 'mvn clean package -Dspring.profiles.active=prod -Dmaven.test.skip=true'
+                stash name: "app", includes: "**"
+            }
+        }
+    
         stage('IntegrationTest') {
             agent {
                 docker {
@@ -20,6 +28,7 @@ pipeline {
             }
             steps {
                 sh 'java -jar ./Wizardery/target/Wizardery-0.0.1-SNAPSHOT.jar -Dspring.profiles.active=prod >/dev/null 2>&1 &'
+                unstash "app"
                 sh 'sleep 30'
                 sh 'chmod +x ./runTest.sh'
                 sh './runTest.sh'
