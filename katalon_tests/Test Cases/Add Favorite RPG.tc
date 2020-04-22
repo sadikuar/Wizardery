@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>Visit RPG page</name>
+   <name>Add Favorite RPG</name>
    <tag></tag>
    <comment></comment>
-   <testCaseGuid>f2d20996-881d-4ee3-9879-707e2f6f3b10</testCaseGuid>
+   <testCaseGuid>f2557537-2c96-4793-b22d-9719cf3042f9</testCaseGuid>
 </TestCaseEntity>
