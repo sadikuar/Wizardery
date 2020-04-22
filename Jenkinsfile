@@ -14,7 +14,7 @@ pipeline {
     	stage('Build') {
             steps {
             	sh 'ls'
-                sh '(cd ./Wizardery/; mvn clean package -Dspring.profiles.active=prod -Dmaven.test.skip=true)'
+                sh 'mvn clean package -Dspring.profiles.active=prod -Dmaven.test.skip=true'
                 stash name: "app", includes: "**"
             }
         }
@@ -22,14 +22,14 @@ pipeline {
         stage('SonarCloud analysis') {
             steps {
             	unstash "app"
-                sh '(cd ./Wizardery/; mvn sonar:sonar -Dspring.profiles.active=prod -Dmaven.test.skip=true)'
+                sh 'mvn sonar:sonar -Dspring.profiles.active=prod -Dmaven.test.skip=true'
             }
         }
         
         stage('Unit tests') {
         	steps {
         		unstash "app"
-        		sh '(cd ./Wizardery/; mvn test -Dspring.profiles.active=prod)'
+        		sh 'mvn test -Dspring.profiles.active=prod'
     		}
         }
         
