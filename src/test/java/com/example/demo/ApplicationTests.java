@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,6 @@ import com.example.demo.repositories.ScenarioRepository;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.utils.Routes;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ApplicationTests {
 
@@ -49,6 +49,7 @@ public class ApplicationTests {
 	}
 
 	@Test
+	@DisplayName("Show signin page")
 	public void signinShowTest() {
 		ResponseEntity<String> entity = this.restTemplate.getForEntity(Routes.SIGNIN, String.class);
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -56,6 +57,7 @@ public class ApplicationTests {
 	}
 
 	@Test
+	@DisplayName("Show signup page")
 	public void signupShowTest() {
 		ResponseEntity<String> entity = this.restTemplate.getForEntity(Routes.SIGNUP, String.class);
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -63,6 +65,7 @@ public class ApplicationTests {
 	}
 
 	@Test
+	@DisplayName("Show signin page instead of RPG creation page when not authenticated")
 	public void createGameShowNotSignedInTest() {
 		ResponseEntity<String> entity = this.restTemplate.getForEntity(Routes.RPG_CREATE, String.class);
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -70,6 +73,7 @@ public class ApplicationTests {
 	}
 
 	@Test
+	@DisplayName("Show RPG details page")
 	public void rpgDetailsShowTest() {
 		assertThat(rpgRepository).isNotNull();
 
@@ -92,6 +96,7 @@ public class ApplicationTests {
 	}
 
 	@Test
+	@DisplayName("Show scenario creation page")
 	public void scenarioCreateShowTest() {
 		assertThat(rpgRepository).isNotNull();
 		
@@ -108,6 +113,7 @@ public class ApplicationTests {
 	}
 
 	@Test
+	@DisplayName("Show scenario details page")
 	public void scenarioDetailsShowTest() {
 		assertThat(scenarioRepository).isNotNull();
 		
@@ -126,6 +132,7 @@ public class ApplicationTests {
 	}
 
 	@Test
+	@DisplayName("Show user details page")
 	public void userDetailsShowTest() {
 		assertThat(userRepository).isNotNull();
 
