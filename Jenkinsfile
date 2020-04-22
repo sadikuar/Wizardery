@@ -20,7 +20,6 @@ pipeline {
             }
             steps {
             	cleanWs()
-                unstash "app"
                 sh 'java -jar ./Wizardery/target/Wizardery-0.0.1-SNAPSHOT.jar -Dspring.profiles.active=prod >/dev/null 2>&1 &'
                 sh 'sleep 30'
                 sh 'chmod +x ./runTest.sh'
