@@ -11,28 +11,24 @@ pipeline {
     }
     
     stages {
-    	stage('Checkout') {
-    		steps {
-    			git 'https://github.com/sadikuar/Wizardery'
-    			sh 'printenv'
-    		}
-    	}
-    	
     	stage('Build') {
             steps {
-                sh 'mvn clean package -Dspring.profiles.active=prod -Dmaven.test.skip=true'
+                sh '(cd ./Wizardery/; mvn clean package -Dspring.profiles.active=prod -Dmaven.test.skip=true)'
+                stash name: "app", includes: "**"
             }
         }
         
         stage('SonarCloud analysis') {
             steps {
-                sh 'mvn sonar:sonar -Dspring.profiles.active=prod -Dmaven.test.skip=true'
+            	unstash "app"
+                sh '(cd ./Wizardery/; mvn sonar:sonar -Dspring.profiles.active=prod -Dmaven.test.skip=true)'
             }
         }
         
         stage('Unit tests') {
         	steps {
-        		sh 'mvn clean test -Dspring.profiles.active=prod'
+        		unstash "app"
+        		sh '(cd ./Wizardery/; mvn test -Dspring.profiles.active=prod)'
     		}
         }
         
@@ -44,7 +40,7 @@ pipeline {
                 }
             }
             steps {
-                echo "Running integration tests"
+                unstash "app"
                 sh 'java -jar ./Wizardery/target/Wizardery-0.0.1-SNAPSHOT.jar >/dev/null 2>&1 &'
                 sh 'sleep 30'
                 sh 'chmod +x ./runTest.sh'
