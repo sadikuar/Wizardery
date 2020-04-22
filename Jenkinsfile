@@ -18,21 +18,7 @@ pipeline {
                 stash name: "app", includes: "**"
             }
         }
-        
-        stage('SonarCloud analysis') {
-            steps {
-            	unstash "app"
-                sh 'mvn sonar:sonar -Dspring.profiles.active=prod -Dmaven.test.skip=true'
-            }
-        }
-        
-        stage('Unit tests') {
-        	steps {
-        		unstash "app"
-        		sh 'mvn test -Dspring.profiles.active=prod'
-    		}
-        }
-        
+    
         stage('IntegrationTest') {
             agent {
                 docker {
@@ -41,12 +27,11 @@ pipeline {
                 }
             }
             steps {
-                unstash "app"
                 sh 'java -jar ./Wizardery/target/Wizardery-0.0.1-SNAPSHOT.jar -Dspring.profiles.active=prod >/dev/null 2>&1 &'
+                unstash "app"
                 sh 'sleep 30'
                 sh 'chmod +x ./runTest.sh'
                 sh './runTest.sh'
-
                 cleanWs()
             }
         }
