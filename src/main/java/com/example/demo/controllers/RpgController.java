@@ -2,12 +2,7 @@ package com.example.demo.controllers;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.Optional;
 import java.util.Set;
 
@@ -34,14 +29,12 @@ import com.example.demo.models.Scenario;
 import com.example.demo.models.User;
 import com.example.demo.repositories.FileRepository;
 import com.example.demo.repositories.RpgRepository;
-import com.example.demo.repositories.ScenarioRepository;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.services.MarkdownParsingService;
 import com.example.demo.services.StorageService;
 import com.example.demo.utils.Directory;
 import com.example.demo.utils.Routes;
 import com.example.demo.validators.RpgValidator;
-import com.example.demo.validators.ScenarioValidator;
 
 @Controller
 public class RpgController {
@@ -58,8 +51,8 @@ public class RpgController {
 	@Autowired
 	private FileRepository fileRepository;
 
-	@Autowired
-	private ScenarioRepository scenarioRepository;
+	private static final String HAS_FAVOURITE = "hasFavourite";
+	private static final String REDIRECT = "redirect:";
 
 	@GetMapping(Routes.RPG_DETAILS + "{id}")
 	public String showRpg(Model model, @PathVariable Long id, Principal principal) {
@@ -78,7 +71,7 @@ public class RpgController {
 			if (optionalRpg.isPresent()) {
 				boolean hasFavourite = optionalRpg.get().getUsers().stream()
 						.anyMatch(u -> u.getId() == authUser.getId());
-				model.addAttribute("hasFavourite", hasFavourite);
+				model.addAttribute(HAS_FAVOURITE, hasFavourite);
 			}
 		}
 
@@ -96,9 +89,9 @@ public class RpgController {
 		}
 
 		boolean hasFavourite = true;
-		model.addAttribute("hasFavourite", hasFavourite);
+		model.addAttribute(HAS_FAVOURITE, hasFavourite);
 
-		return "redirect:" + Routes.RPG_DETAILS + id;
+		return REDIRECT + Routes.RPG_DETAILS + id;
 	}
 
 	@PostMapping(Routes.RPG_DETAILS + "{id}" + "/removeFromFavourite")
@@ -112,9 +105,9 @@ public class RpgController {
 		}
 
 		boolean hasFavourite = false;
-		model.addAttribute("hasFavourite", hasFavourite);
+		model.addAttribute(HAS_FAVOURITE, hasFavourite);
 
-		return "redirect:" + Routes.RPG_DETAILS + id;
+		return REDIRECT + Routes.RPG_DETAILS + id;
 	}
 
 	@GetMapping(Routes.RPG_CREATE)
@@ -156,8 +149,8 @@ public class RpgController {
 		rpg.setCreator(creator);
 		rpg.setFiles(files);
 		rpgRepository.save(rpg);
-		
-		return "redirect:" + Routes.RPG_DETAILS + rpg.getId();
+
+		return REDIRECT + Routes.RPG_DETAILS + rpg.getId();
 
 	}
 
@@ -181,7 +174,7 @@ public class RpgController {
 		if (bindingResult.hasErrors()) {
 			return "rpg-update";
 		}
-		
+
 		MultipartFile[] multipartFiles = rpg.getUploadedFiles();
 		Set<File> files = new HashSet<>();
 
@@ -199,37 +192,33 @@ public class RpgController {
 					files.add(file);
 				}
 			}
-		
-			if(files.size() != 0)
-			{
+
+			if (!files.isEmpty()) {
 				rpg.setFiles(files);
-				
-			}else {
+
+			} else {
 				Optional<Rpg> oldRpg = rpgRepository.findById(rpg.getId());
-				oldRpg.ifPresent( old -> {
-					rpg.setFiles(old.getFiles());
-				});
+				oldRpg.ifPresent(old -> rpg.setFiles(old.getFiles()));
 			}
 		}
-		
+
 		rpgRepository.save(rpg);
-		
-		return "redirect:" + Routes.RPG_DETAILS + rpg.getId();
+
+		return REDIRECT + Routes.RPG_DETAILS + rpg.getId();
 	}
 
 	@PostMapping(Routes.RPG_DETAILS + "{id}" + "/delete")
 	public String deleteRpg(@ModelAttribute Rpg rpg) {
-		// TODO: faire assert rpg.id() == {id} de l'url pour coverage?
 		rpgRepository.deleteById(rpg.getId());
 
-		return "redirect:" + Routes.DASHBOARD;
+		return REDIRECT + Routes.DASHBOARD;
 	}
-	
+
 	@PostMapping(Routes.RPG_DETAILS + "{id}" + "/forceDelete")
 	public String deleteRpg(@PathVariable Long id) {
 		rpgRepository.deleteById(id);
 
-		return "redirect:" + Routes.ADMIN;
+		return REDIRECT + Routes.ADMIN;
 	}
 
 	@GetMapping(Routes.RPG_DETAILS + "{id}" + "/download/{fileId}")

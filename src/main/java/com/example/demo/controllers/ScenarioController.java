@@ -2,9 +2,7 @@ package com.example.demo.controllers;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -58,10 +56,14 @@ public class ScenarioController {
 	@Autowired
 	private ScenarioValidator scenarioValidator;
 
+	private static final String HAS_FAVOURITE = "hasFavourite";
+	private static final String SCENARIO = "scenario";
+	private static final String REDIRECT = "redirect:";
+
 	@GetMapping(Routes.SCENARIO_CREATE)
 	public String showScenarioCreate(Model model, @RequestParam(defaultValue = "-1") Long rpgId) {
 		if (rpgId != -1) {
-			model.addAttribute("scenario", new Scenario());
+			model.addAttribute(SCENARIO, new Scenario());
 			model.addAttribute("rpgId", rpgId);
 
 			return "scenario-create";
@@ -75,7 +77,7 @@ public class ScenarioController {
 		Optional<Scenario> optionalScenario = scenarioRepository.findById(id);
 		optionalScenario.ifPresent(scenario -> {
 			MarkdownParsingService.parse(scenario);
-			model.addAttribute("scenario", scenario);
+			model.addAttribute(SCENARIO, scenario);
 			int time = scenario.getTimeApproximation();
 			int h = time / 60;
 			int m = time % 60;
@@ -99,7 +101,7 @@ public class ScenarioController {
 			if (optionalScenario.isPresent()) {
 				boolean hasFavourite = optionalScenario.get().getUsers().stream()
 						.anyMatch(u -> u.getId() == authUser.getId());
-				model.addAttribute("hasFavourite", hasFavourite);
+				model.addAttribute(HAS_FAVOURITE, hasFavourite);
 			}
 		}
 
@@ -148,14 +150,14 @@ public class ScenarioController {
 
 		scenarioRepository.save(scenario);
 
-		return "redirect:" + Routes.RPG_DETAILS + id;
+		return REDIRECT + Routes.RPG_DETAILS + id;
 	}
 
 	@PostMapping(Routes.SCENARIO_DETAILS + "{id}" + "/update/form")
 	public String updateScenarioForm(@ModelAttribute Scenario scenario, Model model) {
 		Optional<Scenario> optionalScenario = scenarioRepository.findById(scenario.getId());
 		if (optionalScenario.isPresent()) {
-			model.addAttribute("scenario", optionalScenario.get());
+			model.addAttribute(SCENARIO, optionalScenario.get());
 
 			return "scenario-update";
 		}
@@ -171,7 +173,7 @@ public class ScenarioController {
 		if (bindingResult.hasErrors()) {
 			return "scenario-update";
 		}
-		
+
 		MultipartFile[] multipartFiles = scenario.getUploadedFiles();
 		Set<File> files = new HashSet<>();
 
@@ -189,37 +191,34 @@ public class ScenarioController {
 					files.add(file);
 				}
 			}
-		
-			if(files.size() != 0)
-			{
+
+			if (!files.isEmpty()) {
 				scenario.setFiles(files);
-				
-			}else {
+
+			} else {
 				Optional<Scenario> oldScenario = scenarioRepository.findById(scenario.getId());
-				oldScenario.ifPresent( old -> {
-					scenario.setFiles(old.getFiles());
-				});
+				oldScenario.ifPresent(old -> scenario.setFiles(old.getFiles()));
 			}
 		}
 		scenarioRepository.save(scenario);
 
-		return "redirect:" + Routes.SCENARIO_DETAILS + scenario.getId();
+		return REDIRECT + Routes.SCENARIO_DETAILS + scenario.getId();
 	}
 
 	@PostMapping(Routes.SCENARIO_DETAILS + "{id}" + "/delete")
 	public String deleteScenario(@ModelAttribute Scenario scenario) {
-			
+
 		Rpg rpg = scenario.getRpg();
 		scenarioRepository.deleteById(scenario.getId());
 
-		return "redirect:" + Routes.RPG_DETAILS + rpg.getId();
+		return REDIRECT + Routes.RPG_DETAILS + rpg.getId();
 	}
-	
+
 	@PostMapping(Routes.SCENARIO_DETAILS + "{id}" + "/forceDelete")
-	public String deleteScenario(@PathVariable Long id) {		
+	public String deleteScenario(@PathVariable Long id) {
 		scenarioRepository.deleteById(id);
 
-		return "redirect:" + Routes.ADMIN;
+		return REDIRECT + Routes.ADMIN;
 	}
 
 	@PostMapping(Routes.SCENARIO_DETAILS + "{id}" + "/addToFavourite")
@@ -233,9 +232,9 @@ public class ScenarioController {
 		}
 
 		boolean hasFavourite = true;
-		model.addAttribute("hasFavourite", hasFavourite);
+		model.addAttribute(HAS_FAVOURITE, hasFavourite);
 
-		return "redirect:" + Routes.SCENARIO_DETAILS + id;
+		return REDIRECT + Routes.SCENARIO_DETAILS + id;
 	}
 
 	@PostMapping(Routes.SCENARIO_DETAILS + "{id}" + "/removeFromFavourite")
@@ -249,9 +248,9 @@ public class ScenarioController {
 		}
 
 		boolean hasFavourite = false;
-		model.addAttribute("hasFavourite", hasFavourite);
+		model.addAttribute(HAS_FAVOURITE, hasFavourite);
 
-		return "redirect:" + Routes.SCENARIO_DETAILS + id;
+		return REDIRECT + Routes.SCENARIO_DETAILS + id;
 	}
 
 	@GetMapping(Routes.SCENARIO_DETAILS + "{id}" + "/download/{fileId}")
