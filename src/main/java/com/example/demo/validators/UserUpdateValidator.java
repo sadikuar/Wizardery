@@ -22,7 +22,6 @@ public class UserUpdateValidator implements Validator{
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "username.empty", "You must enter a username!");
         if (user.getUsername().length() < 4 || user.getUsername().length() > 32) {
-        	System.out.println("Username error");
             errors.rejectValue("username", "username.size", "The size must be between 4 and 32!");
         }
         
@@ -35,7 +34,6 @@ public class UserUpdateValidator implements Validator{
             }
 
             if (!user.getPasswordConfirm().equals(user.getPassword())) {
-            	System.out.println("Username not equal error");
             	errors.rejectValue("passwordConfirm", "passwordConfirm.value", "This password doesn't match!");
             }
         }

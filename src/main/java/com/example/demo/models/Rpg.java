@@ -1,7 +1,6 @@
 package com.example.demo.models;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -30,11 +29,11 @@ public class Rpg {
 	private String name;
 
 	@Column(length = 10000)
-	@Length(min = 0,max = 10000)
+	@Length(min = 0, max = 10000)
 	private String description;
 
 	@Column(length = 10000)
-	@Length(min = 0,max = 10000)
+	@Length(min = 0, max = 10000)
 	private String rules;
 
 	@ManyToOne
@@ -101,7 +100,7 @@ public class Rpg {
 	}
 
 	public Set<File> getFiles() {
-		if(files == null) {
+		if (files == null) {
 			files = new HashSet<>();
 		}
 		return files;

@@ -64,12 +64,14 @@ public class DashboardController {
 			case 4:
 				pageable = PageRequest.of(page, 5, Sort.by("creator.username").descending());
 				break;
+				
+			default:
+				pageable = PageRequest.of(page, 5, Sort.by("name").ascending());
+				break;
 			}
 		}
 
 		Page<Rpg> pageRpg = rpgRepository.findByNameLike("%" + name + "%", pageable);
-		
-		System.out.println(pageRpg.getTotalPages());
 
 		List<Rpg> listRpg = pageRpg.getContent();
 

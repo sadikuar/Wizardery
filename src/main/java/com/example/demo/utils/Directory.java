@@ -1,6 +1,9 @@
 package com.example.demo.utils;
 
 public class Directory {
+	private Directory() {
+		// nothing
+	}
 
 	private static final String FILE_DIR = System.getProperty("user.dir") + "/uploads";
 
