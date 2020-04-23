@@ -1,7 +1,6 @@
 package com.example.demo.models;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -34,11 +33,11 @@ public class Scenario {
 	private User creator;
 
 	@Column(length = 10000)
-	@Length(min = 0,max = 10000)
+	@Length(min = 0, max = 10000)
 	private String description;
 
 	@Column(length = 10000)
-	@Length(min = 0,max = 10000)
+	@Length(min = 0, max = 10000)
 	private String quests;
 
 	@Column
@@ -55,7 +54,7 @@ public class Scenario {
 
 	@Column
 	private int timeApproximation;
-	
+
 	@Column
 	private String patchNote;
 
@@ -186,7 +185,7 @@ public class Scenario {
 	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
-	
+
 	public String getPatchNote() {
 		return patchNote;
 	}

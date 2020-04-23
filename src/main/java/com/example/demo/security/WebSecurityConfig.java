@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import com.example.demo.utils.Routes;
 
 import com.example.demo.utils.RoleEnum;
 import com.example.demo.utils.Routes;
@@ -43,8 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		String admin = RoleEnum.ADMIN.toString();
-		String user = RoleEnum.USER.toString();
-
+		
 		http
 		.authorizeRequests()
 			.antMatchers(Routes.DASHBOARD, "/dashboard").permitAll()
