@@ -1,6 +1,8 @@
 package com.example.demo;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -12,23 +14,22 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
 
 import com.example.demo.models.File;
 import com.example.demo.models.Rpg;
 import com.example.demo.models.Scenario;
 import com.example.demo.models.User;
-import com.example.demo.repositories.FileRepository;
 import com.example.demo.repositories.RoleRepository;
 import com.example.demo.repositories.RpgRepository;
 import com.example.demo.repositories.ScenarioRepository;
 import com.example.demo.repositories.UserRepository;
+import com.example.demo.services.MarkdownParsingService;
 import com.example.demo.utils.RoleEnum;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ScenarioTests {
-	
+
 	@LocalServerPort
 	private int port;
 
@@ -37,17 +38,17 @@ public class ScenarioTests {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private ScenarioRepository scenarioRepository;
-	
+
 	@Autowired
 	private RoleRepository roleRepository;
-	
+
 	private static User user = null;
 	private static Rpg rpg = null;
 	private static Scenario scenario = null;
-	
+
 	private Rpg createValidRpg() {
 		Rpg rpg = new Rpg();
 		rpg.setCreator(user);
@@ -67,11 +68,11 @@ public class ScenarioTests {
 		user.setPassword("password");
 		return user;
 	}
-	
+
 	private User createUser() {
 		return createUser("WizarderyTestUser");
 	}
-	
+
 	private Scenario createValidScenario() {
 		Scenario scenario = new Scenario();
 		scenario.setAdvisedPlayers(2);
@@ -119,7 +120,7 @@ public class ScenarioTests {
 	@AfterEach
 	public void resetDatabse() {
 		// Delete the scenario,rpg and user used for tests to keep database clean
-		if(scenario != null) {
+		if (scenario != null) {
 			scenarioRepository.deleteById(scenario.getId());
 			scenario = null;
 		}
@@ -133,7 +134,7 @@ public class ScenarioTests {
 			user = null;
 		}
 	}
-	
+
 	@Test
 	@Order(1)
 	@DisplayName("Add valid scenario in database")
@@ -141,29 +142,29 @@ public class ScenarioTests {
 		// Add scenario to database
 		scenario = createValidScenario();
 		scenarioRepository.save(scenario);
-		
+
 		assertTrue(scenarioRepository.findById(scenario.getId()).isPresent());
 	}
-	
+
 	@Test
 	@Order(2)
 	@DisplayName("Retrieve scenario from database")
-	public void retrieveScenarioTest(){
+	public void retrieveScenarioTest() {
 		// Add scenario to database
 		scenario = createValidScenario();
 		scenarioRepository.save(scenario);
 		assertTrue(scenarioRepository.findById(scenario.getId()).isPresent());
-		
-		//Retrive sceanrio
+
+		// Retrieve scenario
 		Optional<Scenario> optionalId = scenarioRepository.findById(scenario.getId());
 		Optional<Scenario> optionalName = scenarioRepository.findByName(scenario.getName());
-		
+
 		assertTrue(optionalId.isPresent(), "findById didn't work");
 		assertTrue(optionalName.isPresent(), "findByName didn't work");
 		assertTrue(checkIfSameScenario(optionalId.get(), scenario));
 		assertTrue(checkIfSameScenario(optionalName.get(), scenario));
 	}
-	
+
 	@Test
 	@Order(3)
 	@DisplayName("Update scenario in database")
@@ -172,7 +173,7 @@ public class ScenarioTests {
 		scenario = createValidScenario();
 		scenarioRepository.save(scenario);
 		assertTrue(scenarioRepository.findById(scenario.getId()).isPresent());
-		
+
 		// update scenario
 		int newAdvised = 3;
 		int newMax = 4;
@@ -195,13 +196,13 @@ public class ScenarioTests {
 		HashSet<File> files = new HashSet<File>();
 		scenario.setFiles(files);
 		scenarioRepository.save(scenario);
-		
-		//Retrieve scenario
+
+		// Retrieve scenario
 		Optional<Scenario> optional = scenarioRepository.findById(scenario.getId());
 		assertTrue(optional.isPresent());
 		assertTrue(checkIfSameScenario(optional.get(), scenario));
 	}
-	
+
 	@Test
 	@Order(4)
 	@DisplayName("Delete scenario from database")
@@ -210,11 +211,40 @@ public class ScenarioTests {
 		scenario = createValidScenario();
 		scenarioRepository.save(scenario);
 		assertTrue(scenarioRepository.findById(scenario.getId()).isPresent());
-		
-		//Delete scenario from database
+
+		// Delete scenario from database
 		scenarioRepository.deleteById(scenario.getId());
-		assertFalse(scenarioRepository.findById(scenario.getId()).isPresent());		
-		scenario=null;
+		assertFalse(scenarioRepository.findById(scenario.getId()).isPresent());
+		scenario = null;
 	}
 
+	@Test
+	@Order(5)
+	@DisplayName("Add/Remove user's favorite scenario")
+	public void addFavoriteScenarioToUser() {
+		Scenario scenario = createValidScenario();
+
+		User user = createUser();
+		user.addFavoriteScenario(scenario);
+
+		assertTrue(user.getFavoriteScenarios().size() == 1);
+		
+		user.removeFavoriteScenario(scenario);
+		
+		assertTrue(user.getFavoriteScenarios().isEmpty());
+	}
+	
+	@Test
+	@Order(6)
+	@DisplayName("Scenario Markdown parsing")
+	public void scenarioMarkdownParsingTest() {
+		Scenario scenario = createValidScenario();
+		scenario.setDescription("# heading1");
+		scenario.setQuests("* test");
+		
+		MarkdownParsingService.parse(scenario);
+		
+		assertTrue(scenario.getDescription().contains("<h1>"));
+		assertTrue(scenario.getQuests().contains("<ul>"));
+	}
 }
