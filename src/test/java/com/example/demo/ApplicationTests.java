@@ -3,7 +3,6 @@ package com.example.demo;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -71,12 +70,11 @@ public class ApplicationTests {
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(entity.getBody()).contains("Signin");
 	}
-	
+
 	@Test
 	@DisplayName("Show RPG creation page")
 	public void rpgCreateShowTest() {
-		ResponseEntity<String> entity = this.restTemplate.getForEntity(Routes.RPG_CREATE,
-				String.class);
+		ResponseEntity<String> entity = this.restTemplate.getForEntity(Routes.RPG_CREATE, String.class);
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(entity.getBody()).contains("Create game");
 	}
@@ -103,22 +101,23 @@ public class ApplicationTests {
 			}
 		}
 	}
-	
+
 	@Test
 	@DisplayName("Download file from RPG")
 	public void downloadFileRpgTest() {
 		List<Rpg> listRpg = rpgRepository.findAll();
 		for (Rpg rpg : listRpg) {
-			if(!rpg.getFiles().isEmpty()) {
+			if (!rpg.getFiles().isEmpty()) {
 				for (File file : rpg.getFiles()) {
-					ResponseEntity<String> entity = this.restTemplate.getForEntity(Routes.RPG_DETAILS + rpg.getId() + "/download/"+file.getId(), String.class);
+					ResponseEntity<String> entity = this.restTemplate
+							.getForEntity(Routes.RPG_DETAILS + rpg.getId() + "/download/" + file.getId(), String.class);
 					assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 					assertThat(entity.getHeaders()).containsKey("Content-Disposition");
 					assertThat(entity.getBody()).isNotEmpty();
 				}
 			}
 		}
-		
+
 	}
 
 	@Test
@@ -158,22 +157,23 @@ public class ApplicationTests {
 			}
 		}
 	}
-	
+
 	@Test
 	@DisplayName("Download file from Scenario")
 	public void downloadFileScenarioTest() {
 		List<Scenario> listScenarios = scenarioRepository.findAll();
 		for (Scenario scenario : listScenarios) {
-			if(!scenario.getFiles().isEmpty()) {
+			if (!scenario.getFiles().isEmpty()) {
 				for (File file : scenario.getFiles()) {
-					ResponseEntity<String> entity = this.restTemplate.getForEntity(Routes.SCENARIO_DETAILS + scenario.getId() + "/download/"+file.getId(), String.class);
+					ResponseEntity<String> entity = this.restTemplate.getForEntity(
+							Routes.SCENARIO_DETAILS + scenario.getId() + "/download/" + file.getId(), String.class);
 					assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 					assertThat(entity.getHeaders()).containsKey("Content-Disposition");
 					assertThat(entity.getBody()).isNotEmpty();
 				}
 			}
 		}
-		
+
 	}
 
 	@Test
