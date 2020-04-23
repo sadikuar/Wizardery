@@ -2,34 +2,28 @@ package com.example.demo;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import org.hibernate.Hibernate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.models.File;
 import com.example.demo.models.Rpg;
+import com.example.demo.models.Scenario;
 import com.example.demo.models.User;
-import com.example.demo.repositories.FileRepository;
 import com.example.demo.repositories.RoleRepository;
 import com.example.demo.repositories.RpgRepository;
 import com.example.demo.repositories.UserRepository;
+import com.example.demo.services.MarkdownParsingService;
 import com.example.demo.utils.RoleEnum;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -181,5 +175,35 @@ public class RpgTests {
 		rpgRepository.deleteById(rpg.getId());
 		assertFalse(rpgRepository.findById(rpg.getId()).isPresent());
 		rpg=null;
+	}
+	
+	@Test
+	@DisplayName("Add/remove rpg to user's favorite")
+	public void addFavoriteRpgToUser() {
+		Rpg rpg = createValidRpg();
+		User user = createUser();
+		
+		user.addFavoriteRpg(rpg);
+		
+		assertTrue(user.getFavoriteRpgs().size()==1);
+		
+		user.removeFavoriteRPG(rpg);
+		
+		assertTrue(user.getFavoriteRpgs().isEmpty());
+	}
+	
+	@Test
+	@DisplayName("Rpg Markdown parsing")
+	public void rpgMarkdownParsingTest() {
+		Rpg rpg = createValidRpg();
+		rpg.setDescription("# Heading1");
+		rpg.setRules("* list item");
+		Set<Scenario> setScenario = new HashSet<Scenario>();
+		rpg.setScenarios(setScenario);
+		
+		MarkdownParsingService.parse(rpg);
+		
+		assertTrue(rpg.getDescription().contains("<h1>"));
+		assertTrue(rpg.getRules().contains("<ul>"));
 	}
 }
