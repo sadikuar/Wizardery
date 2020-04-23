@@ -45,9 +45,6 @@ public class RpgTests {
 	private UserRepository userRepository;
 
 	@Autowired
-	private FileRepository fileRepository;
-
-	@Autowired
 	private RoleRepository roleRepository;
 
 	private static User user = null;
@@ -88,7 +85,6 @@ public class RpgTests {
 
 	@BeforeEach
 	public void checkRepositories() {
-		assertNotNull(fileRepository);
 		assertNotNull(roleRepository);
 		assertNotNull(rpgRepository);
 		assertNotNull(userRepository);
