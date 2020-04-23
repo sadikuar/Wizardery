@@ -95,8 +95,8 @@ public class UserTests {
 		// Add user in database
 		user = createValidTestUser();
 		userRepository.save(user);
-		// Retrieve
 		
+		// Retrieve user
 		Optional<User> retrivedId = userRepository.findById(user.getId());
 		User retrivedEmail = userRepository.findByEmail(user.getEmail());
 		
@@ -110,9 +110,11 @@ public class UserTests {
 	@Order(3)
 	@DisplayName("Update user in database")
 	public void updateUserTest() {
+		// Add user in database
 		user = createValidTestUser();
 		userRepository.save(user);
 		
+		// Update user
 		String newDescription = "Some description";
 		String newUsername = "UpdatedUsername";
 		String newPassword = "UpdatedPassword";
@@ -127,6 +129,7 @@ public class UserTests {
 		user.setPublic(newPulic);
 		userRepository.save(user);
 		
+		// Retrieve user
 		Optional<User> optionalUpdated = userRepository.findById(user.getId());
 		assertTrue(optionalUpdated.isPresent(),"findById didn't work after update");
 		User updated = optionalUpdated.get();
@@ -137,10 +140,12 @@ public class UserTests {
 	@Order(4)
 	@DisplayName("Delete user from database")
 	public void deleteUserTest() {
+		// Add user in database
 		user = createValidTestUser();
 		userRepository.save(user);
 		assertTrue(userRepository.findById(user.getId()).isPresent());
 		
+		//Delete user
 		userRepository.delete(user);
 		assertFalse(userRepository.findById(user.getId()).isPresent());
 		user=null;
@@ -150,10 +155,12 @@ public class UserTests {
 	@Order(5)
 	@DisplayName("Delete user by id from database")
 	public void deleteUserByIdTest() {
+		// Add user in database
 		user = createValidTestUser();
 		userRepository.save(user);
 		assertTrue(userRepository.findById(user.getId()).isPresent());
 		
+		//Delete user
 		userRepository.deleteById(user.getId());
 		assertFalse(userRepository.findById(user.getId()).isPresent());
 		user=null;
