@@ -42,9 +42,6 @@ public class ScenarioTests {
 	private ScenarioRepository scenarioRepository;
 	
 	@Autowired
-	private FileRepository fileRepository;
-	
-	@Autowired
 	private RoleRepository roleRepository;
 	
 	private static User user = null;
@@ -108,7 +105,6 @@ public class ScenarioTests {
 
 	@BeforeEach
 	public void checkRepositories() {
-		assertNotNull(fileRepository);
 		assertNotNull(roleRepository);
 		assertNotNull(rpgRepository);
 		assertNotNull(userRepository);
@@ -122,7 +118,7 @@ public class ScenarioTests {
 
 	@AfterEach
 	public void resetDatabse() {
-		// Delete the rpg used for tests to keep database clean
+		// Delete the scenario,rpg and user used for tests to keep database clean
 		if(scenario != null) {
 			scenarioRepository.deleteById(scenario.getId());
 			scenario = null;
@@ -142,6 +138,7 @@ public class ScenarioTests {
 	@Order(1)
 	@DisplayName("Add valid scenario in database")
 	public void addScenarioTest() {
+		// Add scenario to database
 		scenario = createValidScenario();
 		scenarioRepository.save(scenario);
 		
@@ -152,15 +149,17 @@ public class ScenarioTests {
 	@Order(2)
 	@DisplayName("Retrieve scenario from database")
 	public void retrieveScenarioTest(){
+		// Add scenario to database
 		scenario = createValidScenario();
 		scenarioRepository.save(scenario);
 		assertTrue(scenarioRepository.findById(scenario.getId()).isPresent());
 		
+		//Retrive sceanrio
 		Optional<Scenario> optionalId = scenarioRepository.findById(scenario.getId());
 		Optional<Scenario> optionalName = scenarioRepository.findByName(scenario.getName());
 		
 		assertTrue(optionalId.isPresent(), "findById didn't work");
-		assertTrue(optionalName.isPresent(), "findById didn't work");
+		assertTrue(optionalName.isPresent(), "findByName didn't work");
 		assertTrue(checkIfSameScenario(optionalId.get(), scenario));
 		assertTrue(checkIfSameScenario(optionalName.get(), scenario));
 	}
@@ -169,10 +168,12 @@ public class ScenarioTests {
 	@Order(3)
 	@DisplayName("Update scenario in database")
 	public void updateScenarioTest() {
+		// Add scenario to database
 		scenario = createValidScenario();
 		scenarioRepository.save(scenario);
 		assertTrue(scenarioRepository.findById(scenario.getId()).isPresent());
 		
+		// update scenario
 		int newAdvised = 3;
 		int newMax = 4;
 		int newMin = 2;
@@ -195,6 +196,7 @@ public class ScenarioTests {
 		scenario.setFiles(files);
 		scenarioRepository.save(scenario);
 		
+		//Retrieve scenario
 		Optional<Scenario> optional = scenarioRepository.findById(scenario.getId());
 		assertTrue(optional.isPresent());
 		assertTrue(checkIfSameScenario(optional.get(), scenario));
@@ -204,10 +206,12 @@ public class ScenarioTests {
 	@Order(4)
 	@DisplayName("Delete scenario from database")
 	public void deleteScenarioTest() {
+		// Add scenario to database
 		scenario = createValidScenario();
 		scenarioRepository.save(scenario);
 		assertTrue(scenarioRepository.findById(scenario.getId()).isPresent());
 		
+		//Delete scenario from database
 		scenarioRepository.deleteById(scenario.getId());
 		assertFalse(scenarioRepository.findById(scenario.getId()).isPresent());		
 		scenario=null;

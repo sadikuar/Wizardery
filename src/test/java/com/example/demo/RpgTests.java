@@ -45,9 +45,6 @@ public class RpgTests {
 	private UserRepository userRepository;
 
 	@Autowired
-	private FileRepository fileRepository;
-
-	@Autowired
 	private RoleRepository roleRepository;
 
 	private static User user = null;
@@ -88,7 +85,6 @@ public class RpgTests {
 
 	@BeforeEach
 	public void checkRepositories() {
-		assertNotNull(fileRepository);
 		assertNotNull(roleRepository);
 		assertNotNull(rpgRepository);
 		assertNotNull(userRepository);
@@ -99,7 +95,7 @@ public class RpgTests {
 
 	@AfterEach
 	public void resetDatabse() {
-		// Delete the rpg used for tests to keep database clean
+		// Delete the rpg and user used for tests to keep database clean
 		if (rpg != null) {
 			rpgRepository.deleteById(rpg.getId());
 			rpg = null;
@@ -109,8 +105,6 @@ public class RpgTests {
 			assertFalse(userRepository.findById(user.getId()).isPresent());
 			user = null;
 		}
-		
-
 	}
 
 	@Test
@@ -135,7 +129,7 @@ public class RpgTests {
 		Optional<Rpg> optionalId = rpgRepository.findById(rpg.getId());
 		Optional<Rpg> optionalName = rpgRepository.findByName(rpg.getName());
 		assertTrue(optionalId.isPresent(), "findById didn't work");
-		assertTrue(optionalName.isPresent(), "findById didn't work");
+		assertTrue(optionalName.isPresent(), "findByName didn't work");
 		assertTrue(checkIfSameRpg(optionalId.get(), rpg));
 		assertTrue(checkIfSameRpg(optionalName.get(), rpg));
 		
